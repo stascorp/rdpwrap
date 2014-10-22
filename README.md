@@ -6,17 +6,17 @@ RDP Wrapper works as a layer between Service Control Manager and Terminal Servic
 <br>
 Screenshots:<br>
 <div style="padding-top: 4px; width: 534px; white-space: nowrap; overflow: auto; overflow-y: hidden">
-<a href="/images/rdpwrap/VistaST.png" target="_blank"><img src="/images/rdpwrap/pVistaST.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/VistaHB.png" target="_blank"><img src="/images/rdpwrap/pVistaHB.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win7ST.png" target="_blank"><img src="/images/rdpwrap/pWin7ST.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win7HB.png" target="_blank"><img src="/images/rdpwrap/pWin7HB.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win8DP.png" target="_blank"><img src="/images/rdpwrap/pWin8DP.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win8CP.png" target="_blank"><img src="/images/rdpwrap/pWin8CP.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win8RP.png" target="_blank"><img src="/images/rdpwrap/pWin8RP.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win8.png" target="_blank"><img src="/images/rdpwrap/pWin8.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win81P.png" target="_blank"><img src="/images/rdpwrap/pWin81P.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win81.png" target="_blank"><img src="/images/rdpwrap/pWin81.jpg"></a>&nbsp;
-<a href="/images/rdpwrap/Win10TP.png" target="_blank"><img src="/images/rdpwrap/pWin10TP.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/VistaST.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pVistaST.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/VistaHB.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pVistaHB.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win7ST.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin7ST.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win7HB.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin7HB.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win8DP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8DP.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win8CP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8CP.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win8RP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8RP.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win8.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win81P.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin81P.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win81.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin81.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win10TP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10TP.jpg"></a>&nbsp;
 </div><br>
 This solution was inspired by <a href="http://forums.mydigitallife.info/threads/39411-Windows-Product-Policy-Editor" target="_blank">Windows Product Policy Editor</a>, big thanks to <b>kost</b> :)<br>
 - binarymaster<br>
