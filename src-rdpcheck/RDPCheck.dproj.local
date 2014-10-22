@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013.12.08 02:49:59.064.pas,C:\Users\user\Documents\RAD Studio\Projects\Unit2.pas=C:\Users\user\Documents\Delphi Projects (local)\RDPWrap\devel\rdpcheck-binarymaster\MainUnit.pas</Transaction>
+    <Transaction>2013.12.08 02:49:59.064.dfm,C:\Users\user\Documents\RAD Studio\Projects\Unit2.dfm=C:\Users\user\Documents\Delphi Projects (local)\RDPWrap\devel\rdpcheck-binarymaster\MainUnit.dfm</Transaction>
+    <Transaction>2013.12.08 02:50:08.464.dproj,C:\Users\user\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\user\Documents\Delphi Projects (local)\RDPWrap\devel\rdpcheck-binarymaster\RDPCheck.dproj</Transaction>
+  </Transactions>
+</BorlandProject>

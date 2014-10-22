@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<BorlandProject>
+	<Transactions>
+    <Transaction>2013.12.07 17:17:05.152.dproj,C:\Users\user\Documents\RAD Studio\Projects\Project1.dproj=C:\Users\user\Documents\Delphi Projects (local)\RDPWrapInst\RDPInstall.dproj</Transaction>
+    <Transaction>2013.12.07 19:48:57.905.dproj,C:\Users\user\Documents\Delphi Projects (local)\RDPWrapInst\RDPInstall.dproj=C:\Users\user\Documents\Delphi Projects (local)\RDPWrapInst\RDPWInst.dproj</Transaction>
+    <Transaction>2013.12.08 01:45:08.501.dproj,C:\Users\user\Documents\Delphi Projects (local)\RDPWrapInst\RDPWInst.dproj=C:\Users\user\Documents\Delphi Projects (local)\RDPWrap\devel\installer2.0-binarymaster\RDPWInst.dproj</Transaction>
+  </Transactions>
+</BorlandProject>
