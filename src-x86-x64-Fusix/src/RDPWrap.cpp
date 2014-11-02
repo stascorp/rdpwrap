@@ -33,11 +33,16 @@
 // 6.3.9600.16384 (Windows 8.1)                      [init hook + extended patch]
 // 6.3.9600.17095 (Windows 8.1 with KB2959626)       [init hook + extended patch]
 // 6.4.9841.0     (Windows 10 Technical Preview)     [init hook + extended patch]
+// 6.4.9860.0     (Windows 10 Technical Preview 1)   [init hook + extended patch]
 
 // Known failures
 // 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 // Internal changelog:
+
+// 2014.11.02 :
+// - researching termsrv.dll 6.4.9860.0
+// - done
 
 // 2014.10.19 :
 // - added support for version 6.0.6000.16386 (x64)
@@ -368,6 +373,19 @@ char CDefPolicy_Query_eax_rcx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x3
 // .text:000000018000C130          nop
 // char CDefPolicy_Query_eax_rcx[]
 
+// termsrv.dll build 6.4.9860.0
+
+// Original
+// .text:000000018000B9F5          cmp     [rcx+63Ch], eax
+// .text:000000018000B9FB          jz      sub_18003B9C8
+//_______________
+//
+// Changed
+// .text:000000018000B9F5          mov     eax, 100h
+// .text:000000018000B9FA          mov     [rcx+638h], eax
+// .text:000000018000BA00          nop
+// char CDefPolicy_Query_eax_rcx[]
+
 #else
 typedef unsigned long PLATFORM_DWORD;
 struct FARJMP
@@ -606,6 +624,19 @@ char CDefPolicy_Query_eax_ecx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x2
 // .text:1003B989          mov     eax, 100h
 // .text:1003B98E          mov     [ecx+320h], eax
 // .text:1003B994          nop
+// char CDefPolicy_Query_eax_ecx[]
+
+// termsrv.dll build 6.4.9860.0
+
+// Original
+// .text:1003BEC9          cmp     eax, [ecx+320h]
+// .text:1003BECF          jz      loc_1005EE1A
+//_______________
+//
+// Changed
+// .text:1003BEC9          mov     eax, 100h
+// .text:1003BECE          mov     [ecx+320h], eax
+// .text:1003BED4          nop
 // char CDefPolicy_Query_eax_ecx[]
 
 #endif
@@ -1059,6 +1090,28 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		bServerSku =			(DWORD*)(TermSrvBase + 0xBFA04);
 		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xBFA08);
 		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xBFA0C);
+		#endif
+	}
+	if (FV.Release == 9860 && FV.Build == 0)
+	{
+		#ifdef _WIN64
+		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xECBD8);
+		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xECBDC);
+		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xECBE0);
+		bInitialized =			(DWORD*)(TermSrvBase + 0xECBE4);
+		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xECBE8);
+		bServerSku =			(DWORD*)(TermSrvBase + 0xECBEC);
+		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xECBF0);
+		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xECBF4);
+		#else
+		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xBF7E0);
+		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xBF7E4);
+		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xBF7E8);
+		bInitialized =			(DWORD*)(TermSrvBase + 0xBF7EC);
+		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xBF7F0);
+		bServerSku =			(DWORD*)(TermSrvBase + 0xBF7F4);
+		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xBF7F8);
+		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xBF7FC);
 		#endif
 	}
 	if (bServerSku)
@@ -2136,6 +2189,72 @@ void Hook()
 				Jump.RetOp = 0xC3;
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x46A68);
+				Jump.PushOp = 0x68;
+				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				Jump.RetOp = 0xC3;
+				#endif
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
+			}
+			if (FV.Release == 9860 && FV.Build == 0)
+			{
+				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
+				#ifdef _WIN64
+				// .text:0000000180081083          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+				// .text:0000000180081088          test    eax, eax
+				// .text:000000018008108A          js      short loc_1800810AB
+				// .text:000000018008108C          cmp     [rsp+58h+arg_18], 0
+				// .text:0000000180081091          jz      short loc_1800810AB <- jmp
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x81091);
+				#else
+				// .text:100962BB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+				// .text:100962C0          test    eax, eax
+				// .text:100962C2          js      short loc_100962DF
+				// .text:100962C4          cmp     [ebp+var_C], 0
+				// .text:100962C8          jz      short loc_100962DF <- jmp
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x962C8);
+				#endif
+				b = 0xEB;
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
+
+				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
+				#ifdef _WIN64
+				// .text:0000000180011AA3          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+				// .text:0000000180011AA8          mov     ebx, 1     <- 0
+				// .text:0000000180011AAD          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:0000000180011AB5          mov     [rdi], ebx
+				// .text:0000000180011AB7          call    cs:__imp_GetVersionExW
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x11AA9);
+				b = 0;
+				#else
+				// .text:10030841          lea     eax, [esp+150h+VersionInformation]
+				// .text:10030845          inc     ebx            <- nop
+				// .text:10030846          mov     [edi], ebx
+				// .text:10030848          push    eax             ; lpVersionInformation
+				// .text:10030849          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x30845);
+				b = 0x90;
+				#endif
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
+
+				WriteToLog("Patch CDefPolicy::Query\r\n");
+				#ifdef _WIN64
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xB9F5);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
+				#else
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x3BEC9);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
+				#endif
+
+				WriteToLog("Hook CSLQuery::Initialize\r\n");
+				#ifdef _WIN64
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1EB00);
+				Jump.MovOp = 0x48;
+				Jump.MovRegArg = 0xB8;
+				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				Jump.PushRaxOp = 0x50;
+				Jump.RetOp = 0xC3;
+				#else
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x46F18);
 				Jump.PushOp = 0x68;
 				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
 				Jump.RetOp = 0xC3;

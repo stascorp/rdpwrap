@@ -34,11 +34,16 @@ library rdpwrap;
 // 6.3.9600.16384 (Windows 8.1)                      [init hook + extended patch]
 // 6.3.9600.17095 (Windows 8.1 with KB2959626)       [init hook + extended patch]
 // 6.4.9841.0     (Windows 10 Technical Preview)     [init hook + extended patch]
+// 6.4.9860.0     (Windows 10 Technical Preview 1)   [init hook + extended patch]
 
 // Known failures
 // 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 // Internal changelog:
+
+// 2014.11.02 :
+// - researching termsrv.dll 6.4.9860.0
+// - done
 
 // 2014.10.19 :
 // - added support for version 6.0.6000.16386 (x64)
@@ -420,6 +425,19 @@ const
 // .text:1003B989          mov     eax, 100h
 // .text:1003B98E          mov     [ecx+320h], eax
 // .text:1003B994          nop
+// CDefPolicy_Query_eax_ecx
+
+// ------------------- TermService build 6.4.9860.0
+
+// Original
+// .text:1003BEC9          cmp     eax, [ecx+320h]
+// .text:1003BECF          jz      loc_1005EE1A
+//_______________
+//
+// Changed
+// .text:1003BEC9          mov     eax, 100h
+// .text:1003BECE          mov     [ecx+320h], eax
+// .text:1003BED4          nop
 // CDefPolicy_Query_eax_ecx
 
 var
@@ -841,6 +859,16 @@ begin
     bServerSku :=         Pointer(Cardinal(TermSrvBase) + $BFA04);
     ulMaxDebugSessions := Pointer(Cardinal(TermSrvBase) + $BFA08);
     bRemoteConnAllowed := Pointer(Cardinal(TermSrvBase) + $BFA0C);
+  end;
+  if (FV.Release = 9860) and (FV.Build = 0) then begin
+    bFUSEnabled :=        Pointer(Cardinal(TermSrvBase) + $BF7E0);
+    lMaxUserSessions :=   Pointer(Cardinal(TermSrvBase) + $BF7E4);
+    bAppServerAllowed :=  Pointer(Cardinal(TermSrvBase) + $BF7E8);
+    bInitialized :=       Pointer(Cardinal(TermSrvBase) + $BF7EC);
+    bMultimonAllowed :=   Pointer(Cardinal(TermSrvBase) + $BF7F0);
+    bServerSku :=         Pointer(Cardinal(TermSrvBase) + $BF7F4);
+    ulMaxDebugSessions := Pointer(Cardinal(TermSrvBase) + $BF7F8);
+    bRemoteConnAllowed := Pointer(Cardinal(TermSrvBase) + $BF7FC);
   end;
   if bServerSku <> nil then begin
     WriteLog('[0x'+IntToHex(DWORD(bServerSku), 1)+'] bServerSku = 1');
@@ -1453,6 +1481,41 @@ begin
 
         WriteLog('Hook CSLQuery::Initialize');
         SignPtr := Pointer(Cardinal(TermSrvBase) + $46A68);
+        Jump.PushOp := $68;
+        Jump.PushArg := @New_CSLQuery_Initialize;
+        Jump.RetOp := $C3;
+        WriteProcessMemory(GetCurrentProcess, SignPtr,
+          @Jump, SizeOf(far_jmp), bw);
+      end;
+
+      if (FV.Release = 9860) and (FV.Build = 0) then begin
+        WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
+        // .text:100962BB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+        // .text:100962C0          test    eax, eax
+        // .text:100962C2          js      short loc_100962DF
+        // .text:100962C4          cmp     [ebp+var_C], 0
+        // .text:100962C8          jz      short loc_100962DF <- jmp
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $962C8);
+        b := $EB;
+        WriteProcessMemory(GetCurrentProcess, SignPtr, @b, 1, bw);
+
+        WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
+        // .text:10030841          lea     eax, [esp+150h+VersionInformation]
+        // .text:10030845          inc     ebx            <- nop
+        // .text:10030846          mov     [edi], ebx
+        // .text:10030848          push    eax             ; lpVersionInformation
+        // .text:10030849          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $30845);
+        WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
+
+        WriteLog('Patch CDefPolicy::Query');
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $3BEC9);
+        WriteProcessMemory(GetCurrentProcess, SignPtr,
+        @CDefPolicy_Query_eax_ecx[0],
+        SizeOf(CDefPolicy_Query_eax_ecx), bw);
+
+        WriteLog('Hook CSLQuery::Initialize');
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $46F18);
         Jump.PushOp := $68;
         Jump.PushArg := @New_CSLQuery_Initialize;
         Jump.RetOp := $C3;
