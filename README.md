@@ -36,12 +36,16 @@ Porting to other platforms:<br>
 • <b>IA-64</b> for Itanium-based Windows Server? <i>Well, I have no idea</i> :)<br>
 <br>
 <b>Links:</b><br>
-Active discussion in the comments here:<br>
+• Official GitHub repository:<br>
+<a href="https://github.com/binarymaster/rdpwrap/" target="_blank">https://github.com/binarymaster/rdpwrap/</a><br>
+• Active discussion in the comments here:<br>
 <a href="http://andrewblock.net/2013/07/19/enable-remote-desktop-on-windows-8-core/" target="_blank" title="Enable remote desktop on Windows 8 core / basic">Enable remote desktop on Windows 8 core / basic - Andrew Block .net</a><br>
-MDL Projects and Applications thread here:<br>
+• MDL Projects and Applications thread here:<br>
 <a href="http://forums.mydigitallife.info/threads/55935-RDP-Wrapper-Library-(works-with-Windows-8-1-Basic)" target="_blank" title="Enable remote desktop on Windows 8 core / basic">RDP Wrapper Library (works with Windows 8.1 Basic)</a><br>
-Some ideas about porting to ARM for Windows RT (post #23):<br>
+• Some ideas about porting to ARM for Windows RT (post #23):<br>
 <a href="http://forum.xda-developers.com/showthread.php?t=2093525&page=3" target="_blank" title="Enable remote desktop on Windows 8 core / basic">[Q] Mod Windows RT to enable Remote Desktop</a><br>
+• Adding «Remote Desktop Users» group:<br>
+<a href="http://superuser.com/questions/680572/" target="_blank">http://superuser.com/questions/680572/</a><br>
 <br>
 Files description:<br>
 <br>
@@ -51,7 +55,6 @@ Files description:<br>
 <tr><td style="border: 1px solid black;"><b>RDPCheck.exe</b></td><td style="border: 1px solid black;">Local RDP Checker (you can check the RDP is working)</td></tr>
 <tr><td style="border: 1px solid black;"><b>install.bat</b></td><td style="border: 1px solid black;">Quick install batch file</td></tr>
 <tr><td style="border: 1px solid black;"><b>uninstall.bat</b></td><td style="border: 1px solid black;">Quick uninstall batch file</td></tr>
-<tr><td style="border: 1px solid black;"><b>devel</b></td><td style="border: 1px solid black;">Development folder (source code, resources, etc.)</td></tr>
 </tbody>
 </table><br>
 Change log:<br>
@@ -161,9 +164,13 @@ Change log:<br>
 <br>
 <u>Installation instructions:</u><br>
 1. Download and unpack files<br>
-2. Run <b>install.bat</b> as administrator (right click)<br>
-3. See command output for details<br>
+2. Run <b>Command Prompt (cmd)</b> as administrator<br>
+3. Change directory to <b>/bin</b> (where binaries and batch files are placed)<br>
+4. Type <b>install.bat</b> and press Enter<br>
+5. See command output for details<br>
 <br>
 <u>To uninstall:</u><br>
-1. Run <b>uninstall.bat</b> as administrator (right click)<br>
-2. See command output for details<br>
+1. Run <b>Command Prompt</b> as administrator<br>
+2. Change directory to <b>/bin</b><br>
+3. Type <b>uninstall.bat</b> and press Enter<br>
+4. See command output for details<br>
