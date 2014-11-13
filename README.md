@@ -59,6 +59,13 @@ Files description:<br>
 </table><br>
 Change log:<br>
 <br>
+<b><u>2014.11.14</u></b><br>
+• Version 1.4<br>
+• Added support for Windows 10 Technical Preview Update 1<br>
+• Added support for Windows Vista SP2 with KB3003743<br>
+• Added support for Windows 7 SP1 with KB3003743<br>
+• Added new RDP Configuration Program<br>
+<br>
 <b><u>2014.10.21</u></b><br>
 • Installer updated<br>
 • Added feature to install RDP Wrapper to System32 directory<br>
@@ -116,11 +123,15 @@ Change log:<br>
 • <u>6.0.6000.16386</u> (Windows Vista)<br>
 • <u>6.0.6001.18000</u> (Windows Vista SP1)<br>
 • <u>6.0.6002.18005</u> (Windows Vista SP2)<br>
+• <u>6.0.6002.19214</u> (Windows Vista SP2 with KB3003743 GDR)<br>
+• <u>6.0.6002.23521</u> (Windows Vista SP2 with KB3003743 LDR)<br>
 • <u>6.1.X.X</u> (Windows 7 / Server 2008 R2)<br>
 • <u>6.1.7600.16385</u> (Windows 7)<br>
 • <u>6.1.7601.17514</u> (Windows 7 SP1)<br>
 • <u>6.1.7601.18540</u> (Windows 7 SP1 with KB2984972 GDR)<br>
 • <u>6.1.7601.22750</u> (Windows 7 SP1 with KB2984972 LDR)<br>
+• <u>6.1.7601.18637</u> (Windows 7 SP1 with KB3003743 GDR)<br>
+• <u>6.1.7601.22843</u> (Windows 7 SP1 with KB3003743 LDR)<br>
 • <u>6.2.8102.0</u> (Windows 8 Developer Preview)<br>
 • <u>6.2.8250.0</u> (Windows 8 Consumer Preview)<br>
 • <u>6.2.8400.0</u> (Windows 8 Release Preview)<br>
@@ -131,6 +142,7 @@ Change log:<br>
 • <u>6.3.9600.16384</u> (Windows 8.1 / Server 2012 R2)<br>
 • <u>6.3.9600.17095</u> (Windows 8.1 with KB2959626)<br>
 • <u>6.4.9841.0</u> (Windows 10 Technical Preview)<br>
+• <u>6.4.9860.0</u> (Windows 10 Technical Preview Update 1)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
