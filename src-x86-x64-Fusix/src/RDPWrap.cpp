@@ -2,43 +2,54 @@
 // assisted by binarymaster (Stas'M)
 
 // Terminal Services supported versions
-// 6.0.X.X        (Windows Vista, any)               [policy hook only]
-// 6.0.6000.16386 (Windows Vista)                    [policy hook + extended patch]
-// 6.0.6001.18000 (Windows Vista SP1)                [policy hook + extended patch]
-// 6.0.6001.22565 (Windows Vista SP1 with KB977541)  [todo]
-// 6.0.6001.22635 (Windows Vista SP1 with KB970911)  [todo]
-// 6.0.6001.22801 (Windows Vista SP1 with KB2381675) [todo]
-// 6.0.6002.18005 (Windows Vista SP2)                [policy hook + extended patch]
-// 6.0.6002.22269 (Windows Vista SP2 with KB977541)  [todo]
-// 6.0.6002.22340 (Windows Vista SP2 with KB970911)  [todo]
-// 6.0.6002.22515 (Windows Vista SP2 with KB2381675) [todo]
-// 6.0.6002.22641 (Windows Vista SP2 with KB2523307) [todo]
-// 6.1.X.X        (Windows 7, any)                   [policy hook only]
-// 6.1.7600.16385 (Windows 7)                        [policy hook + extended patch]
-// 6.1.7600.20890 (Windows 7 with KB2479710)         [todo]
-// 6.1.7600.21316 (Windows 7 with KB2750090)         [todo]
-// 6.1.7601.17514 (Windows 7 SP1)                    [policy hook + extended patch]
-// 6.1.7601.21650 (Windows 7 SP1 with KB2479710)     [todo]
-// 6.1.7601.21866 (Windows 7 SP1 with KB2647409)     [todo]
-// 6.1.7601.22104 (Windows 7 SP1 with KB2750090)     [todo]
-// 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR) [policy hook + extended patch]
-// 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR) [policy hook + extended patch]
-// 6.2.8102.0     (Windows 8 Developer Preview)      [policy hook + extended patch]
-// 6.2.8250.0     (Windows 8 Consumer Preview)       [policy hook + extended patch]
-// 6.2.8400.0     (Windows 8 Release Preview)        [policy hook + extended patch]
-// 6.2.9200.16384 (Windows 8)                        [policy hook + extended patch]
-// 6.2.9200.17048 (Windows 8 with KB2973501 GDR)     [policy hook + extended patch]
-// 6.2.9200.21166 (Windows 8 with KB2973501 LDR)     [policy hook + extended patch]
-// 6.3.9431.0     (Windows 8.1 Preview)              [init hook + extended patch]
-// 6.3.9600.16384 (Windows 8.1)                      [init hook + extended patch]
-// 6.3.9600.17095 (Windows 8.1 with KB2959626)       [init hook + extended patch]
-// 6.4.9841.0     (Windows 10 Technical Preview)     [init hook + extended patch]
-// 6.4.9860.0     (Windows 10 Technical Preview 1)   [init hook + extended patch]
+// 6.0.X.X        (Windows Vista, any)                    [policy hook only]
+// 6.0.6000.16386 (Windows Vista)                         [policy hook + extended patch]
+// 6.0.6001.18000 (Windows Vista SP1)                     [policy hook + extended patch]
+// 6.0.6001.22565 (Windows Vista SP1 with KB977541)       [todo]
+// 6.0.6001.22635 (Windows Vista SP1 with KB970911)       [todo]
+// 6.0.6001.22801 (Windows Vista SP1 with KB2381675)      [todo]
+// 6.0.6002.18005 (Windows Vista SP2)                     [policy hook + extended patch]
+// 6.0.6002.22269 (Windows Vista SP2 with KB977541)       [todo]
+// 6.0.6002.22340 (Windows Vista SP2 with KB970911)       [todo]
+// 6.0.6002.22515 (Windows Vista SP2 with KB2381675)      [todo]
+// 6.0.6002.22641 (Windows Vista SP2 with KB2523307)      [todo]
+// 6.0.6002.19214 (Windows Vista SP2 with KB3003743 GDR)  [policy hook + extended patch]
+// 6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)  [policy hook + extended patch]
+// 6.1.X.X        (Windows 7, any)                        [policy hook only]
+// 6.1.7600.16385 (Windows 7)                             [policy hook + extended patch]
+// 6.1.7600.20890 (Windows 7 with KB2479710)              [todo]
+// 6.1.7600.21316 (Windows 7 with KB2750090)              [todo]
+// 6.1.7601.17514 (Windows 7 SP1)                         [policy hook + extended patch]
+// 6.1.7601.21650 (Windows 7 SP1 with KB2479710)          [todo]
+// 6.1.7601.21866 (Windows 7 SP1 with KB2647409)          [todo]
+// 6.1.7601.22104 (Windows 7 SP1 with KB2750090)          [todo]
+// 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)      [policy hook + extended patch]
+// 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)      [policy hook + extended patch]
+// 6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)      [policy hook + extended patch]
+// 6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)      [policy hook + extended patch]
+// 6.2.8102.0     (Windows 8 Developer Preview)           [policy hook + extended patch]
+// 6.2.8250.0     (Windows 8 Consumer Preview)            [policy hook + extended patch]
+// 6.2.8400.0     (Windows 8 Release Preview)             [policy hook + extended patch]
+// 6.2.9200.16384 (Windows 8)                             [policy hook + extended patch]
+// 6.2.9200.17048 (Windows 8 with KB2973501 GDR)          [policy hook + extended patch]
+// 6.2.9200.21166 (Windows 8 with KB2973501 LDR)          [policy hook + extended patch]
+// 6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
+// 6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
+// 6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
+// 6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
+// 6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
 
 // Known failures
 // 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 // Internal changelog:
+
+// 2014.11.13 :
+// - researching KB3003743
+// - added support for version 6.0.6002.19214
+// - added support for version 6.0.6002.23521
+// - added support for version 6.1.7601.18637
+// - added support for version 6.1.7601.22843
 
 // 2014.11.02 :
 // - researching termsrv.dll 6.4.9860.0
@@ -191,6 +202,36 @@ char CDefPolicy_Query_eax_rcx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x3
 // .text:000007FF76725E8F          jmp     short loc_7FF76725EA7
 // char CDefPolicy_Query_eax_rcx_jmp[]
 
+// termsrv.dll build 6.0.6002.19214
+
+// Original
+// .text:000007FF75B25FF7          mov     eax, [rcx+638h]
+// .text:000007FF75B25FFD          cmp     [rcx+63Ch], eax
+// .text:000007FF75B26003          jnz     short loc_7FF75B2601B
+//_______________
+//
+// Changed
+// .text:000007FF75B25FF7          mov     eax, 100h
+// .text:000007FF75B25FFC          mov     [rcx+638h], eax
+// .text:000007FF75B26002          nop
+// .text:000007FF75B26003          jmp     short loc_7FF75B2601B
+// char CDefPolicy_Query_eax_rcx_jmp[]
+
+// termsrv.dll build 6.0.6002.23521
+
+// Original
+// .text:000007FF75B269CB          mov     eax, [rcx+638h]
+// .text:000007FF75B269D1          cmp     [rcx+63Ch], eax
+// .text:000007FF75B269D7          jnz     short loc_7FF75B269EF
+//_______________
+//
+// Changed
+// .text:000007FF75B269CB          mov     eax, 100h
+// .text:000007FF75B269D0          mov     [rcx+638h], eax
+// .text:000007FF75B269D6          nop
+// .text:000007FF75B269D7          jmp     short loc_7FF75B269EF
+// char CDefPolicy_Query_eax_rcx_jmp[]
+
 // termsrv.dll build 6.1.7600.16385
 
 // Original
@@ -241,6 +282,32 @@ char CDefPolicy_Query_eax_rcx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x3
 // .text:000007FF75A97C92          mov     eax, 100h
 // .text:000007FF75A97C97          mov     [rdi+638h], eax
 // .text:000007FF75A97C9D          nop
+// char CDefPolicy_Query_eax_rdi[]
+
+// termsrv.dll build 6.1.7601.18637
+
+// Original
+// .text:000007FF75A97DC6          cmp     [rdi+63Ch], eax
+// .text:000007FF75A97DCC          jz      loc_7FF75AA40BD
+//_______________
+//
+// Changed
+// .text:000007FF75A97DC6          mov     eax, 100h
+// .text:000007FF75A97DCB          mov     [rdi+638h], eax
+// .text:000007FF75A97DD1          nop
+// char CDefPolicy_Query_eax_rdi[]
+
+// termsrv.dll build 6.1.7601.22843
+
+// Original
+// .text:000007FF75A97D6E          cmp     [rdi+63Ch], eax
+// .text:000007FF75A97D74          jz      loc_7FF75AA4182
+//_______________
+//
+// Changed
+// .text:000007FF75A97D6E          mov     eax, 100h
+// .text:000007FF75A97D73          mov     [rdi+638h], eax
+// .text:000007FF75A97D79          nop
 // char CDefPolicy_Query_eax_rdi[]
 
 // termsrv.dll build 6.2.8102.0
@@ -444,6 +511,36 @@ char CDefPolicy_Query_eax_ecx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x2
 // .text:6F5979CC          nop
 // char CDefPolicy_Query_edx_ecx[]
 
+// termsrv.dll build 6.0.6002.19214
+
+// Original
+// .text:6F5979B8          cmp     edx, [ecx+320h]
+// .text:6F5979BE          pop     esi
+// .text:6F5979BF          jz      loc_6F5A6F3E
+//_______________
+//
+// Changed
+// .text:6F5979B8          mov     edx, 100h
+// .text:6F5979BD          mov     [ecx+320h], edx
+// .text:6F5979C3          pop     esi
+// .text:6F5979C4          nop
+// char CDefPolicy_Query_edx_ecx[]
+
+// termsrv.dll build 6.0.6002.23521
+
+// Original
+// .text:6F5979CC          cmp     edx, [ecx+320h]
+// .text:6F5979D2          pop     esi
+// .text:6F5979D3          jz      loc_6F5A6F2E
+//_______________
+//
+// Changed
+// .text:6F5979CC          mov     edx, 100h
+// .text:6F5979D1          mov     [ecx+320h], edx
+// .text:6F5979D7          pop     esi
+// .text:6F5979D8          nop
+// char CDefPolicy_Query_edx_ecx[]
+
 // termsrv.dll build 6.1.7600.16385
 
 // Original
@@ -494,6 +591,32 @@ char CDefPolicy_Query_eax_ecx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x2
 // .text:6F2F9E21          mov     eax, 100h
 // .text:6F2F9E26          mov     [esi+320h], eax
 // .text:6F2F9E2C          nop
+// char CDefPolicy_Query_eax_esi[]
+
+// termsrv.dll build 6.1.7601.18637
+
+// Original
+// .text:6F2F9DBB          cmp     eax, [esi+320h]
+// .text:6F2F9DC1          jz      loc_6F30B2A6
+//_______________
+//
+// Changed
+// .text:6F2F9DBB          mov     eax, 100h
+// .text:6F2F9DC0          mov     [esi+320h], eax
+// .text:6F2F9DC6          nop
+// char CDefPolicy_Query_eax_esi[]
+
+// termsrv.dll build 6.1.7601.22843
+
+// Original
+// .text:6F2F9E25          cmp     eax, [esi+320h]
+// .text:6F2F9E2B          jz      loc_6F30B6D6
+//_______________
+//
+// Changed
+// .text:6F2F9E25          mov     eax, 100h
+// .text:6F2F9E2A          mov     [esi+320h], eax
+// .text:6F2F9E30          nop
 // char CDefPolicy_Query_eax_esi[]
 
 // termsrv.dll build 6.2.8102.0
@@ -1405,6 +1528,74 @@ void Hook()
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
 				#endif
 			}
+			if (FV.Release == 6002 && FV.Build == 19214)
+			{
+				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
+				#ifdef _WIN64
+				// Imagebase: 7FF75AC0000
+				// .text:000007FF75B312A4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+				// .text:000007FF75B312A9          mov     ebx, 1     <- 0
+				// .text:000007FF75B312AE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:000007FF75B312B6          mov     [rdi], ebx
+				// .text:000007FF75B312B8          call    cs:__imp_GetVersionExW
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x712AA);
+				b = 0;
+				#else
+				// Imagebase: 6F580000
+				// .text:6F597FBE          lea     eax, [ebp+VersionInformation]
+				// .text:6F597FC4          inc     ebx            <- nop
+				// .text:6F597FC5          push    eax             ; lpVersionInformation
+				// .text:6F597FC6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:6F597FD0          mov     [esi], ebx
+				// .text:6F597FD2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17FC4);
+				b = 0x90;
+				#endif
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
+
+				WriteToLog("Patch CDefPolicy::Query\r\n");
+				#ifdef _WIN64
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x65FF7);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
+				#else
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x179B8);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
+				#endif
+			}
+			if (FV.Release == 6002 && FV.Build == 23521)
+			{
+				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
+				#ifdef _WIN64
+				// Imagebase: 7FF75AC0000
+				// .text:000007FF75B31EA4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+				// .text:000007FF75B31EA9          mov     ebx, 1     <- 0
+				// .text:000007FF75B31EAE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:000007FF75B31EB6          mov     [rdi], ebx
+				// .text:000007FF75B31EB8          call    cs:__imp_GetVersionExW
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x71EAA);
+				b = 0;
+				#else
+				// Imagebase: 6F580000
+				// .text:6F597FAE          lea     eax, [ebp+VersionInformation]
+				// .text:6F597FB4          inc     ebx            <- nop
+				// .text:6F597FB5          push    eax             ; lpVersionInformation
+				// .text:6F597FB6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:6F597FC0          mov     [esi], ebx
+				// .text:6F597FC2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17FB4);
+				b = 0x90;
+				#endif
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
+
+				WriteToLog("Patch CDefPolicy::Query\r\n");
+				#ifdef _WIN64
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x669CB);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
+				#else
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x179CC);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
+				#endif
+			}
 		}
 	}
 	if (Ver == 0x0601)
@@ -1575,6 +1766,74 @@ void Hook()
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19E21);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
+				#endif
+			}
+			if (FV.Release == 7601 && FV.Build == 18637)
+			{
+				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
+				#ifdef _WIN64
+				// Imagebase: 7FF75A80000
+				// .text:000007FF75A980F4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+				// .text:000007FF75A980F9          mov     ebx, 1     <- 0
+				// .text:000007FF75A980FE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:000007FF75A98106          mov     [rdi], ebx
+				// .text:000007FF75A98108          call    cs:__imp_GetVersionExW
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x180FA);
+				b = 0;
+				#else
+				// Imagebase: 6F2E0000
+				// .text:6F2FA4D7          lea     eax, [ebp+VersionInformation]
+				// .text:6F2FA4DD          inc     ebx            <- nop
+				// .text:6F2FA4DE          push    eax             ; lpVersionInformation
+				// .text:6F2FA4DF          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:6F2FA4E9          mov     [esi], ebx
+				// .text:6F2FA4EB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A4DD);
+				b = 0x90;
+				#endif
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
+
+				WriteToLog("Patch CDefPolicy::Query\r\n");
+				#ifdef _WIN64
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17DC6);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
+				#else
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19DBB);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
+				#endif
+			}
+			if (FV.Release == 7601 && FV.Build == 22843)
+			{
+				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
+				#ifdef _WIN64
+				// Imagebase: 7FF75A80000
+				// .text:000007FF75A97F90          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+				// .text:000007FF75A97F95          mov     ebx, 1     <- 0
+				// .text:000007FF75A97F9A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:000007FF75A97FA2          mov     [rdi], ebx
+				// .text:000007FF75A97FA4          call    cs:__imp_GetVersionExW
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17F96);
+				b = 0;
+				#else
+				// Imagebase: 6F2E0000
+				// .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
+				// .text:6F2FA655          inc     ebx            <- nop
+				// .text:6F2FA656          push    eax             ; lpVersionInformation
+				// .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+				// .text:6F2FA661          mov     [esi], ebx
+				// .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A655);
+				b = 0x90;
+				#endif
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
+
+				WriteToLog("Patch CDefPolicy::Query\r\n");
+				#ifdef _WIN64
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17D6E);
+				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
+				#else
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19E25);
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
 				#endif
 			}

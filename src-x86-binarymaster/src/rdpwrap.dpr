@@ -3,43 +3,54 @@ library rdpwrap;
 // RDP Wrapper Library project by Stas'M
 
 // Terminal Services supported versions
-// 6.0.X.X        (Windows Vista, any)               [policy hook only]
-// 6.0.6000.16386 (Windows Vista)                    [policy hook + extended patch]
-// 6.0.6001.18000 (Windows Vista SP1)                [policy hook + extended patch]
-// 6.0.6001.22565 (Windows Vista SP1 with KB977541)  [todo]
-// 6.0.6001.22635 (Windows Vista SP1 with KB970911)  [todo]
-// 6.0.6001.22801 (Windows Vista SP1 with KB2381675) [todo]
-// 6.0.6002.18005 (Windows Vista SP2)                [policy hook + extended patch]
-// 6.0.6002.22269 (Windows Vista SP2 with KB977541)  [todo]
-// 6.0.6002.22340 (Windows Vista SP2 with KB970911)  [todo]
-// 6.0.6002.22515 (Windows Vista SP2 with KB2381675) [todo]
-// 6.0.6002.22641 (Windows Vista SP2 with KB2523307) [todo]
-// 6.1.X.X        (Windows 7, any)                   [policy hook only]
-// 6.1.7600.16385 (Windows 7)                        [policy hook + extended patch]
-// 6.1.7600.20890 (Windows 7 with KB2479710)         [todo]
-// 6.1.7600.21316 (Windows 7 with KB2750090)         [todo]
-// 6.1.7601.17514 (Windows 7 SP1)                    [policy hook + extended patch]
-// 6.1.7601.21650 (Windows 7 SP1 with KB2479710)     [todo]
-// 6.1.7601.21866 (Windows 7 SP1 with KB2647409)     [todo]
-// 6.1.7601.22104 (Windows 7 SP1 with KB2750090)     [todo]
-// 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR) [policy hook + extended patch]
-// 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR) [policy hook + extended patch]
-// 6.2.8102.0     (Windows 8 Developer Preview)      [policy hook + extended patch]
-// 6.2.8250.0     (Windows 8 Consumer Preview)       [policy hook + extended patch]
-// 6.2.8400.0     (Windows 8 Release Preview)        [policy hook + extended patch]
-// 6.2.9200.16384 (Windows 8)                        [policy hook + extended patch]
-// 6.2.9200.17048 (Windows 8 with KB2973501 GDR)     [policy hook + extended patch]
-// 6.2.9200.21166 (Windows 8 with KB2973501 LDR)     [policy hook + extended patch]
-// 6.3.9431.0     (Windows 8.1 Preview)              [init hook + extended patch]
-// 6.3.9600.16384 (Windows 8.1)                      [init hook + extended patch]
-// 6.3.9600.17095 (Windows 8.1 with KB2959626)       [init hook + extended patch]
-// 6.4.9841.0     (Windows 10 Technical Preview)     [init hook + extended patch]
-// 6.4.9860.0     (Windows 10 Technical Preview 1)   [init hook + extended patch]
+// 6.0.X.X        (Windows Vista, any)                    [policy hook only]
+// 6.0.6000.16386 (Windows Vista)                         [policy hook + extended patch]
+// 6.0.6001.18000 (Windows Vista SP1)                     [policy hook + extended patch]
+// 6.0.6001.22565 (Windows Vista SP1 with KB977541)       [todo]
+// 6.0.6001.22635 (Windows Vista SP1 with KB970911)       [todo]
+// 6.0.6001.22801 (Windows Vista SP1 with KB2381675)      [todo]
+// 6.0.6002.18005 (Windows Vista SP2)                     [policy hook + extended patch]
+// 6.0.6002.22269 (Windows Vista SP2 with KB977541)       [todo]
+// 6.0.6002.22340 (Windows Vista SP2 with KB970911)       [todo]
+// 6.0.6002.22515 (Windows Vista SP2 with KB2381675)      [todo]
+// 6.0.6002.22641 (Windows Vista SP2 with KB2523307)      [todo]
+// 6.0.6002.19214 (Windows Vista SP2 with KB3003743 GDR)  [policy hook + extended patch]
+// 6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)  [policy hook + extended patch]
+// 6.1.X.X        (Windows 7, any)                        [policy hook only]
+// 6.1.7600.16385 (Windows 7)                             [policy hook + extended patch]
+// 6.1.7600.20890 (Windows 7 with KB2479710)              [todo]
+// 6.1.7600.21316 (Windows 7 with KB2750090)              [todo]
+// 6.1.7601.17514 (Windows 7 SP1)                         [policy hook + extended patch]
+// 6.1.7601.21650 (Windows 7 SP1 with KB2479710)          [todo]
+// 6.1.7601.21866 (Windows 7 SP1 with KB2647409)          [todo]
+// 6.1.7601.22104 (Windows 7 SP1 with KB2750090)          [todo]
+// 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)      [policy hook + extended patch]
+// 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)      [policy hook + extended patch]
+// 6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)      [policy hook + extended patch]
+// 6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)      [policy hook + extended patch]
+// 6.2.8102.0     (Windows 8 Developer Preview)           [policy hook + extended patch]
+// 6.2.8250.0     (Windows 8 Consumer Preview)            [policy hook + extended patch]
+// 6.2.8400.0     (Windows 8 Release Preview)             [policy hook + extended patch]
+// 6.2.9200.16384 (Windows 8)                             [policy hook + extended patch]
+// 6.2.9200.17048 (Windows 8 with KB2973501 GDR)          [policy hook + extended patch]
+// 6.2.9200.21166 (Windows 8 with KB2973501 LDR)          [policy hook + extended patch]
+// 6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
+// 6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
+// 6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
+// 6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
+// 6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
 
 // Known failures
 // 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 // Internal changelog:
+
+// 2014.11.13 :
+// - researching KB3003743
+// - added support for version 6.0.6002.19214
+// - added support for version 6.0.6002.23521
+// - added support for version 6.1.7601.18637
+// - added support for version 6.1.7601.22843
 
 // 2014.11.02 :
 // - researching termsrv.dll 6.4.9860.0
@@ -245,6 +256,36 @@ const
 // .text:6F5979CC          nop
 // CDefPolicy_Query_edx_ecx
 
+// ------------------- TermService build 6.0.6002.19214
+
+// Original
+// .text:6F5979B8          cmp     edx, [ecx+320h]
+// .text:6F5979BE          pop     esi
+// .text:6F5979BF          jz      loc_6F5A6F3E
+//_______________
+//
+// Changed
+// .text:6F5979B8          mov     edx, 100h
+// .text:6F5979BD          mov     [ecx+320h], edx
+// .text:6F5979C3          pop     esi
+// .text:6F5979C4          nop
+// CDefPolicy_Query_edx_ecx
+
+// ------------------- TermService build 6.0.6002.23521
+
+// Original
+// .text:6F5979CC          cmp     edx, [ecx+320h]
+// .text:6F5979D2          pop     esi
+// .text:6F5979D3          jz      loc_6F5A6F2E
+//_______________
+//
+// Changed
+// .text:6F5979CC          mov     edx, 100h
+// .text:6F5979D1          mov     [ecx+320h], edx
+// .text:6F5979D7          pop     esi
+// .text:6F5979D8          nop
+// CDefPolicy_Query_edx_ecx
+
 // ------------------- TermService build 6.1.7600.16385
 
 // Original
@@ -295,6 +336,32 @@ const
 // .text:6F2F9E21          mov     eax, 100h
 // .text:6F2F9E26          mov     [esi+320h], eax
 // .text:6F2F9E2C          nop
+// CDefPolicy_Query_eax_esi
+
+// ------------------- TermService build 6.1.7601.18637
+
+// Original
+// .text:6F2F9DBB          cmp     eax, [esi+320h]
+// .text:6F2F9DC1          jz      loc_6F30B2A6
+//_______________
+//
+// Changed
+// .text:6F2F9DBB          mov     eax, 100h
+// .text:6F2F9DC0          mov     [esi+320h], eax
+// .text:6F2F9DC6          nop
+// CDefPolicy_Query_eax_esi
+
+// ------------------- TermService build 6.1.7601.22843
+
+// Original
+// .text:6F2F9E25          cmp     eax, [esi+320h]
+// .text:6F2F9E2B          jz      loc_6F30B6D6
+//_______________
+//
+// Changed
+// .text:6F2F9E25          mov     eax, 100h
+// .text:6F2F9E2A          mov     [esi+320h], eax
+// .text:6F2F9E30          nop
 // CDefPolicy_Query_eax_esi
 
 // ------------------- TermService build 6.2.8102.0
@@ -1041,6 +1108,42 @@ begin
         @CDefPolicy_Query_edx_ecx[0],
         SizeOf(CDefPolicy_Query_edx_ecx), bw);
       end;
+      if (FV.Release = 6002) and (FV.Build = 19214) then begin
+        WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
+        // Imagebase: 6F580000
+        // .text:6F597FBE          lea     eax, [ebp+VersionInformation]
+        // .text:6F597FC4          inc     ebx            <- nop
+        // .text:6F597FC5          push    eax             ; lpVersionInformation
+        // .text:6F597FC6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+        // .text:6F597FD0          mov     [esi], ebx
+        // .text:6F597FD2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $17FC4);
+        WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
+
+        WriteLog('Patch CDefPolicy::Query');
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $179B8);
+        WriteProcessMemory(GetCurrentProcess, SignPtr,
+        @CDefPolicy_Query_edx_ecx[0],
+        SizeOf(CDefPolicy_Query_edx_ecx), bw);
+      end;
+      if (FV.Release = 6002) and (FV.Build = 23521) then begin
+        WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
+        // Imagebase: 6F580000
+        // .text:6F597FAE          lea     eax, [ebp+VersionInformation]
+        // .text:6F597FB4          inc     ebx            <- nop
+        // .text:6F597FB5          push    eax             ; lpVersionInformation
+        // .text:6F597FB6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+        // .text:6F597FC0          mov     [esi], ebx
+        // .text:6F597FC2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $17FB4);
+        WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
+
+        WriteLog('Patch CDefPolicy::Query');
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $179CC);
+        WriteProcessMemory(GetCurrentProcess, SignPtr,
+        @CDefPolicy_Query_edx_ecx[0],
+        SizeOf(CDefPolicy_Query_edx_ecx), bw);
+      end;
     end;
   end;
   if (V = $0601) then begin
@@ -1138,6 +1241,42 @@ begin
 
         WriteLog('Patch CDefPolicy::Query');
         SignPtr := Pointer(Cardinal(TermSrvBase) + $19E21);
+        WriteProcessMemory(GetCurrentProcess, SignPtr,
+        @CDefPolicy_Query_eax_esi[0],
+        SizeOf(CDefPolicy_Query_eax_esi), bw);
+      end;
+      if (FV.Release = 7601) and (FV.Build = 18637) then begin
+        WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
+        // Imagebase: 6F2E0000
+        // .text:6F2FA4D7          lea     eax, [ebp+VersionInformation]
+        // .text:6F2FA4DD          inc     ebx            <- nop
+        // .text:6F2FA4DE          push    eax             ; lpVersionInformation
+        // .text:6F2FA4DF          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+        // .text:6F2FA4E9          mov     [esi], ebx
+        // .text:6F2FA4EB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $1A4DD);
+        WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
+
+        WriteLog('Patch CDefPolicy::Query');
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $19DBB);
+        WriteProcessMemory(GetCurrentProcess, SignPtr,
+        @CDefPolicy_Query_eax_esi[0],
+        SizeOf(CDefPolicy_Query_eax_esi), bw);
+      end;
+      if (FV.Release = 7601) and (FV.Build = 22843) then begin
+        WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
+        // Imagebase: 6F2E0000
+        // .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
+        // .text:6F2FA655          inc     ebx            <- nop
+        // .text:6F2FA656          push    eax             ; lpVersionInformation
+        // .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+        // .text:6F2FA661          mov     [esi], ebx
+        // .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $1A655);
+        WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
+
+        WriteLog('Patch CDefPolicy::Query');
+        SignPtr := Pointer(Cardinal(TermSrvBase) + $19E25);
         WriteProcessMemory(GetCurrentProcess, SignPtr,
         @CDefPolicy_Query_eax_esi[0],
         SizeOf(CDefPolicy_Query_eax_esi), bw);
