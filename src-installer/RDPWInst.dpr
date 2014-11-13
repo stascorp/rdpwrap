@@ -688,6 +688,10 @@ begin
       SuppLvl := 2;
     if (FV.Release = 6002) and (FV.Build = 18005) then
       SuppLvl := 2;
+    if (FV.Release = 6002) and (FV.Build = 19214) then
+      SuppLvl := 2;
+    if (FV.Release = 6002) and (FV.Build = 23521) then
+      SuppLvl := 2;
   end;
   if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then begin
     SuppLvl := 1;
@@ -698,6 +702,10 @@ begin
     if (FV.Release = 7601) and (FV.Build = 18540) then
       SuppLvl := 2;
     if (FV.Release = 7601) and (FV.Build = 22750) then
+      SuppLvl := 2;
+    if (FV.Release = 7601) and (FV.Build = 18637) then
+      SuppLvl := 2;
+    if (FV.Release = 7601) and (FV.Build = 22843) then
       SuppLvl := 2;
   end;
   if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 2) then begin
@@ -725,16 +733,21 @@ begin
   if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 4) then begin
     if (FV.Release = 9841) and (FV.Build = 0) then
       SuppLvl := 2;
+    if (FV.Release = 9860) and (FV.Build = 0) then
+      SuppLvl := 2;
   end;
   case SuppLvl of
     0: begin
-      Writeln('[!] This version of Terminal Services is not supported.');
+      Writeln('[-] This version of Terminal Services is not supported.');
       Writeln('Send your termsrv.dll to project developer for support.');
     end;
     1: begin
       Writeln('[!] This version of Terminal Services is supported partially.');
       Writeln('It means you may have some limitations such as only 2 concurrent sessions.');
       Writeln('Send your termsrv.dll to project developer for adding full support.');
+    end;
+    2: begin
+      Writeln('[+] This version of Terminal Services is fully supported.');
     end;
   end;
 end;
@@ -868,7 +881,7 @@ end;
 var
   I: Integer;
 begin
-  Writeln('RDP Wrapper Library v1.3');
+  Writeln('RDP Wrapper Library v1.4');
   Writeln('Installer v2.2');
   Writeln('Copyright (C) Stas''M Corp. 2014');
   Writeln('');
