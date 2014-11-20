@@ -2315,7 +2315,7 @@ void Hook()
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1F6A1);
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
 				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x16115);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x37529);
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
 				#endif
 
