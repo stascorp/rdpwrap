@@ -1,3 +1,19 @@
+{
+  Copyright 2014 Stas'M Corp.
+
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+
+      http://www.apache.org/licenses/LICENSE-2.0
+
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+}
+
 library rdpwrap;
 
 // RDP Wrapper Library project by Stas'M
@@ -37,8 +53,10 @@ library rdpwrap;
 // 6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
 // 6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
 // 6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
+// 6.3.9600.17415 (Windows 8.1 with KB3000850)            [!todo]
 // 6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
 // 6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
+// 6.4.9879.0     (Windows 10 Technical Preview Update 2) [!todo]
 
 // Known failures
 // 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
