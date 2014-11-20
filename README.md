@@ -35,6 +35,10 @@ Porting to other platforms:<br>
 • <b>ARM</b> for Windows RT (see links below)<br>
 • <b>IA-64</b> for Itanium-based Windows Server? <i>Well, I have no idea</i> :)<br>
 <br>
+Building the binaries:<br>
+• <b>x86 Delphi version</b> can be built with <i>Embarcadero RAD Studio 2010</i><br>
+• <b>x86/x64 C++ version</b> can be built with <i>Microsoft Visual Studio 2013</i><br>
+<br>
 <b>Links:</b><br>
 • Official GitHub repository:<br>
 <a href="https://github.com/binarymaster/rdpwrap/" target="_blank">https://github.com/binarymaster/rdpwrap/</a><br>
