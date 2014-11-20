@@ -48,6 +48,10 @@ Source code changelog (rdpwrap library):
 2014.11.20 :
 - improved comments
 - researching KB3000850
+- found required files
+- improving RDPWrap...
+- placing signatures, offsets, values, etc in separate config file
+- working with code
 
 2014.11.13 :
 - researching KB3003743
