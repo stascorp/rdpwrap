@@ -1,0 +1,6 @@
+# Unnecessary files
+
+*.~pas
+*.dproj.local
+*.identcache
+*.dcu
