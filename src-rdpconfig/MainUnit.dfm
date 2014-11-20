@@ -2,7 +2,7 @@ object MainForm: TMainForm
   Left = 0
   Top = 0
   BorderStyle = bsDialog
-  Caption = 'Remote Desktop Protocol Configuration'
+  Caption = 'RDP Wrapper Configuration'
   ClientHeight = 245
   ClientWidth = 326
   Color = clBtnFace
@@ -19,7 +19,7 @@ object MainForm: TMainForm
   TextHeight = 13
   object lRDPPort: TLabel
     Left = 203
-    Top = 22
+    Top = 33
     Width = 47
     Height = 13
     Caption = 'RDP Port:'
@@ -100,7 +100,7 @@ object MainForm: TMainForm
   end
   object seRDPPort: TSpinEdit
     Left = 256
-    Top = 19
+    Top = 30
     Width = 62
     Height = 22
     MaxValue = 65535
@@ -108,5 +108,14 @@ object MainForm: TMainForm
     TabOrder = 7
     Value = 0
     OnChange = seRDPPortChange
+  end
+  object bLicense: TButton
+    Left = 224
+    Top = 6
+    Width = 94
+    Height = 21
+    Caption = 'View license...'
+    TabOrder = 8
+    OnClick = bLicenseClick
   end
 end

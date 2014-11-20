@@ -573,6 +573,23 @@ begin
   ResStream.Free;
 end;
 
+function ExtractResText(ResName: String): String;
+var
+  ResStream: TResourceStream;
+  Str: TStringList;
+begin
+  ResStream := TResourceStream.Create(HInstance, ResName, RT_RCDATA);
+  Str := TStringList.Create;
+  try
+    Str.LoadFromStream(ResStream);
+  except
+
+  end;
+  ResStream.Free;
+  Result := Str.Text;
+  Str.Free;
+end;
+
 procedure ExtractFiles;
 begin
   if not DirectoryExists(ExtractFilePath(ExpandPath(WrapPath))) then
@@ -904,18 +921,26 @@ begin
 
   if (ParamCount < 1)
   or (
-    (ParamStr(1) <> '-i')
+    (ParamStr(1) <> '-l')
+    and (ParamStr(1) <> '-i')
     and (ParamStr(1) <> '-u')
     and (ParamStr(1) <> '-r')
   ) then
   begin
     Writeln('USAGE:');
-    Writeln('RDPWInst.exe [-i[-s]|-u|-r]');
+    Writeln('RDPWInst.exe [-l|-i[-s]|-u|-r]');
     Writeln('');
+    Writeln('-l          display the license agreement');
     Writeln('-i          install wrapper to Program Files folder (default)');
     Writeln('-i -s       install wrapper to System32 folder');
     Writeln('-u          uninstall wrapper');
     Writeln('-r          force restart Terminal Services');
+    Exit;
+  end;
+
+  if ParamStr(1) = '-l' then
+  begin
+    Writeln(ExtractResText('LICENSE'));
     Exit;
   end;
 
@@ -934,6 +959,13 @@ begin
       Writeln('[*] RDP Wrapper Library is already installed.');
       Halt(ERROR_INVALID_FUNCTION);
     end;
+    Writeln('[*] Notice to user:');
+    Writeln('  - By using all or any portion of this software, you are agreeing');
+    Writeln('  to be bound by all the terms and conditions of the license agreement.');
+    Writeln('  - To read the license agreement, run the installer with -l parameter.');
+    Writeln('  - If you do not agree to any terms of the license agreement,');
+    Writeln('  do not use the software.');
+
     Writeln('[*] Installing...');
     if ParamStr(2) = '-s' then
       WrapPath := '%SystemRoot%\system32\rdpwrap.dll'

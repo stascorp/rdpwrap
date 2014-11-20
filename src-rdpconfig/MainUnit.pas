@@ -33,6 +33,7 @@ type
     rgShadow: TRadioGroup;
     seRDPPort: TSpinEdit;
     lRDPPort: TLabel;
+    bLicense: TButton;
     procedure FormCreate(Sender: TObject);
     procedure cbAllowTSConnectionsClick(Sender: TObject);
     procedure seRDPPortChange(Sender: TObject);
@@ -40,6 +41,7 @@ type
     procedure bCancelClick(Sender: TObject);
     procedure bOKClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
+    procedure bLicenseClick(Sender: TObject);
   private
     { Private declarations }
   public
@@ -55,7 +57,27 @@ var
 implementation
 
 {$R *.dfm}
-{$R manifest.res}
+{$R resource.res}
+
+uses
+  LicenseUnit;
+
+function ExtractResText(ResName: String): String;
+var
+  ResStream: TResourceStream;
+  Str: TStringList;
+begin
+  ResStream := TResourceStream.Create(HInstance, ResName, RT_RCDATA);
+  Str := TStringList.Create;
+  try
+    Str.LoadFromStream(ResStream);
+  except
+
+  end;
+  ResStream.Free;
+  Result := Str.Text;
+  Str.Free;
+end;
 
 procedure TMainForm.ReadSettings;
 var
@@ -168,6 +190,13 @@ begin
   end;
   Reg.CloseKey;
   Reg.Free;
+end;
+
+procedure TMainForm.bLicenseClick(Sender: TObject);
+begin
+  LicenseForm.mText.Text := ExtractResText('LICENSE');
+  if LicenseForm.ShowModal <> mrOk then
+    Halt(0);
 end;
 
 procedure TMainForm.cbAllowTSConnectionsClick(Sender: TObject);

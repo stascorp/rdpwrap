@@ -14,20 +14,30 @@
   limitations under the License.
 }
 
-program RDPConf;
+unit LicenseUnit;
+
+interface
 
 uses
-  Forms,
-  MainUnit in 'MainUnit.pas' {MainForm},
-  LicenseUnit in 'LicenseUnit.pas' {LicenseForm};
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, StdCtrls;
 
-{$R *.res}
+type
+  TLicenseForm = class(TForm)
+    mText: TMemo;
+    bAccept: TButton;
+    bDecline: TButton;
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
 
-begin
-  Application.Initialize;
-  Application.MainFormOnTaskbar := True;
-  Application.Title := 'Remote Desktop Protocol Configuration';
-  Application.CreateForm(TMainForm, MainForm);
-  Application.CreateForm(TLicenseForm, LicenseForm);
-  Application.Run;
+var
+  LicenseForm: TLicenseForm;
+
+implementation
+
+{$R *.dfm}
+
 end.
