@@ -1,0 +1,122 @@
+RDP Wrapper Library project by Stas'M
+
+Terminal Services supported versions
+6.0.X.X        (Windows Vista, any)                    [policy hook only]
+6.0.6000.16386 (Windows Vista)                         [policy hook + extended patch]
+6.0.6001.18000 (Windows Vista SP1)                     [policy hook + extended patch]
+6.0.6001.22565 (Windows Vista SP1 with KB977541)       [todo]
+6.0.6001.22635 (Windows Vista SP1 with KB970911)       [todo]
+6.0.6001.22801 (Windows Vista SP1 with KB2381675)      [todo]
+6.0.6002.18005 (Windows Vista SP2)                     [policy hook + extended patch]
+6.0.6002.22269 (Windows Vista SP2 with KB977541)       [todo]
+6.0.6002.22340 (Windows Vista SP2 with KB970911)       [todo]
+6.0.6002.22515 (Windows Vista SP2 with KB2381675)      [todo]
+6.0.6002.22641 (Windows Vista SP2 with KB2523307)      [todo]
+6.0.6002.19214 (Windows Vista SP2 with KB3003743 GDR)  [policy hook + extended patch]
+6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)  [policy hook + extended patch]
+6.1.X.X        (Windows 7, any)                        [policy hook only]
+6.1.7600.16385 (Windows 7)                             [policy hook + extended patch]
+6.1.7600.20890 (Windows 7 with KB2479710)              [todo]
+6.1.7600.21316 (Windows 7 with KB2750090)              [todo]
+6.1.7601.17514 (Windows 7 SP1)                         [policy hook + extended patch]
+6.1.7601.21650 (Windows 7 SP1 with KB2479710)          [todo]
+6.1.7601.21866 (Windows 7 SP1 with KB2647409)          [todo]
+6.1.7601.22104 (Windows 7 SP1 with KB2750090)          [todo]
+6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)      [policy hook + extended patch]
+6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)      [policy hook + extended patch]
+6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)      [policy hook + extended patch]
+6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)      [policy hook + extended patch]
+6.2.8102.0     (Windows 8 Developer Preview)           [policy hook + extended patch]
+6.2.8250.0     (Windows 8 Consumer Preview)            [policy hook + extended patch]
+6.2.8400.0     (Windows 8 Release Preview)             [policy hook + extended patch]
+6.2.9200.16384 (Windows 8)                             [policy hook + extended patch]
+6.2.9200.17048 (Windows 8 with KB2973501 GDR)          [policy hook + extended patch]
+6.2.9200.21166 (Windows 8 with KB2973501 LDR)          [policy hook + extended patch]
+6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
+6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
+6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
+6.3.9600.17415 (Windows 8.1 with KB3000850)            [!todo]
+6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
+6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
+6.4.9879.0     (Windows 10 Technical Preview Update 2) [!todo]
+
+Known failures
+6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
+
+Source code changelog (rdpwrap library):
+
+2014.11.20 :
+- improved comments
+- researching KB3000850
+
+2014.11.13 :
+- researching KB3003743
+- added support for version 6.0.6002.19214
+- added support for version 6.0.6002.23521
+- added support for version 6.1.7601.18637
+- added support for version 6.1.7601.22843
+
+2014.11.02 :
+- researching termsrv.dll 6.4.9860.0
+- done
+
+2014.10.19 :
+- added support for version 6.0.6000.16386 (x64)
+- added support for version 6.0.6001.18000 (x64)
+- added support for version 6.1.7600.16385
+
+2014.10.18 :
+- corrected some typos in source
+- simplified signature constants
+- added support for version 6.0.6000.16386 (x86)
+- added support for version 6.0.6001.18000 (x86)
+- added support for version 6.0.6002.18005
+- added support for version 6.1.7601.17514
+- added support for version 6.1.7601.18540
+- added support for version 6.1.7601.22750
+- added support for version 6.2.9200.17048
+- added support for version 6.2.9200.21166
+
+2014.10.17 :
+- collecting information about all versions of Terminal Services beginning from Vista
+- added [todo] to the versions list
+
+2014.10.16 :
+- got new updates: KB2984972 for Win 7 (still works with 2 concurrent users) and KB2973501 for Win 8 (doesn't work)
+
+2014.10.02 :
+- researching Windows 10 TP Remote Desktop
+- done! even without debugging symbols ^^)
+
+2014.07.20 :
+- added support for Windows 8 Release Preview
+- added support for Windows 8 Consumer Preview
+- added support for Windows 8 Developer Preview
+
+2014.07.19 :
+- improved patching of Windows 8
+- added policy patches
+- will patch CDefPolicy::Query
+- will patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+
+2014.07.18 :
+- researched patched files from MDL forum
+- CSLQuery::GetMaxSessions requires no patching
+- it's better to change the default policy, so...
+- will patch CDefPolicy::Query
+- will patch CEnforcementCore::GetInstanceOfTSLicense
+- will patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+- the function CSLQuery::Initialize is hooked correctly
+
+2014.07.17 :
+- will hook only CSLQuery::Initialize function
+- CSLQuery::GetMaxSessions will be patched
+- added x86 signatures for 6.3.9431.0 (Windows 8.1 Preview)
+
+2014.07.16 :
+- changing asm opcodes is bad, will hook CSL functions
+
+2014.07.15 :
+- added x86 signatures for 6.3.9600.16384 (Windows 8.1)
+2014.07.15 :
+- added x86 signatures for 6.3.9600.17095 (Windows 8.1 with KB2959626)
