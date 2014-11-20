@@ -16,124 +16,125 @@
 
 library rdpwrap;
 
-// RDP Wrapper Library project by Stas'M
+{ RDP Wrapper Library project by Stas'M
 
-// Terminal Services supported versions
-// 6.0.X.X        (Windows Vista, any)                    [policy hook only]
-// 6.0.6000.16386 (Windows Vista)                         [policy hook + extended patch]
-// 6.0.6001.18000 (Windows Vista SP1)                     [policy hook + extended patch]
-// 6.0.6001.22565 (Windows Vista SP1 with KB977541)       [todo]
-// 6.0.6001.22635 (Windows Vista SP1 with KB970911)       [todo]
-// 6.0.6001.22801 (Windows Vista SP1 with KB2381675)      [todo]
-// 6.0.6002.18005 (Windows Vista SP2)                     [policy hook + extended patch]
-// 6.0.6002.22269 (Windows Vista SP2 with KB977541)       [todo]
-// 6.0.6002.22340 (Windows Vista SP2 with KB970911)       [todo]
-// 6.0.6002.22515 (Windows Vista SP2 with KB2381675)      [todo]
-// 6.0.6002.22641 (Windows Vista SP2 with KB2523307)      [todo]
-// 6.0.6002.19214 (Windows Vista SP2 with KB3003743 GDR)  [policy hook + extended patch]
-// 6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)  [policy hook + extended patch]
-// 6.1.X.X        (Windows 7, any)                        [policy hook only]
-// 6.1.7600.16385 (Windows 7)                             [policy hook + extended patch]
-// 6.1.7600.20890 (Windows 7 with KB2479710)              [todo]
-// 6.1.7600.21316 (Windows 7 with KB2750090)              [todo]
-// 6.1.7601.17514 (Windows 7 SP1)                         [policy hook + extended patch]
-// 6.1.7601.21650 (Windows 7 SP1 with KB2479710)          [todo]
-// 6.1.7601.21866 (Windows 7 SP1 with KB2647409)          [todo]
-// 6.1.7601.22104 (Windows 7 SP1 with KB2750090)          [todo]
-// 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)      [policy hook + extended patch]
-// 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)      [policy hook + extended patch]
-// 6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)      [policy hook + extended patch]
-// 6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)      [policy hook + extended patch]
-// 6.2.8102.0     (Windows 8 Developer Preview)           [policy hook + extended patch]
-// 6.2.8250.0     (Windows 8 Consumer Preview)            [policy hook + extended patch]
-// 6.2.8400.0     (Windows 8 Release Preview)             [policy hook + extended patch]
-// 6.2.9200.16384 (Windows 8)                             [policy hook + extended patch]
-// 6.2.9200.17048 (Windows 8 with KB2973501 GDR)          [policy hook + extended patch]
-// 6.2.9200.21166 (Windows 8 with KB2973501 LDR)          [policy hook + extended patch]
-// 6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
-// 6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
-// 6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
-// 6.3.9600.17415 (Windows 8.1 with KB3000850)            [!todo]
-// 6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
-// 6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
-// 6.4.9879.0     (Windows 10 Technical Preview Update 2) [!todo]
+Terminal Services supported versions
+6.0.X.X        (Windows Vista, any)                    [policy hook only]
+6.0.6000.16386 (Windows Vista)                         [policy hook + extended patch]
+6.0.6001.18000 (Windows Vista SP1)                     [policy hook + extended patch]
+6.0.6001.22565 (Windows Vista SP1 with KB977541)       [todo]
+6.0.6001.22635 (Windows Vista SP1 with KB970911)       [todo]
+6.0.6001.22801 (Windows Vista SP1 with KB2381675)      [todo]
+6.0.6002.18005 (Windows Vista SP2)                     [policy hook + extended patch]
+6.0.6002.22269 (Windows Vista SP2 with KB977541)       [todo]
+6.0.6002.22340 (Windows Vista SP2 with KB970911)       [todo]
+6.0.6002.22515 (Windows Vista SP2 with KB2381675)      [todo]
+6.0.6002.22641 (Windows Vista SP2 with KB2523307)      [todo]
+6.0.6002.19214 (Windows Vista SP2 with KB3003743 GDR)  [policy hook + extended patch]
+6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)  [policy hook + extended patch]
+6.1.X.X        (Windows 7, any)                        [policy hook only]
+6.1.7600.16385 (Windows 7)                             [policy hook + extended patch]
+6.1.7600.20890 (Windows 7 with KB2479710)              [todo]
+6.1.7600.21316 (Windows 7 with KB2750090)              [todo]
+6.1.7601.17514 (Windows 7 SP1)                         [policy hook + extended patch]
+6.1.7601.21650 (Windows 7 SP1 with KB2479710)          [todo]
+6.1.7601.21866 (Windows 7 SP1 with KB2647409)          [todo]
+6.1.7601.22104 (Windows 7 SP1 with KB2750090)          [todo]
+6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)      [policy hook + extended patch]
+6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)      [policy hook + extended patch]
+6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)      [policy hook + extended patch]
+6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)      [policy hook + extended patch]
+6.2.8102.0     (Windows 8 Developer Preview)           [policy hook + extended patch]
+6.2.8250.0     (Windows 8 Consumer Preview)            [policy hook + extended patch]
+6.2.8400.0     (Windows 8 Release Preview)             [policy hook + extended patch]
+6.2.9200.16384 (Windows 8)                             [policy hook + extended patch]
+6.2.9200.17048 (Windows 8 with KB2973501 GDR)          [policy hook + extended patch]
+6.2.9200.21166 (Windows 8 with KB2973501 LDR)          [policy hook + extended patch]
+6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
+6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
+6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
+6.3.9600.17415 (Windows 8.1 with KB3000850)            [!todo]
+6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
+6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
+6.4.9879.0     (Windows 10 Technical Preview Update 2) [!todo]
 
-// Known failures
-// 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
+Known failures
+6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
-// Internal changelog:
+Internal changelog:
 
-// 2014.11.13 :
-// - researching KB3003743
-// - added support for version 6.0.6002.19214
-// - added support for version 6.0.6002.23521
-// - added support for version 6.1.7601.18637
-// - added support for version 6.1.7601.22843
+2014.11.13 :
+- researching KB3003743
+- added support for version 6.0.6002.19214
+- added support for version 6.0.6002.23521
+- added support for version 6.1.7601.18637
+- added support for version 6.1.7601.22843
 
-// 2014.11.02 :
-// - researching termsrv.dll 6.4.9860.0
-// - done
+2014.11.02 :
+- researching termsrv.dll 6.4.9860.0
+- done
 
-// 2014.10.19 :
-// - added support for version 6.0.6000.16386 (x64)
-// - added support for version 6.0.6001.18000 (x64)
-// - added support for version 6.1.7600.16385
+2014.10.19 :
+- added support for version 6.0.6000.16386 (x64)
+- added support for version 6.0.6001.18000 (x64)
+- added support for version 6.1.7600.16385
 
-// 2014.10.18 :
-// - corrected some typos in source
-// - simplified signature constants
-// - added support for version 6.0.6000.16386 (x86)
-// - added support for version 6.0.6001.18000 (x86)
-// - added support for version 6.0.6002.18005
-// - added support for version 6.1.7601.17514
-// - added support for version 6.1.7601.18540
-// - added support for version 6.1.7601.22750
-// - added support for version 6.2.9200.17048
-// - added support for version 6.2.9200.21166
+2014.10.18 :
+- corrected some typos in source
+- simplified signature constants
+- added support for version 6.0.6000.16386 (x86)
+- added support for version 6.0.6001.18000 (x86)
+- added support for version 6.0.6002.18005
+- added support for version 6.1.7601.17514
+- added support for version 6.1.7601.18540
+- added support for version 6.1.7601.22750
+- added support for version 6.2.9200.17048
+- added support for version 6.2.9200.21166
 
-// 2014.10.17 :
-// - collecting information about all versions of Terminal Services beginning from Vista
-// - added [todo] to the versions list
+2014.10.17 :
+- collecting information about all versions of Terminal Services beginning from Vista
+- added [todo] to the versions list
 
-// 2014.10.16 :
-// - got new updates: KB2984972 for Win 7 (still works with 2 concurrent users) and KB2973501 for Win 8 (doesn't work)
+2014.10.16 :
+- got new updates: KB2984972 for Win 7 (still works with 2 concurrent users) and KB2973501 for Win 8 (doesn't work)
 
-// 2014.10.02 :
-// - researching Windows 10 TP Remote Desktop
-// - done! even without debugging symbols ^^)
+2014.10.02 :
+- researching Windows 10 TP Remote Desktop
+- done! even without debugging symbols ^^)
 
-// 2014.07.20 :
-// - added support for Windows 8 Release Preview
-// - added support for Windows 8 Consumer Preview
-// - added support for Windows 8 Developer Preview
+2014.07.20 :
+- added support for Windows 8 Release Preview
+- added support for Windows 8 Consumer Preview
+- added support for Windows 8 Developer Preview
 
-// 2014.07.19 :
-// - improved patching of Windows 8
-// - added policy patches
-// - will patch CDefPolicy::Query
-// - will patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+2014.07.19 :
+- improved patching of Windows 8
+- added policy patches
+- will patch CDefPolicy::Query
+- will patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
 
-// 2014.07.18 :
-// - researched patched files from MDL forum
-// - CSLQuery::GetMaxSessions requires no patching
-// - it's better to change the default policy, so...
-// - will patch CDefPolicy::Query
-// - will patch CEnforcementCore::GetInstanceOfTSLicense
-// - will patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
-// - the function CSLQuery::Initialize is hooked correctly
+2014.07.18 :
+- researched patched files from MDL forum
+- CSLQuery::GetMaxSessions requires no patching
+- it's better to change the default policy, so...
+- will patch CDefPolicy::Query
+- will patch CEnforcementCore::GetInstanceOfTSLicense
+- will patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+- the function CSLQuery::Initialize is hooked correctly
 
-// 2014.07.17 :
-// - will hook only CSLQuery::Initialize function
-// - CSLQuery::GetMaxSessions will be patched
-// - added x86 signatures for 6.3.9431.0 (Windows 8.1 Preview)
+2014.07.17 :
+- will hook only CSLQuery::Initialize function
+- CSLQuery::GetMaxSessions will be patched
+- added x86 signatures for 6.3.9431.0 (Windows 8.1 Preview)
 
-// 2014.07.16 :
-// - changing asm opcodes is bad, will hook CSL functions
+2014.07.16 :
+- changing asm opcodes is bad, will hook CSL functions
 
-// 2014.07.15 :
-// - added x86 signatures for 6.3.9600.16384 (Windows 8.1)
-// 2014.07.15 :
-// - added x86 signatures for 6.3.9600.17095 (Windows 8.1 with KB2959626)
+2014.07.15 :
+- added x86 signatures for 6.3.9600.16384 (Windows 8.1)
+2014.07.15 :
+- added x86 signatures for 6.3.9600.17095 (Windows 8.1 with KB2959626)
+}
 
 uses
   SysUtils,
@@ -229,301 +230,303 @@ const
   CDefPolicy_Query_eax_ecx: Array[0..11] of Byte =
   ($B8,$00,$01,$00,$00,$89,$81,$20,$03,$00,$00,$90);
 
-// ------------------- TermService build 6.0.6000.16386
+{
+termsrv.dll 6.0.6000.16386
 
-// Original
-// .text:6F335CD8          cmp     edx, [ecx+320h]
-// .text:6F335CDE          pop     esi
-// .text:6F335CDF          jz      loc_6F3426F1
-//_______________
-//
-// Changed
-// .text:6F335CD8          mov     edx, 100h
-// .text:6F335CDD          mov     [ecx+320h], edx
-// .text:6F335CE3          pop     esi
-// .text:6F335CE4          nop
-// CDefPolicy_Query_edx_ecx
+Original
+.text:6F335CD8          cmp     edx, [ecx+320h]
+.text:6F335CDE          pop     esi
+.text:6F335CDF          jz      loc_6F3426F1
+_______________
 
-// ------------------- TermService build 6.0.6001.18000
+Changed
+.text:6F335CD8          mov     edx, 100h
+.text:6F335CDD          mov     [ecx+320h], edx
+.text:6F335CE3          pop     esi
+.text:6F335CE4          nop
+CDefPolicy_Query_edx_ecx
 
-// Original
-// .text:6E817FD8          cmp     edx, [ecx+320h]
-// .text:6E817FDE          pop     esi
-// .text:6E817FDF          jz      loc_6E826F16
-//_______________
-//
-// Changed
-// .text:6E817FD8          mov     edx, 100h
-// .text:6E817FDD          mov     [ecx+320h], edx
-// .text:6E817FE3          pop     esi
-// .text:6E817FE4          nop
-// CDefPolicy_Query_edx_ecx
+termsrv.dll 6.0.6001.18000
 
-// ------------------- TermService build 6.0.6002.18005
+Original
+.text:6E817FD8          cmp     edx, [ecx+320h]
+.text:6E817FDE          pop     esi
+.text:6E817FDF          jz      loc_6E826F16
+_______________
 
-// Original
-// .text:6F5979C0          cmp     edx, [ecx+320h]
-// .text:6F5979C6          pop     esi
-// .text:6F5979C7          jz      loc_6F5A6F26
-//_______________
-//
-// Changed
-// .text:6F5979C0          mov     edx, 100h
-// .text:6F5979C5          mov     [ecx+320h], edx
-// .text:6F5979CB          pop     esi
-// .text:6F5979CC          nop
-// CDefPolicy_Query_edx_ecx
+Changed
+.text:6E817FD8          mov     edx, 100h
+.text:6E817FDD          mov     [ecx+320h], edx
+.text:6E817FE3          pop     esi
+.text:6E817FE4          nop
+CDefPolicy_Query_edx_ecx
 
-// ------------------- TermService build 6.0.6002.19214
+termsrv.dll 6.0.6002.18005
 
-// Original
-// .text:6F5979B8          cmp     edx, [ecx+320h]
-// .text:6F5979BE          pop     esi
-// .text:6F5979BF          jz      loc_6F5A6F3E
-//_______________
-//
-// Changed
-// .text:6F5979B8          mov     edx, 100h
-// .text:6F5979BD          mov     [ecx+320h], edx
-// .text:6F5979C3          pop     esi
-// .text:6F5979C4          nop
-// CDefPolicy_Query_edx_ecx
+Original
+.text:6F5979C0          cmp     edx, [ecx+320h]
+.text:6F5979C6          pop     esi
+.text:6F5979C7          jz      loc_6F5A6F26
+_______________
 
-// ------------------- TermService build 6.0.6002.23521
+Changed
+.text:6F5979C0          mov     edx, 100h
+.text:6F5979C5          mov     [ecx+320h], edx
+.text:6F5979CB          pop     esi
+.text:6F5979CC          nop
+CDefPolicy_Query_edx_ecx
 
-// Original
-// .text:6F5979CC          cmp     edx, [ecx+320h]
-// .text:6F5979D2          pop     esi
-// .text:6F5979D3          jz      loc_6F5A6F2E
-//_______________
-//
-// Changed
-// .text:6F5979CC          mov     edx, 100h
-// .text:6F5979D1          mov     [ecx+320h], edx
-// .text:6F5979D7          pop     esi
-// .text:6F5979D8          nop
-// CDefPolicy_Query_edx_ecx
+termsrv.dll 6.0.6002.19214
 
-// ------------------- TermService build 6.1.7600.16385
+Original
+.text:6F5979B8          cmp     edx, [ecx+320h]
+.text:6F5979BE          pop     esi
+.text:6F5979BF          jz      loc_6F5A6F3E
+_______________
 
-// Original
-// .text:6F2F96F3          cmp     eax, [esi+320h]
-// .text:6F2F96F9          jz      loc_6F30E256
-//_______________
-//
-// Changed
-// .text:6F2F96F3          mov     eax, 100h
-// .text:6F2F96F8          mov     [esi+320h], eax
-// .text:6F2F96FE          nop
-// CDefPolicy_Query_eax_esi
+Changed
+.text:6F5979B8          mov     edx, 100h
+.text:6F5979BD          mov     [ecx+320h], edx
+.text:6F5979C3          pop     esi
+.text:6F5979C4          nop
+CDefPolicy_Query_edx_ecx
 
-// ------------------- TermService build 6.1.7601.17514
+termsrv.dll 6.0.6002.23521
 
-// Original
-// .text:6F2F9D53          cmp     eax, [esi+320h]
-// .text:6F2F9D59          jz      loc_6F30B25E
-//_______________
-//
-// Changed
-// .text:6F2F9D53          mov     eax, 100h
-// .text:6F2F9D58          mov     [esi+320h], eax
-// .text:6F2F9D5E          nop
-// CDefPolicy_Query_eax_esi
+Original
+.text:6F5979CC          cmp     edx, [ecx+320h]
+.text:6F5979D2          pop     esi
+.text:6F5979D3          jz      loc_6F5A6F2E
+_______________
 
-// ------------------- TermService build 6.1.7601.18540
+Changed
+.text:6F5979CC          mov     edx, 100h
+.text:6F5979D1          mov     [ecx+320h], edx
+.text:6F5979D7          pop     esi
+.text:6F5979D8          nop
+CDefPolicy_Query_edx_ecx
 
-// Original
-// .text:6F2F9D9F          cmp     eax, [esi+320h]
-// .text:6F2F9DA5          jz      loc_6F30B2AE
-//_______________
-//
-// Changed
-// .text:6F2F9D9F          mov     eax, 100h
-// .text:6F2F9DA4          mov     [esi+320h], eax
-// .text:6F2F9DAA          nop
-// CDefPolicy_Query_eax_esi
+termsrv.dll 6.1.7600.16385
 
-// ------------------- TermService build 6.1.7601.22750
+Original
+.text:6F2F96F3          cmp     eax, [esi+320h]
+.text:6F2F96F9          jz      loc_6F30E256
+_______________
 
-// Original
-// .text:6F2F9E21          cmp     eax, [esi+320h]
-// .text:6F2F9E27          jz      loc_6F30B6CE
-//_______________
-//
-// Changed
-// .text:6F2F9E21          mov     eax, 100h
-// .text:6F2F9E26          mov     [esi+320h], eax
-// .text:6F2F9E2C          nop
-// CDefPolicy_Query_eax_esi
+Changed
+.text:6F2F96F3          mov     eax, 100h
+.text:6F2F96F8          mov     [esi+320h], eax
+.text:6F2F96FE          nop
+CDefPolicy_Query_eax_esi
 
-// ------------------- TermService build 6.1.7601.18637
+termsrv.dll 6.1.7601.17514
 
-// Original
-// .text:6F2F9DBB          cmp     eax, [esi+320h]
-// .text:6F2F9DC1          jz      loc_6F30B2A6
-//_______________
-//
-// Changed
-// .text:6F2F9DBB          mov     eax, 100h
-// .text:6F2F9DC0          mov     [esi+320h], eax
-// .text:6F2F9DC6          nop
-// CDefPolicy_Query_eax_esi
+Original
+.text:6F2F9D53          cmp     eax, [esi+320h]
+.text:6F2F9D59          jz      loc_6F30B25E
+_______________
 
-// ------------------- TermService build 6.1.7601.22843
+Changed
+.text:6F2F9D53          mov     eax, 100h
+.text:6F2F9D58          mov     [esi+320h], eax
+.text:6F2F9D5E          nop
+CDefPolicy_Query_eax_esi
 
-// Original
-// .text:6F2F9E25          cmp     eax, [esi+320h]
-// .text:6F2F9E2B          jz      loc_6F30B6D6
-//_______________
-//
-// Changed
-// .text:6F2F9E25          mov     eax, 100h
-// .text:6F2F9E2A          mov     [esi+320h], eax
-// .text:6F2F9E30          nop
-// CDefPolicy_Query_eax_esi
+termsrv.dll 6.1.7601.18540
 
-// ------------------- TermService build 6.2.8102.0
+Original
+.text:6F2F9D9F          cmp     eax, [esi+320h]
+.text:6F2F9DA5          jz      loc_6F30B2AE
+_______________
 
-// Original
-// .text:1000E47C          cmp     eax, [esi+320h]
-// .text:1000E482          jz      loc_1002D775
-//_______________
-//
-// Changed
-// .text:1000E47C          mov     eax, 100h
-// .text:1000E481          mov     [esi+320h], eax
-// .text:1000E487          nop
-// CDefPolicy_Query_eax_esi
+Changed
+.text:6F2F9D9F          mov     eax, 100h
+.text:6F2F9DA4          mov     [esi+320h], eax
+.text:6F2F9DAA          nop
+CDefPolicy_Query_eax_esi
 
-// ------------------- TermService build 6.2.8250.0
+termsrv.dll 6.1.7601.22750
 
-// Original
-// .text:10013520          cmp     eax, [esi+320h]
-// .text:10013526          jz      loc_1002DB85
-//_______________
-//
-// Changed
-// .text:10013520          mov     eax, 100h
-// .text:10013525          mov     [esi+320h], eax
-// .text:1001352B          nop
-// CDefPolicy_Query_eax_esi
+Original
+.text:6F2F9E21          cmp     eax, [esi+320h]
+.text:6F2F9E27          jz      loc_6F30B6CE
+_______________
 
-// ------------------- TermService build 6.2.8400.0
+Changed
+.text:6F2F9E21          mov     eax, 100h
+.text:6F2F9E26          mov     [esi+320h], eax
+.text:6F2F9E2C          nop
+CDefPolicy_Query_eax_esi
 
-// Original
-// .text:10013E48          cmp     eax, [esi+320h]
-// .text:10013E4E          jz      loc_1002E079
-//_______________
-//
-// Changed
-// .text:10013E48          mov     eax, 100h
-// .text:10013E4D          mov     [esi+320h], eax
-// .text:10013E53          nop
-// CDefPolicy_Query_eax_esi
+termsrv.dll 6.1.7601.18637
 
-// ------------------- TermService build 6.2.9200.16384
+Original
+.text:6F2F9DBB          cmp     eax, [esi+320h]
+.text:6F2F9DC1          jz      loc_6F30B2A6
+_______________
 
-// Original
-// .text:10013F08          cmp     eax, [esi+320h]
-// .text:10013F0E          jz      loc_1002E161
-//_______________
-//
-// Changed
-// .text:10013F08          mov     eax, 100h
-// .text:10013F0D          mov     [esi+320h], eax
-// .text:10013F13          nop
-// CDefPolicy_Query_eax_esi
+Changed
+.text:6F2F9DBB          mov     eax, 100h
+.text:6F2F9DC0          mov     [esi+320h], eax
+.text:6F2F9DC6          nop
+CDefPolicy_Query_eax_esi
 
-// ------------------- TermService build 6.2.9200.17048
+termsrv.dll 6.1.7601.22843
 
-// Original
-// .text:1001F408          cmp     eax, [esi+320h]
-// .text:1001F40E          jz      loc_1002E201
-//_______________
-//
-// Changed
-// .text:1001F408          mov     eax, 100h
-// .text:1001F40D          mov     [esi+320h], eax
-// .text:1001F413          nop
-// CDefPolicy_Query_eax_esi
+Original
+.text:6F2F9E25          cmp     eax, [esi+320h]
+.text:6F2F9E2B          jz      loc_6F30B6D6
+_______________
 
-// ------------------- TermService build 6.2.9200.21166
+Changed
+.text:6F2F9E25          mov     eax, 100h
+.text:6F2F9E2A          mov     [esi+320h], eax
+.text:6F2F9E30          nop
+CDefPolicy_Query_eax_esi
 
-// Original
-// .text:10013F30          cmp     eax, [esi+320h]
-// .text:10013F36          jz      loc_1002E189
-//_______________
-//
-// Changed
-// .text:10013F30          mov     eax, 100h
-// .text:10013F35          mov     [esi+320h], eax
-// .text:10013F3B          nop
-// CDefPolicy_Query_eax_esi
+termsrv.dll 6.2.8102.0
 
-// ------------------- TermService build 6.3.9431.0
+Original
+.text:1000E47C          cmp     eax, [esi+320h]
+.text:1000E482          jz      loc_1002D775
+_______________
 
-// Original
-// .text:1002EA25          cmp     eax, [ecx+320h]
-// .text:1002EA2B          jz      loc_100348C1
-//_______________
-//
-// Changed
-// .text:1002EA25          mov     eax, 100h
-// .text:1002EA2A          mov     [ecx+320h], eax
-// .text:1002EA30          nop
-// CDefPolicy_Query_eax_ecx
+Changed
+.text:1000E47C          mov     eax, 100h
+.text:1000E481          mov     [esi+320h], eax
+.text:1000E487          nop
+CDefPolicy_Query_eax_esi
 
-// ------------------- TermService build 6.3.9600.16384
+termsrv.dll 6.2.8250.0
 
-// Original
-// .text:10016115          cmp     eax, [ecx+320h]
-// .text:1001611B          jz      loc_10034DE1
-//_______________
-//
-// Changed
-// .text:10016115          mov     eax, 100h
-// .text:1001611A          mov     [ecx+320h], eax
-// .text:10016120          nop
-// CDefPolicy_Query_eax_ecx
+Original
+.text:10013520          cmp     eax, [esi+320h]
+.text:10013526          jz      loc_1002DB85
+_______________
 
-// ------------------- TermService build 6.3.9600.17095
+Changed
+.text:10013520          mov     eax, 100h
+.text:10013525          mov     [esi+320h], eax
+.text:1001352B          nop
+CDefPolicy_Query_eax_esi
 
-// Original
-// .text:10037529          cmp     eax, [ecx+320h]
-// .text:1003752F          jz      loc_10043662
-//_______________
-//
-// Changed
-// .text:10037529          mov     eax, 100h
-// .text:1003752E          mov     [ecx+320h], eax
-// .text:10037534          nop
-// CDefPolicy_Query_eax_ecx
+termsrv.dll 6.2.8400.0
 
-// ------------------- TermService build 6.4.9841.0
+Original
+.text:10013E48          cmp     eax, [esi+320h]
+.text:10013E4E          jz      loc_1002E079
+_______________
 
-// Original
-// .text:1003B989          cmp     eax, [ecx+320h]
-// .text:1003B98F          jz      loc_1005E809
-//_______________
-//
-// Changed
-// .text:1003B989          mov     eax, 100h
-// .text:1003B98E          mov     [ecx+320h], eax
-// .text:1003B994          nop
-// CDefPolicy_Query_eax_ecx
+Changed
+.text:10013E48          mov     eax, 100h
+.text:10013E4D          mov     [esi+320h], eax
+.text:10013E53          nop
+CDefPolicy_Query_eax_esi
 
-// ------------------- TermService build 6.4.9860.0
+termsrv.dll 6.2.9200.16384
 
-// Original
-// .text:1003BEC9          cmp     eax, [ecx+320h]
-// .text:1003BECF          jz      loc_1005EE1A
-//_______________
-//
-// Changed
-// .text:1003BEC9          mov     eax, 100h
-// .text:1003BECE          mov     [ecx+320h], eax
-// .text:1003BED4          nop
-// CDefPolicy_Query_eax_ecx
+Original
+.text:10013F08          cmp     eax, [esi+320h]
+.text:10013F0E          jz      loc_1002E161
+_______________
+
+Changed
+.text:10013F08          mov     eax, 100h
+.text:10013F0D          mov     [esi+320h], eax
+.text:10013F13          nop
+CDefPolicy_Query_eax_esi
+
+termsrv.dll 6.2.9200.17048
+
+Original
+.text:1001F408          cmp     eax, [esi+320h]
+.text:1001F40E          jz      loc_1002E201
+_______________
+
+Changed
+.text:1001F408          mov     eax, 100h
+.text:1001F40D          mov     [esi+320h], eax
+.text:1001F413          nop
+CDefPolicy_Query_eax_esi
+
+termsrv.dll 6.2.9200.21166
+
+Original
+.text:10013F30          cmp     eax, [esi+320h]
+.text:10013F36          jz      loc_1002E189
+_______________
+
+Changed
+.text:10013F30          mov     eax, 100h
+.text:10013F35          mov     [esi+320h], eax
+.text:10013F3B          nop
+CDefPolicy_Query_eax_esi
+
+termsrv.dll 6.3.9431.0
+
+Original
+.text:1002EA25          cmp     eax, [ecx+320h]
+.text:1002EA2B          jz      loc_100348C1
+_______________
+
+Changed
+.text:1002EA25          mov     eax, 100h
+.text:1002EA2A          mov     [ecx+320h], eax
+.text:1002EA30          nop
+CDefPolicy_Query_eax_ecx
+
+termsrv.dll 6.3.9600.16384
+
+Original
+.text:10016115          cmp     eax, [ecx+320h]
+.text:1001611B          jz      loc_10034DE1
+_______________
+
+Changed
+.text:10016115          mov     eax, 100h
+.text:1001611A          mov     [ecx+320h], eax
+.text:10016120          nop
+CDefPolicy_Query_eax_ecx
+
+termsrv.dll 6.3.9600.17095
+
+Original
+.text:10037529          cmp     eax, [ecx+320h]
+.text:1003752F          jz      loc_10043662
+_______________
+
+Changed
+.text:10037529          mov     eax, 100h
+.text:1003752E          mov     [ecx+320h], eax
+.text:10037534          nop
+CDefPolicy_Query_eax_ecx
+
+termsrv.dll 6.4.9841.0
+
+Original
+.text:1003B989          cmp     eax, [ecx+320h]
+.text:1003B98F          jz      loc_1005E809
+_______________
+
+Changed
+.text:1003B989          mov     eax, 100h
+.text:1003B98E          mov     [ecx+320h], eax
+.text:1003B994          nop
+CDefPolicy_Query_eax_ecx
+
+termsrv.dll 6.4.9860.0
+
+Original
+.text:1003BEC9          cmp     eax, [ecx+320h]
+.text:1003BECF          jz      loc_1005EE1A
+_______________
+
+Changed
+.text:1003BEC9          mov     eax, 100h
+.text:1003BECE          mov     [ecx+320h], eax
+.text:1003BED4          nop
+CDefPolicy_Query_eax_ecx
+}
 
 var
   Stub_SLGetWindowsInformationDWORD: far_jmp;
@@ -1074,13 +1077,14 @@ begin
 
       if (FV.Release = 6000) and (FV.Build = 16386) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F320000
-        // .text:6F3360B9          lea     eax, [ebp+VersionInformation]
-        // .text:6F3360BF          inc     ebx            <- nop
-        // .text:6F3360C0          push    eax             ; lpVersionInformation
-        // .text:6F3360C1          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F3360CB          mov     [esi], ebx
-        // .text:6F3360CD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F320000
+          .text:6F3360B9          lea     eax, [ebp+VersionInformation]
+          .text:6F3360BF          inc     ebx            <- nop
+          .text:6F3360C0          push    eax             ; lpVersionInformation
+          .text:6F3360C1          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F3360CB          mov     [esi], ebx
+          .text:6F3360CD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $160BF);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1092,13 +1096,14 @@ begin
       end;
       if (FV.Release = 6001) and (FV.Build = 18000) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6E800000
-        // .text:6E8185DE          lea     eax, [ebp+VersionInformation]
-        // .text:6E8185E4          inc     ebx            <- nop
-        // .text:6E8185E5          push    eax             ; lpVersionInformation
-        // .text:6E8185E6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6E8185F0          mov     [esi], ebx
-        // .text:6E8185F2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6E800000
+          .text:6E8185DE          lea     eax, [ebp+VersionInformation]
+          .text:6E8185E4          inc     ebx            <- nop
+          .text:6E8185E5          push    eax             ; lpVersionInformation
+          .text:6E8185E6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6E8185F0          mov     [esi], ebx
+          .text:6E8185F2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $185E4);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1110,13 +1115,14 @@ begin
       end;
       if (FV.Release = 6002) and (FV.Build = 18005) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F580000
-        // .text:6F597FA2          lea     eax, [ebp+VersionInformation]
-        // .text:6F597FA8          inc     ebx            <- nop
-        // .text:6F597FA9          push    eax             ; lpVersionInformation
-        // .text:6F597FAA          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F597FB4          mov     [esi], ebx
-        // .text:6F597FB6          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F580000
+          .text:6F597FA2          lea     eax, [ebp+VersionInformation]
+          .text:6F597FA8          inc     ebx            <- nop
+          .text:6F597FA9          push    eax             ; lpVersionInformation
+          .text:6F597FAA          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F597FB4          mov     [esi], ebx
+          .text:6F597FB6          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $17FA8);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1128,13 +1134,14 @@ begin
       end;
       if (FV.Release = 6002) and (FV.Build = 19214) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F580000
-        // .text:6F597FBE          lea     eax, [ebp+VersionInformation]
-        // .text:6F597FC4          inc     ebx            <- nop
-        // .text:6F597FC5          push    eax             ; lpVersionInformation
-        // .text:6F597FC6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F597FD0          mov     [esi], ebx
-        // .text:6F597FD2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F580000
+          .text:6F597FBE          lea     eax, [ebp+VersionInformation]
+          .text:6F597FC4          inc     ebx            <- nop
+          .text:6F597FC5          push    eax             ; lpVersionInformation
+          .text:6F597FC6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F597FD0          mov     [esi], ebx
+          .text:6F597FD2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $17FC4);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1146,13 +1153,14 @@ begin
       end;
       if (FV.Release = 6002) and (FV.Build = 23521) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F580000
-        // .text:6F597FAE          lea     eax, [ebp+VersionInformation]
-        // .text:6F597FB4          inc     ebx            <- nop
-        // .text:6F597FB5          push    eax             ; lpVersionInformation
-        // .text:6F597FB6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F597FC0          mov     [esi], ebx
-        // .text:6F597FC2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F580000
+          .text:6F597FAE          lea     eax, [ebp+VersionInformation]
+          .text:6F597FB4          inc     ebx            <- nop
+          .text:6F597FB5          push    eax             ; lpVersionInformation
+          .text:6F597FB6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F597FC0          mov     [esi], ebx
+          .text:6F597FC2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $17FB4);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1193,13 +1201,14 @@ begin
 
       if (FV.Release = 7600) and (FV.Build = 16385) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F2E0000
-        // .text:6F2F9E1F          lea     eax, [ebp+VersionInformation]
-        // .text:6F2F9E25          inc     ebx            <- nop
-        // .text:6F2F9E26          push    eax             ; lpVersionInformation
-        // .text:6F2F9E27          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F2F9E31          mov     [esi], ebx
-        // .text:6F2F9E33          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F2E0000
+          .text:6F2F9E1F          lea     eax, [ebp+VersionInformation]
+          .text:6F2F9E25          inc     ebx            <- nop
+          .text:6F2F9E26          push    eax             ; lpVersionInformation
+          .text:6F2F9E27          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F2F9E31          mov     [esi], ebx
+          .text:6F2F9E33          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $19E25);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1211,13 +1220,14 @@ begin
       end;
       if (FV.Release = 7601) and (FV.Build = 17514) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F2E0000
-        // .text:6F2FA497          lea     eax, [ebp+VersionInformation]
-        // .text:6F2FA49D          inc     ebx            <- nop
-        // .text:6F2FA49E          push    eax             ; lpVersionInformation
-        // .text:6F2FA49F          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F2FA4A9          mov     [esi], ebx
-        // .text:6F2FA4AB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F2E0000
+          .text:6F2FA497          lea     eax, [ebp+VersionInformation]
+          .text:6F2FA49D          inc     ebx            <- nop
+          .text:6F2FA49E          push    eax             ; lpVersionInformation
+          .text:6F2FA49F          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F2FA4A9          mov     [esi], ebx
+          .text:6F2FA4AB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $1A49D);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1229,13 +1239,14 @@ begin
       end;
       if (FV.Release = 7601) and (FV.Build = 18540) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F2E0000
-        // .text:6F2FA4DF          lea     eax, [ebp+VersionInformation]
-        // .text:6F2FA4E5          inc     ebx            <- nop
-        // .text:6F2FA4E6          push    eax             ; lpVersionInformation
-        // .text:6F2FA4E7          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F2FA4F1          mov     [esi], ebx
-        // .text:6F2FA4F3          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F2E0000
+          .text:6F2FA4DF          lea     eax, [ebp+VersionInformation]
+          .text:6F2FA4E5          inc     ebx            <- nop
+          .text:6F2FA4E6          push    eax             ; lpVersionInformation
+          .text:6F2FA4E7          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F2FA4F1          mov     [esi], ebx
+          .text:6F2FA4F3          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $1A4E5);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1247,13 +1258,14 @@ begin
       end;
       if (FV.Release = 7601) and (FV.Build = 22750) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F2E0000
-        // .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
-        // .text:6F2FA655          inc     ebx            <- nop
-        // .text:6F2FA656          push    eax             ; lpVersionInformation
-        // .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F2FA661          mov     [esi], ebx
-        // .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F2E0000
+          .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
+          .text:6F2FA655          inc     ebx            <- nop
+          .text:6F2FA656          push    eax             ; lpVersionInformation
+          .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F2FA661          mov     [esi], ebx
+          .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $1A655);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1265,13 +1277,14 @@ begin
       end;
       if (FV.Release = 7601) and (FV.Build = 18637) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F2E0000
-        // .text:6F2FA4D7          lea     eax, [ebp+VersionInformation]
-        // .text:6F2FA4DD          inc     ebx            <- nop
-        // .text:6F2FA4DE          push    eax             ; lpVersionInformation
-        // .text:6F2FA4DF          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F2FA4E9          mov     [esi], ebx
-        // .text:6F2FA4EB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F2E0000
+          .text:6F2FA4D7          lea     eax, [ebp+VersionInformation]
+          .text:6F2FA4DD          inc     ebx            <- nop
+          .text:6F2FA4DE          push    eax             ; lpVersionInformation
+          .text:6F2FA4DF          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F2FA4E9          mov     [esi], ebx
+          .text:6F2FA4EB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $1A4DD);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1283,13 +1296,14 @@ begin
       end;
       if (FV.Release = 7601) and (FV.Build = 22843) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // Imagebase: 6F2E0000
-        // .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
-        // .text:6F2FA655          inc     ebx            <- nop
-        // .text:6F2FA656          push    eax             ; lpVersionInformation
-        // .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:6F2FA661          mov     [esi], ebx
-        // .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        { Imagebase: 6F2E0000
+          .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
+          .text:6F2FA655          inc     ebx            <- nop
+          .text:6F2FA656          push    eax             ; lpVersionInformation
+          .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:6F2FA661          mov     [esi], ebx
+          .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $1A655);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1319,12 +1333,14 @@ begin
 
       if (FV.Release = 8102) and (FV.Build = 0) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:1000F7E5          lea     eax, [esp+150h+VersionInformation]
-        // .text:1000F7E9          inc     esi            <- nop
-        // .text:1000F7EA          push    eax             ; lpVersionInformation
-        // .text:1000F7EB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:1000F7F3          mov     [edi], esi
-        // .text:1000F7F5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:1000F7E5          lea     eax, [esp+150h+VersionInformation]
+          .text:1000F7E9          inc     esi            <- nop
+          .text:1000F7EA          push    eax             ; lpVersionInformation
+          .text:1000F7EB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:1000F7F3          mov     [edi], esi
+          .text:1000F7F5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $F7E9);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1346,12 +1362,14 @@ begin
       end;
       if (FV.Release = 8250) and (FV.Build = 0) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:100159C5          lea     eax, [esp+150h+VersionInformation]
-        // .text:100159C9          inc     esi            <- nop
-        // .text:100159CA          push    eax             ; lpVersionInformation
-        // .text:100159CB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:100159D3          mov     [edi], esi
-        // .text:100159D5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:100159C5          lea     eax, [esp+150h+VersionInformation]
+          .text:100159C9          inc     esi            <- nop
+          .text:100159CA          push    eax             ; lpVersionInformation
+          .text:100159CB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:100159D3          mov     [edi], esi
+          .text:100159D5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $159C9);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1373,12 +1391,14 @@ begin
       end;
       if (FV.Release = 8400) and (FV.Build = 0) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:1001547E          lea     eax, [esp+150h+VersionInformation]
-        // .text:10015482          inc     esi            <- nop
-        // .text:10015483          push    eax             ; lpVersionInformation
-        // .text:10015484          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:1001548C          mov     [edi], esi
-        // .text:1001548E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:1001547E          lea     eax, [esp+150h+VersionInformation]
+          .text:10015482          inc     esi            <- nop
+          .text:10015483          push    eax             ; lpVersionInformation
+          .text:10015484          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:1001548C          mov     [edi], esi
+          .text:1001548E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $15482);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1400,12 +1420,14 @@ begin
       end;
       if (FV.Release = 9200) and (FV.Build = 16384) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:1001554E          lea     eax, [esp+150h+VersionInformation]
-        // .text:10015552          inc     esi            <- nop
-        // .text:10015553          push    eax             ; lpVersionInformation
-        // .text:10015554          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:1001555C          mov     [edi], esi
-        // .text:1001555E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:1001554E          lea     eax, [esp+150h+VersionInformation]
+          .text:10015552          inc     esi            <- nop
+          .text:10015553          push    eax             ; lpVersionInformation
+          .text:10015554          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:1001555C          mov     [edi], esi
+          .text:1001555E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $15552);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1427,12 +1449,14 @@ begin
       end;
       if (FV.Release = 9200) and (FV.Build = 17048) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:1002058E          lea     eax, [esp+150h+VersionInformation]
-        // .text:10020592          inc     esi            <- nop
-        // .text:10020593          push    eax             ; lpVersionInformation
-        // .text:10020594          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:1002059C          mov     [edi], esi
-        // .text:1002059E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:1002058E          lea     eax, [esp+150h+VersionInformation]
+          .text:10020592          inc     esi            <- nop
+          .text:10020593          push    eax             ; lpVersionInformation
+          .text:10020594          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:1002059C          mov     [edi], esi
+          .text:1002059E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $20592);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1454,12 +1478,14 @@ begin
       end;
       if (FV.Release = 9200) and (FV.Build = 21166) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:10015576          lea     eax, [esp+150h+VersionInformation]
-        // .text:1001557A          inc     esi            <- nop
-        // .text:1001557B          push    eax             ; lpVersionInformation
-        // .text:1001557C          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-        // .text:10015584          mov     [edi], esi
-        // .text:10015586          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:10015576          lea     eax, [esp+150h+VersionInformation]
+          .text:1001557A          inc     esi            <- nop
+          .text:1001557B          push    eax             ; lpVersionInformation
+          .text:1001557C          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+          .text:10015584          mov     [edi], esi
+          .text:10015586          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $1557A);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1495,21 +1521,25 @@ begin
 
       if (FV.Release = 9431) and (FV.Build = 0) then begin
         WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
-        // .text:1008A604          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-        // .text:1008A609          test    eax, eax
-        // .text:1008A60B          js      short loc_1008A628
-        // .text:1008A60D          cmp     [ebp+var_8], 0
-        // .text:1008A611          jz      short loc_1008A628 <- jmp
+        {
+          .text:1008A604          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+          .text:1008A609          test    eax, eax
+          .text:1008A60B          js      short loc_1008A628
+          .text:1008A60D          cmp     [ebp+var_8], 0
+          .text:1008A611          jz      short loc_1008A628 <- jmp
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $8A611);
         b := $EB;
         WriteProcessMemory(GetCurrentProcess, SignPtr, @b, 1, bw);
 
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:100306A4          lea     eax, [esp+150h+VersionInformation]
-        // .text:100306A8          inc     ebx            <- nop
-        // .text:100306A9          mov     [edi], ebx
-        // .text:100306AB          push    eax             ; lpVersionInformation
-        // .text:100306AC          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:100306A4          lea     eax, [esp+150h+VersionInformation]
+          .text:100306A8          inc     ebx            <- nop
+          .text:100306A9          mov     [edi], ebx
+          .text:100306AB          push    eax             ; lpVersionInformation
+          .text:100306AC          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $306A8);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1529,21 +1559,25 @@ begin
       end;
       if (FV.Release = 9600) and (FV.Build = 16384) then begin
         WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
-        // .text:100A271C          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-        // .text:100A2721          test    eax, eax
-        // .text:100A2723          js      short loc_100A2740
-        // .text:100A2725          cmp     [ebp+var_8], 0
-        // .text:100A2729          jz      short loc_100A2740 <- jmp
+        {
+          .text:100A271C          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+          .text:100A2721          test    eax, eax
+          .text:100A2723          js      short loc_100A2740
+          .text:100A2725          cmp     [ebp+var_8], 0
+          .text:100A2729          jz      short loc_100A2740 <- jmp
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $A2729);
         b := $EB;
         WriteProcessMemory(GetCurrentProcess, SignPtr, @b, 1, bw);
 
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:10018024          lea     eax, [esp+150h+VersionInformation]
-        // .text:10018028          inc     ebx            <- nop
-        // .text:10018029          mov     [edi], ebx
-        // .text:1001802B          push    eax             ; lpVersionInformation
-        // .text:1001802C          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:10018024          lea     eax, [esp+150h+VersionInformation]
+          .text:10018028          inc     ebx            <- nop
+          .text:10018029          mov     [edi], ebx
+          .text:1001802B          push    eax             ; lpVersionInformation
+          .text:1001802C          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $18028);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1563,21 +1597,25 @@ begin
       end;
       if (FV.Release = 9600) and (FV.Build = 17095) then begin
         WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
-        // .text:100A36C4          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-        // .text:100A36C9          test    eax, eax
-        // .text:100A36CB          js      short loc_100A36E8
-        // .text:100A36CD          cmp     [ebp+var_8], 0
-        // .text:100A36D1          jz      short loc_100A36E8 <- jmp
+        {
+          .text:100A36C4          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+          .text:100A36C9          test    eax, eax
+          .text:100A36CB          js      short loc_100A36E8
+          .text:100A36CD          cmp     [ebp+var_8], 0
+          .text:100A36D1          jz      short loc_100A36E8 <- jmp
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $A36D1);
         b := $EB;
         WriteProcessMemory(GetCurrentProcess, SignPtr, @b, 1, bw);
 
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:10036BA5          lea     eax, [esp+150h+VersionInformation]
-        // .text:10036BA9          inc     ebx            <- nop
-        // .text:10036BAA          mov     [edi], ebx
-        // .text:10036BAC          push    eax             ; lpVersionInformation
-        // .text:10036BAD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:10036BA5          lea     eax, [esp+150h+VersionInformation]
+          .text:10036BA9          inc     ebx            <- nop
+          .text:10036BAA          mov     [edi], ebx
+          .text:10036BAC          push    eax             ; lpVersionInformation
+          .text:10036BAD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $36BA9);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1612,21 +1650,25 @@ begin
 
       if (FV.Release = 9841) and (FV.Build = 0) then begin
         WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
-        // .text:1009569B          call    sub_100B7EE5
-        // .text:100956A0          test    eax, eax
-        // .text:100956A2          js      short loc_100956BF
-        // .text:100956A4          cmp     [ebp+var_C], 0
-        // .text:100956A8          jz      short loc_100956BF <- jmp
+        {
+          .text:1009569B          call    sub_100B7EE5
+          .text:100956A0          test    eax, eax
+          .text:100956A2          js      short loc_100956BF
+          .text:100956A4          cmp     [ebp+var_C], 0
+          .text:100956A8          jz      short loc_100956BF <- jmp
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $956A8);
         b := $EB;
         WriteProcessMemory(GetCurrentProcess, SignPtr, @b, 1, bw);
 
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:10030121          lea     eax, [esp+150h+VersionInformation]
-        // .text:10030125          inc     ebx            <- nop
-        // .text:10030126          mov     [edi], ebx
-        // .text:10030128          push    eax             ; lpVersionInformation
-        // .text:10030129          call    ds:GetVersionExW
+        {
+          .text:10030121          lea     eax, [esp+150h+VersionInformation]
+          .text:10030125          inc     ebx            <- nop
+          .text:10030126          mov     [edi], ebx
+          .text:10030128          push    eax             ; lpVersionInformation
+          .text:10030129          call    ds:GetVersionExW
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $30125);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
@@ -1647,21 +1689,25 @@ begin
 
       if (FV.Release = 9860) and (FV.Build = 0) then begin
         WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
-        // .text:100962BB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-        // .text:100962C0          test    eax, eax
-        // .text:100962C2          js      short loc_100962DF
-        // .text:100962C4          cmp     [ebp+var_C], 0
-        // .text:100962C8          jz      short loc_100962DF <- jmp
+        {
+          .text:100962BB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+          .text:100962C0          test    eax, eax
+          .text:100962C2          js      short loc_100962DF
+          .text:100962C4          cmp     [ebp+var_C], 0
+          .text:100962C8          jz      short loc_100962DF <- jmp
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $962C8);
         b := $EB;
         WriteProcessMemory(GetCurrentProcess, SignPtr, @b, 1, bw);
 
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        // .text:10030841          lea     eax, [esp+150h+VersionInformation]
-        // .text:10030845          inc     ebx            <- nop
-        // .text:10030846          mov     [edi], ebx
-        // .text:10030848          push    eax             ; lpVersionInformation
-        // .text:10030849          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        {
+          .text:10030841          lea     eax, [esp+150h+VersionInformation]
+          .text:10030845          inc     ebx            <- nop
+          .text:10030846          mov     [edi], ebx
+          .text:10030848          push    eax             ; lpVersionInformation
+          .text:10030849          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+        }
         SignPtr := Pointer(Cardinal(TermSrvBase) + $30845);
         WriteProcessMemory(GetCurrentProcess, SignPtr, @nop, 1, bw);
 
