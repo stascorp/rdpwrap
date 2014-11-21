@@ -41,309 +41,6 @@ struct FARJMP
 	BYTE PushRaxOp; // 50	push rax
 	BYTE RetOp;		// C3	retn
 };
-// x64 signatures
-char CDefPolicy_Query_eax_rcx_jmp[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x38, 0x06, 0x00, 0x00, 0x90, 0xEB};
-char CDefPolicy_Query_eax_rdi[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x87, 0x38, 0x06, 0x00, 0x00, 0x90};
-char CDefPolicy_Query_eax_rcx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x38, 0x06, 0x00, 0x00, 0x90};
-
-/*
-termsrv.dll 6.0.6000.16386
-
-Original
-.text:000007FF7573C88F          mov     eax, [rcx+638h]
-.text:000007FF7573C895          cmp     [rcx+63Ch], eax
-.text:000007FF7573C89B          jnz     short loc_7FF7573C8B3
-_______________
-
-Changed
-.text:000007FF7573C88F          mov     eax, 100h
-.text:000007FF7573C894          mov     [rcx+638h], eax
-.text:000007FF7573C89A          nop
-.text:000007FF7573C89B          jmp     short loc_7FF7573C8B3
-char CDefPolicy_Query_eax_rcx_jmp[]
-
-termsrv.dll 6.0.6001.18000
-
-Original
-.text:000007FF76285BD7          mov     eax, [rcx+638h]
-.text:000007FF76285BDD          cmp     [rcx+63Ch], eax
-.text:000007FF76285BE3          jnz     short loc_7FF76285BFB
-_______________
-
-Changed
-.text:000007FF76285BD7          mov     eax, 100h
-.text:000007FF76285BDC          mov     [rcx+638h], eax
-.text:000007FF76285BE2          nop
-.text:000007FF76285BE3          jmp     short loc_7FF76285BFB
-char CDefPolicy_Query_eax_rcx_jmp[]
-
-termsrv.dll 6.0.6002.18005
-
-Original
-.text:000007FF76725E83          mov     eax, [rcx+638h]
-.text:000007FF76725E89          cmp     [rcx+63Ch], eax
-.text:000007FF76725E8F          jz      short loc_7FF76725EA7
-_______________
-
-Changed
-.text:000007FF76725E83          mov     eax, 100h
-.text:000007FF76725E88          mov     [rcx+638h], eax
-.text:000007FF76725E8E          nop
-.text:000007FF76725E8F          jmp     short loc_7FF76725EA7
-char CDefPolicy_Query_eax_rcx_jmp[]
-
-termsrv.dll 6.0.6002.19214
-
-Original
-.text:000007FF75B25FF7          mov     eax, [rcx+638h]
-.text:000007FF75B25FFD          cmp     [rcx+63Ch], eax
-.text:000007FF75B26003          jnz     short loc_7FF75B2601B
-_______________
-
-Changed
-.text:000007FF75B25FF7          mov     eax, 100h
-.text:000007FF75B25FFC          mov     [rcx+638h], eax
-.text:000007FF75B26002          nop
-.text:000007FF75B26003          jmp     short loc_7FF75B2601B
-char CDefPolicy_Query_eax_rcx_jmp[]
-
-termsrv.dll 6.0.6002.23521
-
-Original
-.text:000007FF75B269CB          mov     eax, [rcx+638h]
-.text:000007FF75B269D1          cmp     [rcx+63Ch], eax
-.text:000007FF75B269D7          jnz     short loc_7FF75B269EF
-_______________
-
-Changed
-.text:000007FF75B269CB          mov     eax, 100h
-.text:000007FF75B269D0          mov     [rcx+638h], eax
-.text:000007FF75B269D6          nop
-.text:000007FF75B269D7          jmp     short loc_7FF75B269EF
-char CDefPolicy_Query_eax_rcx_jmp[]
-
-termsrv.dll 6.1.7600.16385
-
-Original
-.text:000007FF75A97AD2          cmp     [rdi+63Ch], eax
-.text:000007FF75A97AD8          jz      loc_7FF75AA4978
-_______________
-
-Changed
-.text:000007FF75A97AD2          mov     eax, 100h
-.text:000007FF75A97AD7          mov     [rdi+638h], eax
-.text:000007FF75A97ADD          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.1.7601.17514
-
-Original
-.text:000007FF75A97D8A          cmp     [rdi+63Ch], eax
-.text:000007FF75A97D90          jz      loc_7FF75AA40F4
-_______________
-
-Changed
-.text:000007FF75A97D8A          mov     eax, 100h
-.text:000007FF75A97D8F          mov     [rdi+638h], eax
-.text:000007FF75A97D95          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.1.7601.18540
-
-Original
-.text:000007FF75A97C82          cmp     [rdi+63Ch], eax
-.text:000007FF75A97C88          jz      loc_7FF75AA3FBD
-_______________
-
-Changed
-.text:000007FF75A97C82          mov     eax, 100h
-.text:000007FF75A97C87          mov     [rdi+638h], eax
-.text:000007FF75A97C8D          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.1.7601.22750
-
-Original
-.text:000007FF75A97C92          cmp     [rdi+63Ch], eax
-.text:000007FF75A97C98          jz      loc_7FF75AA40A2
-_______________
-
-Changed
-.text:000007FF75A97C92          mov     eax, 100h
-.text:000007FF75A97C97          mov     [rdi+638h], eax
-.text:000007FF75A97C9D          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.1.7601.18637
-
-Original
-.text:000007FF75A97DC6          cmp     [rdi+63Ch], eax
-.text:000007FF75A97DCC          jz      loc_7FF75AA40BD
-_______________
-
-Changed
-.text:000007FF75A97DC6          mov     eax, 100h
-.text:000007FF75A97DCB          mov     [rdi+638h], eax
-.text:000007FF75A97DD1          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.1.7601.22843
-
-Original
-.text:000007FF75A97D6E          cmp     [rdi+63Ch], eax
-.text:000007FF75A97D74          jz      loc_7FF75AA4182
-_______________
-
-Changed
-.text:000007FF75A97D6E          mov     eax, 100h
-.text:000007FF75A97D73          mov     [rdi+638h], eax
-.text:000007FF75A97D79          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.2.8102.0
-
-Original
-.text:000000018000D3E6          cmp     [rdi+63Ch], eax
-.text:000000018000D3EC          jz      loc_180027792
-_______________
-
-Changed
-.text:000000018000D3E6          mov     eax, 100h
-.text:000000018000D3EB          mov     [rdi+638h], eax
-.text:000000018000D3F1          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.2.8250.0
-
-Original
-.text:000000018001187A          cmp     [rdi+63Ch], eax
-.text:0000000180011880          jz      loc_1800273A2
-_______________
-
-Changed
-.text:000000018001187A          mov     eax, 100h
-.text:000000018001187F          mov     [rdi+638h], eax
-.text:0000000180011885          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.2.8400.0
-
-Original
-.text:000000018001F102          cmp     [rdi+63Ch], eax
-.text:000000018001F108          jz      loc_18003A02E
-_______________
-
-Changed
-.text:000000018001F102          mov     eax, 100h
-.text:000000018001F107          mov     [rdi+638h], eax
-.text:000000018001F10D          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.2.9200.16384
-
-Original
-.text:000000018002A31A          cmp     [rdi+63Ch], eax
-.text:000000018002A320          jz      loc_18003A0F9
-_______________
-
-Changed
-.text:000000018002A31A          mov     eax, 100h
-.text:000000018002A31F          mov     [rdi+638h], eax
-.text:000000018002A325          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.2.9200.17048
-
-Original
-.text:000000018001F206          cmp     [rdi+63Ch], eax
-.text:000000018001F20C          jz      loc_18003A1B4
-_______________
-
-Changed
-.text:000000018001F206          mov     eax, 100h
-.text:000000018001F20B          mov     [rdi+638h], eax
-.text:000000018001F211          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.2.9200.21166
-
-Original
-.text:000000018002A3B6          cmp     [rdi+63Ch], eax
-.text:000000018002A3BC          jz      loc_18003A174
-_______________
-
-Changed
-.text:000000018002A3B6          mov     eax, 100h
-.text:000000018002A3BB          mov     [rdi+638h], eax
-.text:000000018002A3C1          nop
-char CDefPolicy_Query_eax_rdi[]
-
-termsrv.dll 6.3.9431.0
-
-Original
-.text:00000001800350FD          cmp     [rcx+63Ch], eax
-.text:0000000180035103          jz      loc_18004F6AE
-_______________
-
-Changed
-.text:00000001800350FD          mov     eax, 100h
-.text:0000000180035102          mov     [rcx+638h], eax
-.text:0000000180035108          nop
-char CDefPolicy_Query_eax_rcx[]
-
-termsrv.dll 6.3.9600.16384
-
-Original
-.text:0000000180057829          cmp     [rcx+63Ch], eax
-.text:000000018005782F          jz      loc_18005E850
-_______________
-
-Changed
-.text:0000000180057829          mov     eax, 100h
-.text:000000018005782E          mov     [rcx+638h], eax
-.text:0000000180057834          nop
-char CDefPolicy_Query_eax_rcx[]
-
-termsrv.dll 6.3.9600.17095
-
-Original
-.text:000000018001F6A1          cmp     [rcx+63Ch], eax
-.text:000000018001F6A7          jz      loc_18007284B
-_______________
-
-Changed
-.text:000000018001F6A1          mov     eax, 100h
-.text:000000018001F6A6          mov     [rcx+638h], eax
-.text:000000018001F6AC          nop
-char CDefPolicy_Query_eax_rcx[]
-
-termsrv.dll 6.4.9841.0
-
-Original
-.text:000000018000C125          cmp     [rcx+63Ch], eax
-.text:000000018000C12B          jz      sub_18003BABC
-_______________
-
-Changed
-.text:000000018000C125          mov     eax, 100h
-.text:000000018000C12A          mov     [rcx+638h], eax
-.text:000000018000C130          nop
-char CDefPolicy_Query_eax_rcx[]
-
-termsrv.dll 6.4.9860.0
-
-Original
-.text:000000018000B9F5          cmp     [rcx+63Ch], eax
-.text:000000018000B9FB          jz      sub_18003B9C8
-_______________
-
-Changed
-.text:000000018000B9F5          mov     eax, 100h
-.text:000000018000B9FA          mov     [rcx+638h], eax
-.text:000000018000BA00          nop
-char CDefPolicy_Query_eax_rcx[]
-*/
-
 #else
 typedef unsigned long PLATFORM_DWORD;
 struct FARJMP
@@ -352,314 +49,15 @@ struct FARJMP
 	DWORD PushArg;	// PTR
 	BYTE RetOp;		// C3	retn
 };
-// x86 signatures
-char CDefPolicy_Query_edx_ecx[] = {0xBA, 0x00, 0x01, 0x00, 0x00, 0x89, 0x91, 0x20, 0x03, 0x00, 0x00, 0x5E, 0x90};
-char CDefPolicy_Query_eax_esi[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x86, 0x20, 0x03, 0x00, 0x00, 0x90};
-char CDefPolicy_Query_eax_ecx[] = {0xB8, 0x00, 0x01, 0x00, 0x00, 0x89, 0x81, 0x20, 0x03, 0x00, 0x00, 0x90};
-
-/*
-termsrv.dll 6.0.6000.16386
-
-Original
-.text:6F335CD8          cmp     edx, [ecx+320h]
-.text:6F335CDE          pop     esi
-.text:6F335CDF          jz      loc_6F3426F1
-_______________
-
-Changed
-.text:6F335CD8          mov     edx, 100h
-.text:6F335CDD          mov     [ecx+320h], edx
-.text:6F335CE3          pop     esi
-.text:6F335CE4          nop
-char CDefPolicy_Query_edx_ecx[]
-
-termsrv.dll 6.0.6001.18000
-
-Original
-.text:6E817FD8          cmp     edx, [ecx+320h]
-.text:6E817FDE          pop     esi
-.text:6E817FDF          jz      loc_6E826F16
-_______________
-
-Changed
-.text:6E817FD8          mov     edx, 100h
-.text:6E817FDD          mov     [ecx+320h], edx
-.text:6E817FE3          pop     esi
-.text:6E817FE4          nop
-char CDefPolicy_Query_edx_ecx[]
-
-termsrv.dll 6.0.6002.18005
-
-Original
-.text:6F5979C0          cmp     edx, [ecx+320h]
-.text:6F5979C6          pop     esi
-.text:6F5979C7          jz      loc_6F5A6F26
-_______________
-
-Changed
-.text:6F5979C0          mov     edx, 100h
-.text:6F5979C5          mov     [ecx+320h], edx
-.text:6F5979CB          pop     esi
-.text:6F5979CC          nop
-char CDefPolicy_Query_edx_ecx[]
-
-termsrv.dll 6.0.6002.19214
-
-Original
-.text:6F5979B8          cmp     edx, [ecx+320h]
-.text:6F5979BE          pop     esi
-.text:6F5979BF          jz      loc_6F5A6F3E
-_______________
-
-Changed
-.text:6F5979B8          mov     edx, 100h
-.text:6F5979BD          mov     [ecx+320h], edx
-.text:6F5979C3          pop     esi
-.text:6F5979C4          nop
-char CDefPolicy_Query_edx_ecx[]
-
-termsrv.dll 6.0.6002.23521
-
-Original
-.text:6F5979CC          cmp     edx, [ecx+320h]
-.text:6F5979D2          pop     esi
-.text:6F5979D3          jz      loc_6F5A6F2E
-_______________
-
-Changed
-.text:6F5979CC          mov     edx, 100h
-.text:6F5979D1          mov     [ecx+320h], edx
-.text:6F5979D7          pop     esi
-.text:6F5979D8          nop
-char CDefPolicy_Query_edx_ecx[]
-
-termsrv.dll 6.1.7600.16385
-
-Original
-.text:6F2F96F3          cmp     eax, [esi+320h]
-.text:6F2F96F9          jz      loc_6F30E256
-_______________
-
-Changed
-.text:6F2F96F3          mov     eax, 100h
-.text:6F2F96F8          mov     [esi+320h], eax
-.text:6F2F96FE          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.1.7601.17514
-
-Original
-.text:6F2F9D53          cmp     eax, [esi+320h]
-.text:6F2F9D59          jz      loc_6F30B25E
-_______________
-
-Changed
-.text:6F2F9D53          mov     eax, 100h
-.text:6F2F9D58          mov     [esi+320h], eax
-.text:6F2F9D5E          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.1.7601.18540
-
-Original
-.text:6F2F9D9F          cmp     eax, [esi+320h]
-.text:6F2F9DA5          jz      loc_6F30B2AE
-_______________
-
-Changed
-.text:6F2F9D9F          mov     eax, 100h
-.text:6F2F9DA4          mov     [esi+320h], eax
-.text:6F2F9DAA          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.1.7601.22750
-
-Original
-.text:6F2F9E21          cmp     eax, [esi+320h]
-.text:6F2F9E27          jz      loc_6F30B6CE
-_______________
-
-Changed
-.text:6F2F9E21          mov     eax, 100h
-.text:6F2F9E26          mov     [esi+320h], eax
-.text:6F2F9E2C          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.1.7601.18637
-
-Original
-.text:6F2F9DBB          cmp     eax, [esi+320h]
-.text:6F2F9DC1          jz      loc_6F30B2A6
-_______________
-
-Changed
-.text:6F2F9DBB          mov     eax, 100h
-.text:6F2F9DC0          mov     [esi+320h], eax
-.text:6F2F9DC6          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.1.7601.22843
-
-Original
-.text:6F2F9E25          cmp     eax, [esi+320h]
-.text:6F2F9E2B          jz      loc_6F30B6D6
-_______________
-
-Changed
-.text:6F2F9E25          mov     eax, 100h
-.text:6F2F9E2A          mov     [esi+320h], eax
-.text:6F2F9E30          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.2.8102.0
-
-Original
-.text:1000E47C          cmp     eax, [esi+320h]
-.text:1000E482          jz      loc_1002D775
-_______________
-
-Changed
-.text:1000E47C          mov     eax, 100h
-.text:1000E481          mov     [esi+320h], eax
-.text:1000E487          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.2.8250.0
-
-Original
-.text:10013520          cmp     eax, [esi+320h]
-.text:10013526          jz      loc_1002DB85
-_______________
-
-Changed
-.text:10013520          mov     eax, 100h
-.text:10013525          mov     [esi+320h], eax
-.text:1001352B          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.2.8400.0
-
-Original
-.text:10013E48          cmp     eax, [esi+320h]
-.text:10013E4E          jz      loc_1002E079
-_______________
-
-Changed
-.text:10013E48          mov     eax, 100h
-.text:10013E4D          mov     [esi+320h], eax
-.text:10013E53          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.2.9200.16384
-
-Original
-.text:10013F08          cmp     eax, [esi+320h]
-.text:10013F0E          jz      loc_1002E161
-_______________
-
-Changed
-.text:10013F08          mov     eax, 100h
-.text:10013F0D          mov     [esi+320h], eax
-.text:10013F13          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.2.9200.17048
-
-Original
-.text:1001F408          cmp     eax, [esi+320h]
-.text:1001F40E          jz      loc_1002E201
-_______________
-
-Changed
-.text:1001F408          mov     eax, 100h
-.text:1001F40D          mov     [esi+320h], eax
-.text:1001F413          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.2.9200.21166
-
-Original
-.text:10013F30          cmp     eax, [esi+320h]
-.text:10013F36          jz      loc_1002E189
-_______________
-
-Changed
-.text:10013F30          mov     eax, 100h
-.text:10013F35          mov     [esi+320h], eax
-.text:10013F3B          nop
-char CDefPolicy_Query_eax_esi[]
-
-termsrv.dll 6.3.9431.0
-
-Original
-.text:1002EA25          cmp     eax, [ecx+320h]
-.text:1002EA2B          jz      loc_100348C1
-_______________
-
-Changed
-.text:1002EA25          mov     eax, 100h
-.text:1002EA2A          mov     [ecx+320h], eax
-.text:1002EA30          nop
-char CDefPolicy_Query_eax_ecx[]
-
-termsrv.dll 6.3.9600.16384
-
-Original
-.text:10016115          cmp     eax, [ecx+320h]
-.text:1001611B          jz      loc_10034DE1
-_______________
-
-Changed
-.text:10016115          mov     eax, 100h
-.text:1001611A          mov     [ecx+320h], eax
-.text:10016120          nop
-char CDefPolicy_Query_eax_ecx[]
-
-termsrv.dll 6.3.9600.17095
-
-Original
-.text:10037529          cmp     eax, [ecx+320h]
-.text:1003752F          jz      loc_10043662
-_______________
-
-Changed
-.text:10037529          mov     eax, 100h
-.text:1003752E          mov     [ecx+320h], eax
-.text:10037534          nop
-char CDefPolicy_Query_eax_ecx[]
-
-termsrv.dll 6.4.9841.0
-
-Original
-.text:1003B989          cmp     eax, [ecx+320h]
-.text:1003B98F          jz      loc_1005E809
-_______________
-
-Changed
-.text:1003B989          mov     eax, 100h
-.text:1003B98E          mov     [ecx+320h], eax
-.text:1003B994          nop
-char CDefPolicy_Query_eax_ecx[]
-
-termsrv.dll 6.4.9860.0
-
-Original
-.text:1003BEC9          cmp     eax, [ecx+320h]
-.text:1003BECF          jz      loc_1005EE1A
-_______________
-
-Changed
-.text:1003BEC9          mov     eax, 100h
-.text:1003BECE          mov     [ecx+320h], eax
-.text:1003BED4          nop
-char CDefPolicy_Query_eax_ecx[]
-*/
-
 #endif
 
 FARJMP Old_SLGetWindowsInformationDWORD, Stub_SLGetWindowsInformationDWORD;
 SLGETWINDOWSINFORMATIONDWORD _SLGetWindowsInformationDWORD;
 
+// Implement this
+INIFile INI;
+// Correct this
+LPCTSTR LogFile = L"\\rdpwrap.txt";
 HMODULE hTermSrv;
 HMODULE hSLC;
 PLATFORM_DWORD TermSrvBase;
@@ -672,7 +70,8 @@ void WriteToLog(LPSTR Text)
 {
 	DWORD dwBytesOfWritten;
 
-	HANDLE hFile = CreateFile(L"\\rdpwrap.txt", GENERIC_WRITE, FILE_SHARE_WRITE|FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
+	// Correct this - LogFile
+	HANDLE hFile = CreateFile(LogFile, GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) return;
 
 	SetFilePointer(hFile, 0, 0, FILE_END);
@@ -680,7 +79,23 @@ void WriteToLog(LPSTR Text)
 	CloseHandle(hFile);
 }
 
-PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size, char *Signature, int SignatureSize)
+HMODULE GetCurrentModule()
+{
+	HMODULE hModule = NULL;
+	// Check this
+	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)GetCurrentModule, &hModule);
+	return hModule;
+}
+
+// Correct this
+LPCWSTR GetBinaryPath()
+{
+	wchar_t Filename[256];
+	GetModuleFileName(GetCurrentModule(), &Filename[0], 256);
+	return &Filename[0];
+}
+
+/*PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size, char *Signature, int SignatureSize)
 {
 	PLATFORM_DWORD AddressReturn = -1;
 
@@ -693,7 +108,7 @@ PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size
 	}
 
 	return AddressReturn;
-}
+}*/
 
 bool GetModuleCodeSectionInfo(HMODULE hModule, PLATFORM_DWORD *BaseAddr, PLATFORM_DWORD *BaseSize)
 {
@@ -825,68 +240,10 @@ BOOL __stdcall GetFileVersion(LPCWSTR lptstrFilename, FILE_VERSION *FileVersion)
 
 bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 {
-	// Allow Remote Connections
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-AllowRemoteConnections") == 0)
+	if (INIValueExists(INI, "SLPolicy", ValueName))
 	{
-		*Value = 1;
+		*Value = INIReadDWord(INI, "SLPolicy", ValueName, 0);
 		return true;
-	}
-	// Allow Multiple Sessions
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-AllowMultipleSessions") == 0)
-	{
-		*Value = 1;
-		return true;
-	}
-	// Allow Multiple Sessions (Application Server Mode)
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-AllowAppServerMode") == 0)
-	{
-		*Value = 1;
-		return true;
-	}
-	// Allow Multiple Monitors
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-AllowMultimon") == 0)
-	{
-		*Value = 1;
-		return true;
-	}
-	// Max User Sessions (0 = unlimited)
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-MaxUserSessions") == 0)
-	{
-		*Value = 0;
-		return true;
-	}
-	// Max Debug Sessions (Win 8, 0 = unlimited)
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-ce0ad219-4670-4988-98fb-89b14c2f072b-MaxSessions") == 0)
-	{
-		*Value = 0;
-		return true;	
-	}
-	// Max Sessions
-	// 0 - logon not possible even from console
-	// 1 - only one active user (console or remote)
-	// 2 - allow concurrent sessions
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-45344fe7-00e6-4ac6-9f01-d01fd4ffadfb-MaxSessions") == 0)
-	{
-		*Value = 2;
-		return true;
-	}
-	// Allow Advanced Compression with RDP 7 Protocol
-	if (wcscmp(ValueName, L"TerminalServices-RDP-7-Advanced-Compression-Allowed") == 0)
-	{
-		*Value = 1;
-		return true;
-	}
-	// IsTerminalTypeLocalOnly = 0
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-45344fe7-00e6-4ac6-9f01-d01fd4ffadfb-LocalOnly") == 0)
-	{
-		*Value = 0;
-		return true;
-	}
-	// Max Sessions (hard limit)
-	if (wcscmp(ValueName, L"TerminalServices-RemoteConnectionManager-8dc86f1d-9969-4379-91c1-06fe1dc60575-MaxSessions") == 0)
-	{
-		*Value = 1000;
-		return true;	
 	}
 	return false;
 }
@@ -1010,197 +367,105 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 
 	WriteToLog("> CSLQuery::Initialize\r\n");
 
-	if (FV.Release == 9431 && FV.Build == 0)
+	char *Sect;
+	Sect = new char[1024];
+	wsprintfA(Sect, "%d.%d.%d.%d-SLInit", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
+
+	if (INISectionExists(INI, Sect))
 	{
 		#ifdef _WIN64
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xC4490);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xC4494);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xC4498);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xC449C);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xC44A0);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xC44A4);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xC44A8);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xC44AC);
+		bServerSku = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bServerSku.x64", 0));
+		bRemoteConnAllowed = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bRemoteConnAllowed.x64", 0));
+		bFUSEnabled = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bFUSEnabled.x64", 0));
+		bAppServerAllowed = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bAppServerAllowed.x64", 0));
+		bMultimonAllowed = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bMultimonAllowed.x64", 0));
+		lMaxUserSessions = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "lMaxUserSessions.x64", 0));
+		ulMaxDebugSessions = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "ulMaxDebugSessions.x64", 0));
+		bInitialized = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bInitialized.x64", 0));
 		#else
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xA22A8);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xA22AC);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xA22B0);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xA22B4);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xA22B8);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xA22BC);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xA22C0);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xA22C4);
+		bServerSku = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bServerSku.x86", 0));
+		bRemoteConnAllowed = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bRemoteConnAllowed.x86", 0));
+		bFUSEnabled = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bFUSEnabled.x86", 0));
+		bAppServerAllowed = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bAppServerAllowed.x86", 0));
+		bMultimonAllowed = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bMultimonAllowed.x86", 0));
+		lMaxUserSessions = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "lMaxUserSessions.x86", 0));
+		ulMaxDebugSessions = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "ulMaxDebugSessions.x86", 0));
+		bInitialized = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bInitialized.x86", 0));
 		#endif
 	}
-	if (FV.Release == 9600 && FV.Build == 16384)
-	{
-		#ifdef _WIN64
-		bServerSku =			(DWORD*)(TermSrvBase + 0xE6494);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xE6498);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xE649C);
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xE64A0);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xE64A4);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xE64A8);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xE64AC);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xE64B0);
-		#else
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xC02A8);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xC02AC);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xC02B0);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xC02B4);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xC02B8);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xC02BC);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xC02C0);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xC02C4);
-		#endif
-		/* __ARM_ARCH_7
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0x?);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0x?);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0x?);
-		bInitialized =			(DWORD*)(TermSrvBase + 0x?);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0x?);
-		bServerSku =			(DWORD*)(TermSrvBase + 0x?);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0x?);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0x?);
-		*/
-	}
-	if (FV.Release == 9600 && FV.Build == 17095)
-	{
-		#ifdef _WIN64
-		bServerSku =			(DWORD*)(TermSrvBase + 0xE4494);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xE4498);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xE449C);
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xE44A0);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xE44A4);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xE44A8);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xE44AC);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xE44B0);
-		#else
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xC12A8);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xC12AC);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xC12B0);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xC12B4);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xC12B8);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xC12BC);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xC12C0);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xC12C4);
-		#endif
-	}
-	if (FV.Release == 9841 && FV.Build == 0)
-	{
-		#ifdef _WIN64
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xECFF8);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xECFFC);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xED000);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xED004);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xED008);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xED00C);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xED010);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xED014);
-		#else
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xBF9F0);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xBF9F4);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xBF9F8);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xBF9FC);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xBFA00);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xBFA04);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xBFA08);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xBFA0C);
-		#endif
-	}
-	if (FV.Release == 9860 && FV.Build == 0)
-	{
-		#ifdef _WIN64
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xECBD8);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xECBDC);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xECBE0);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xECBE4);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xECBE8);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xECBEC);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xECBF0);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xECBF4);
-		#else
-		bFUSEnabled =			(DWORD*)(TermSrvBase + 0xBF7E0);
-		lMaxUserSessions =		(DWORD*)(TermSrvBase + 0xBF7E4);
-		bAppServerAllowed =		(DWORD*)(TermSrvBase + 0xBF7E8);
-		bInitialized =			(DWORD*)(TermSrvBase + 0xBF7EC);
-		bMultimonAllowed =		(DWORD*)(TermSrvBase + 0xBF7F0);
-		bServerSku =			(DWORD*)(TermSrvBase + 0xBF7F4);
-		ulMaxDebugSessions =	(DWORD*)(TermSrvBase + 0xBF7F8);
-		bRemoteConnAllowed =	(DWORD*)(TermSrvBase + 0xBF7FC);
-		#endif
-	}
+	delete[] Sect;
+
 	if (bServerSku)
 	{
+		*bServerSku = INIReadDWord(INI, "SLInit", "bServerSku", 1);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bServerSku = 1\r\n", bServerSku);
+		wsprintfA(Log, "[0x%p] bServerSku = %d\r\n", bServerSku, *bServerSku);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*bServerSku = 1;
 	}
 	if (bRemoteConnAllowed)
 	{
+		*bRemoteConnAllowed = INIReadDWord(INI, "SLInit", "bRemoteConnAllowed", 1);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bRemoteConnAllowed = 1\r\n", bRemoteConnAllowed);
+		wsprintfA(Log, "[0x%p] bRemoteConnAllowed = %d\r\n", bRemoteConnAllowed, *bRemoteConnAllowed);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*bRemoteConnAllowed = 1;
 	}
 	if (bFUSEnabled)
 	{
+		*bFUSEnabled = INIReadDWord(INI, "SLInit", "bFUSEnabled", 1);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bFUSEnabled = 1\r\n", bFUSEnabled);
+		wsprintfA(Log, "[0x%p] bFUSEnabled = %d\r\n", bFUSEnabled, *bFUSEnabled);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*bFUSEnabled = 1;
 	}
 	if (bAppServerAllowed)
 	{
+		*bAppServerAllowed = INIReadDWord(INI, "SLInit", "bAppServerAllowed", 1);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bAppServerAllowed = 1\r\n", bAppServerAllowed);
+		wsprintfA(Log, "[0x%p] bAppServerAllowed = %d\r\n", bAppServerAllowed, *bAppServerAllowed);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*bAppServerAllowed = 1;
 	}
 	if (bMultimonAllowed)
 	{
+		*bMultimonAllowed = INIReadDWord(INI, "SLInit", "bMultimonAllowed", 1);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bMultimonAllowed = 1\r\n", bMultimonAllowed);
+		wsprintfA(Log, "[0x%p] bMultimonAllowed = %d\r\n", bMultimonAllowed, *bMultimonAllowed);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*bMultimonAllowed = 1;
 	}
 	if (lMaxUserSessions)
 	{
+		*lMaxUserSessions = INIReadDWord(INI, "SLInit", "lMaxUserSessions", 0);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] lMaxUserSessions = 0\r\n", lMaxUserSessions);
+		wsprintfA(Log, "[0x%p] lMaxUserSessions = %d\r\n", lMaxUserSessions, *lMaxUserSessions);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*lMaxUserSessions = 0;
 	}
 	if (ulMaxDebugSessions)
 	{
+		*ulMaxDebugSessions = INIReadDWord(INI, "SLInit", "ulMaxDebugSessions", 0);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] ulMaxDebugSessions = 0\r\n", ulMaxDebugSessions);
+		wsprintfA(Log, "[0x%p] ulMaxDebugSessions = %d\r\n", ulMaxDebugSessions, *ulMaxDebugSessions);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*ulMaxDebugSessions = 0;
 	}
 	if (bInitialized)
 	{
+		*bInitialized = INIReadDWord(INI, "SLInit", "bInitialized", 1);
+
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bInitialized = 1\r\n", bInitialized);
+		wsprintfA(Log, "[0x%p] bInitialized = %d\r\n", bInitialized, *bInitialized);
 		WriteToLog(Log);
 		delete[] Log;
-
-		*bInitialized = 1;
 	}
 	return S_OK;
 }
@@ -1213,8 +478,17 @@ void Hook()
 	extern HMODULE hSLC;
 	extern PLATFORM_DWORD TermSrvBase;
 	extern FILE_VERSION FV;
+	extern LPCTSTR LogFile;
 
 	AlreadyHooked = true;
+
+	WriteToLog("Loading configuration...\r\n");
+	if (!INILoad(INI, ExtractFilePath(GetBinaryPath()) + "rdpwrap.ini"))
+	{
+		WriteToLog("Error: Failed to load configuration\r\n");
+		return;
+	}
+	LogFile = INIReadString(INI, "Main", "LogFile", ExtractFilePath(GetBinaryPath()) + "rdpwrap.txt");
 
 	bool Result;
 	char *Log;
@@ -1284,11 +558,22 @@ void Hook()
 	WriteToLog("freeze\r\n");
 	SetThreadsState(false);
 
-	if (Ver == 0x0600)
+	WriteToLog("Loading patch codes...\r\n");
+	PatchList = INIReadSection(INI, "PatchCodes");
+	//SetLength(Patch, Length(PatchList));
+	for (int i = 0; i < Patch.length; i++)
+	{
+		Patch[i] = INIReadBytes(INI, "PatchCodes", PatchList[i]);
+		// for security reasons
+		// not more than 16 bytes
+		if (Patch[i].length > 16) SetLength(Patch[i], 16);
+	}
+
+	if ((Ver == 0x0600) && (INIReadBool(INI, "Main", "SLPolicyHookNT60", true)))
 	{
 		// Windows Vista
 		// uses SL Policy API (slc.dll)
-		
+
 		// load slc.dll and hook function
 		hSLC = LoadLibrary(L"slc.dll");
 		_SLGetWindowsInformationDWORD = (SLGETWINDOWSINFORMATIONDWORD)GetProcAddress(hSLC, "SLGetWindowsInformationDWORD");
@@ -1300,7 +585,7 @@ void Hook()
 			#ifdef _WIN64
 			Stub_SLGetWindowsInformationDWORD.MovOp = 0x48;
 			Stub_SLGetWindowsInformationDWORD.MovRegArg = 0xB8;
-			Stub_SLGetWindowsInformationDWORD.MovArg =  (PLATFORM_DWORD)New_SLGetWindowsInformationDWORD;
+			Stub_SLGetWindowsInformationDWORD.MovArg = (PLATFORM_DWORD)New_SLGetWindowsInformationDWORD;
 			Stub_SLGetWindowsInformationDWORD.PushRaxOp = 0x50;
 			Stub_SLGetWindowsInformationDWORD.RetOp = 0xC3;
 			#else
@@ -1312,200 +597,12 @@ void Hook()
 			ReadProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Old_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
 			WriteProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Stub_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
 		}
-
-		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
-		{
-			// Patch functions:
-			// CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
-			// CDefPolicy::Query
-
-			if (FV.Release == 6000 && FV.Build == 16386)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF756E0000
-					.text:000007FF75745E38          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75745E3D          mov     ebx, 1     <- 0
-					.text:000007FF75745E42          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75745E4A          mov     [rdi], ebx
-					.text:000007FF75745E4C          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x65E3E);
-				b = 0;
-				#else
-				/* Imagebase: 6F320000
-					.text:6F3360B9          lea     eax, [ebp+VersionInformation]
-					.text:6F3360BF          inc     ebx            <- nop
-					.text:6F3360C0          push    eax             ; lpVersionInformation
-					.text:6F3360C1          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F3360CB          mov     [esi], ebx
-					.text:6F3360CD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x160BF);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x5C88F);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x15CD8);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
-				#endif
-			}
-			if (FV.Release == 6001 && FV.Build == 18000)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF76220000
-					.text:000007FF76290DB4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF76290DB9          mov     ebx, 1     <- 0
-					.text:000007FF76290DBE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF76290DC6          mov     [rdi], ebx
-					.text:000007FF76290DC8          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x70DBA);
-				b = 0;
-				#else
-				/* Imagebase: 6E800000
-					.text:6E8185DE          lea     eax, [ebp+VersionInformation]
-					.text:6E8185E4          inc     ebx            <- nop
-					.text:6E8185E5          push    eax             ; lpVersionInformation
-					.text:6E8185E6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6E8185F0          mov     [esi], ebx
-					.text:6E8185F2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x185E4);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x65BD7);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17FD8);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
-				#endif
-			}
-			if (FV.Release == 6002 && FV.Build == 18005)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF766C0000
-					.text:000007FF76730FF0          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF76730FF5          mov     ebx, 1     <- 0
-					.text:000007FF76730FFA          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF76731002          mov     [rdi], ebx
-					.text:000007FF76731004          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x70FF6);
-				b = 0;
-				#else
-				/* Imagebase: 6F580000
-					.text:6F597FA2          lea     eax, [ebp+VersionInformation]
-					.text:6F597FA8          inc     ebx            <- nop
-					.text:6F597FA9          push    eax             ; lpVersionInformation
-					.text:6F597FAA          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F597FB4          mov     [esi], ebx
-					.text:6F597FB6          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17FA8);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x65E83);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x179C0);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
-				#endif
-			}
-			if (FV.Release == 6002 && FV.Build == 19214)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75AC0000
-					.text:000007FF75B312A4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75B312A9          mov     ebx, 1     <- 0
-					.text:000007FF75B312AE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75B312B6          mov     [rdi], ebx
-					.text:000007FF75B312B8          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x712AA);
-				b = 0;
-				#else
-				/* Imagebase: 6F580000
-					.text:6F597FBE          lea     eax, [ebp+VersionInformation]
-					.text:6F597FC4          inc     ebx            <- nop
-					.text:6F597FC5          push    eax             ; lpVersionInformation
-					.text:6F597FC6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F597FD0          mov     [esi], ebx
-					.text:6F597FD2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17FC4);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x65FF7);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x179B8);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
-				#endif
-			}
-			if (FV.Release == 6002 && FV.Build == 23521)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75AC0000
-					.text:000007FF75B31EA4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75B31EA9          mov     ebx, 1     <- 0
-					.text:000007FF75B31EAE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75B31EB6          mov     [rdi], ebx
-					.text:000007FF75B31EB8          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x71EAA);
-				b = 0;
-				#else
-				/* Imagebase: 6F580000
-					.text:6F597FAE          lea     eax, [ebp+VersionInformation]
-					.text:6F597FB4          inc     ebx            <- nop
-					.text:6F597FB5          push    eax             ; lpVersionInformation
-					.text:6F597FB6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F597FC0          mov     [esi], ebx
-					.text:6F597FC2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17FB4);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x669CB);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx_jmp, sizeof(CDefPolicy_Query_eax_rcx_jmp), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x179CC);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_edx_ecx, sizeof(CDefPolicy_Query_edx_ecx), &bw);
-				#endif
-			}
-		}
 	}
-	if (Ver == 0x0601)
+	if ((Ver == 0x0601) && (INIReadBool(INI, "Main", "SLPolicyHookNT61", true)))
 	{
 		// Windows 7
 		// uses SL Policy API (slc.dll)
-		
+
 		// load slc.dll and hook function
 		hSLC = LoadLibrary(L"slc.dll");
 		_SLGetWindowsInformationDWORD = (SLGETWINDOWSINFORMATIONDWORD)GetProcAddress(hSLC, "SLGetWindowsInformationDWORD");
@@ -1517,7 +614,7 @@ void Hook()
 			#ifdef _WIN64
 			Stub_SLGetWindowsInformationDWORD.MovOp = 0x48;
 			Stub_SLGetWindowsInformationDWORD.MovRegArg = 0xB8;
-			Stub_SLGetWindowsInformationDWORD.MovArg =  (PLATFORM_DWORD)New_SLGetWindowsInformationDWORD;
+			Stub_SLGetWindowsInformationDWORD.MovArg = (PLATFORM_DWORD)New_SLGetWindowsInformationDWORD;
 			Stub_SLGetWindowsInformationDWORD.PushRaxOp = 0x50;
 			Stub_SLGetWindowsInformationDWORD.RetOp = 0xC3;
 			#else
@@ -1528,979 +625,165 @@ void Hook()
 
 			ReadProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Old_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
 			WriteProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Stub_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
-		}
-
-		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
-		{
-			// Patch functions:
-			// CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
-			// CDefPolicy::Query
-
-			if (FV.Release == 7600 && FV.Build == 16385)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75A80000
-					.text:000007FF75A97D90          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75A97D95          mov     ebx, 1     <- 0
-					.text:000007FF75A97D9A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75A97DA2          mov     [rdi], ebx
-					.text:000007FF75A97DA4          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17D96);
-				b = 0;
-				#else
-				/* Imagebase: 6F2E0000
-					.text:6F2F9E1F          lea     eax, [ebp+VersionInformation]
-					.text:6F2F9E25          inc     ebx            <- nop
-					.text:6F2F9E26          push    eax             ; lpVersionInformation
-					.text:6F2F9E27          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F2F9E31          mov     [esi], ebx
-					.text:6F2F9E33          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19E25);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17AD2);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x196F3);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-			}
-			if (FV.Release == 7601 && FV.Build == 17514)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75A80000
-					.text:000007FF75A980DC          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75A980E1          mov     ebx, 1     <- 0
-					.text:000007FF75A980E6          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75A980EE          mov     [rdi], ebx
-					.text:000007FF75A980F0          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x180E2);
-				b = 0;
-				#else
-				/* Imagebase: 6F2E0000
-					.text:6F2FA497          lea     eax, [ebp+VersionInformation]
-					.text:6F2FA49D          inc     ebx            <- nop
-					.text:6F2FA49E          push    eax             ; lpVersionInformation
-					.text:6F2FA49F          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F2FA4A9          mov     [esi], ebx
-					.text:6F2FA4AB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A49D);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17D8A);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19D53);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-			}
-			if (FV.Release == 7601 && FV.Build == 18540)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75A80000
-					.text:000007FF75A98000          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75A98005          mov     ebx, 1     <- 0
-					.text:000007FF75A9800A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75A98012          mov     [rdi], ebx
-					.text:000007FF75A98014          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x18006);
-				b = 0;
-				#else
-				/* Imagebase: 6F2E0000
-					.text:6F2FA4DF          lea     eax, [ebp+VersionInformation]
-					.text:6F2FA4E5          inc     ebx            <- nop
-					.text:6F2FA4E6          push    eax             ; lpVersionInformation
-					.text:6F2FA4E7          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F2FA4F1          mov     [esi], ebx
-					.text:6F2FA4F3          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A4E5);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17C82);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19D9F);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-			}
-			if (FV.Release == 7601 && FV.Build == 22750)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75A80000
-					.text:000007FF75A97E88          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75A97E8D          mov     ebx, 1     <- 0
-					.text:000007FF75A97E92          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75A97E9A          mov     [rdi], ebx
-					.text:000007FF75A97E9C          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17E8E);
-				b = 0;
-				#else
-				/* Imagebase: 6F2E0000
-					.text:6F2FA64F          lea     eax, [ebp+VersionInformation]
-					.text:6F2FA655          inc     ebx            <- nop
-					.text:6F2FA656          push    eax             ; lpVersionInformation
-					.text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F2FA661          mov     [esi], ebx
-					.text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A655);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17C92);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19E21);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-			}
-			if (FV.Release == 7601 && FV.Build == 18637)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75A80000
-					.text:000007FF75A980F4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75A980F9          mov     ebx, 1     <- 0
-					.text:000007FF75A980FE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75A98106          mov     [rdi], ebx
-					.text:000007FF75A98108          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x180FA);
-				b = 0;
-				#else
-				/* Imagebase: 6F2E0000
-					.text:6F2FA4D7          lea     eax, [ebp+VersionInformation]
-					.text:6F2FA4DD          inc     ebx            <- nop
-					.text:6F2FA4DE          push    eax             ; lpVersionInformation
-					.text:6F2FA4DF          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F2FA4E9          mov     [esi], ebx
-					.text:6F2FA4EB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A4DD);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17DC6);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19DBB);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-			}
-			if (FV.Release == 7601 && FV.Build == 22843)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/* Imagebase: 7FF75A80000
-					.text:000007FF75A97F90          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
-					.text:000007FF75A97F95          mov     ebx, 1     <- 0
-					.text:000007FF75A97F9A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000007FF75A97FA2          mov     [rdi], ebx
-					.text:000007FF75A97FA4          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17F96);
-				b = 0;
-				#else
-				/* Imagebase: 6F2E0000
-					.text:6F2FA64F          lea     eax, [ebp+VersionInformation]
-					.text:6F2FA655          inc     ebx            <- nop
-					.text:6F2FA656          push    eax             ; lpVersionInformation
-					.text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:6F2FA661          mov     [esi], ebx
-					.text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A655);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17D6E);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19E25);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-			}
 		}
 	}
 	if (Ver == 0x0602)
 	{
 		// Windows 8
 		// uses SL Policy internal unexported function
-		
+
 		// load slc.dll and get function
 		// (will be used on intercepting undefined values)
 		hSLC = LoadLibrary(L"slc.dll");
 		_SLGetWindowsInformationDWORD = (SLGETWINDOWSINFORMATIONDWORD)GetProcAddress(hSLC, "SLGetWindowsInformationDWORD");
-
-		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
-		{
-			// Patch functions:
-			// CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
-			// CDefPolicy::Query
-			// Hook function:
-			// SLGetWindowsInformationDWORDWrapper
-
-			if (FV.Release == 8102 && FV.Build == 0)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018000D83A          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
-					.text:000000018000D83F          mov     ebx, 1     <- 0
-					.text:000000018000D844          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000000018000D84C          mov     [rdi], ebx
-					.text:000000018000D84E          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xD840);
-				b = 0;
-				#else
-				/*
-					.text:1000F7E5          lea     eax, [esp+150h+VersionInformation]
-					.text:1000F7E9          inc     esi            <- nop
-					.text:1000F7EA          push    eax             ; lpVersionInformation
-					.text:1000F7EB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:1000F7F3          mov     [edi], esi
-					.text:1000F7F5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xF7E9);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xD3E6);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xE47C);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-
-				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A484);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1B909);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 8250 && FV.Build == 0)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:0000000180011E6E          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
-					.text:0000000180011E73          mov     ebx, 1     <- 0
-					.text:0000000180011E78          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180011E80          mov     [rdi], ebx
-					.text:0000000180011E82          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x11E74);
-				b = 0;
-				#else
-				/*
-					.text:100159C5          lea     eax, [esp+150h+VersionInformation]
-					.text:100159C9          inc     esi            <- nop
-					.text:100159CA          push    eax             ; lpVersionInformation
-					.text:100159CB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:100159D3          mov     [edi], esi
-					.text:100159D5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x159C9);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1187A);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x13520);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-
-				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x18FAC);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1A0A9);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL_CP;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 8400 && FV.Build == 0)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018002081E          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
-					.text:0000000180020823          mov     ebx, 1     <- 0
-					.text:0000000180020828          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180020830          mov     [rdi], ebx
-					.text:0000000180020832          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x20824);
-				b = 0;
-				#else
-				/*
-					.text:1001547E          lea     eax, [esp+150h+VersionInformation]
-					.text:10015482          inc     esi            <- nop
-					.text:10015483          push    eax             ; lpVersionInformation
-					.text:10015484          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:1001548C          mov     [edi], esi
-					.text:1001548E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x15482);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1F102);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x13E48);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-
-				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2492C);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19629);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 9200 && FV.Build == 16384)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018002BAA2          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
-					.text:000000018002BAA7          mov     ebx, 1     <- 0
-					.text:000000018002BAAC          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000000018002BAB4          mov     [rdi], ebx
-					.text:000000018002BAB6          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2BAA8);
-				b = 0;
-				#else
-				/*
-					.text:1001554E          lea     eax, [esp+150h+VersionInformation]
-					.text:10015552          inc     esi            <- nop
-					.text:10015553          push    eax             ; lpVersionInformation
-					.text:10015554          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:1001555C          mov     [edi], esi
-					.text:1001555E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x15552);
-				b = 0x90;
-				#endif
-				/* __ARM_ARCH_7
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x?); // unknown
-				*/
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2A31A);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x13F08);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-				/* __ARM_ARCH_7
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x?); // unknown
-				*/
-
-				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x21FA8);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19559);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.RetOp = 0xC3;
-				#endif
-				/* __ARM_ARCH_7
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x5F934);
-				// hook opcodes?
-				Don't know how to make far jump on ARM platform
-				*/
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 9200 && FV.Build == 17048)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:0000000180020942          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
-					.text:0000000180020947          mov     ebx, 1     <- 0
-					.text:000000018002094C          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180020954          mov     [rdi], ebx
-					.text:0000000180020956          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x20948);
-				b = 0;
-				#else
-				/*
-					.text:1002058E          lea     eax, [esp+150h+VersionInformation]
-					.text:10020592          inc     esi            <- nop
-					.text:10020593          push    eax             ; lpVersionInformation
-					.text:10020594          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:1002059C          mov     [edi], esi
-					.text:1002059E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x20592);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1F206);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1F408);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-
-				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x24570);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x17059);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 9200 && FV.Build == 21166)
-			{
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018002BAF2          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
-					.text:000000018002BAF7          mov     ebx, 1     <- 0
-					.text:000000018002BAFC          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000000018002BB04          mov     [rdi], ebx
-					.text:000000018002BB06          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2BAF8);
-				b = 0;
-				#else
-				/*
-					.text:10015576          lea     eax, [esp+150h+VersionInformation]
-					.text:1001557A          inc     esi            <- nop
-					.text:1001557B          push    eax             ; lpVersionInformation
-					.text:1001557C          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:10015584          mov     [edi], esi
-					.text:10015586          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1557A);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2A3B6);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rdi, sizeof(CDefPolicy_Query_eax_rdi), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x13F30);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_esi, sizeof(CDefPolicy_Query_eax_esi), &bw);
-				#endif
-
-				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x21FD0);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x19581);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-		}
 	}
 	if (Ver == 0x0603)
 	{
 		// Windows 8.1
 		// uses SL Policy internal inline code
-
-		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
-		{
-			// Patch functions:
-			// CEnforcementCore::GetInstanceOfTSLicense
-			// CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
-			// CDefPolicy::Query
-			// Hook function:
-			// CSLQuery::Initialize
-
-			if (FV.Release == 9431 && FV.Build == 0)
-			{
-				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018009F713          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:000000018009F718          test    eax, eax
-					.text:000000018009F71A          js      short loc_18009F73B
-					.text:000000018009F71C          cmp     [rsp+48h+arg_18], 0
-					.text:000000018009F721          jz      short loc_18009F73B <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x9F721);
-				#else
-				/*
-					.text:1008A604          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:1008A609          test    eax, eax
-					.text:1008A60B          js      short loc_1008A628
-					.text:1008A60D          cmp     [ebp+var_8], 0
-					.text:1008A611          jz      short loc_1008A628 <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x8A611);
-				#endif
-				b = 0xEB;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:00000001800367F3          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
-					.text:00000001800367F8          mov     ebx, 1     <- 0
-					.text:00000001800367FD          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180036805          mov     [rdi], ebx
-					.text:0000000180036807          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x367F9);
-				b = 0;
-				#else
-				/*
-					.text:100306A4          lea     eax, [esp+150h+VersionInformation]
-					.text:100306A8          inc     ebx            <- nop
-					.text:100306A9          mov     [edi], ebx
-					.text:100306AB          push    eax             ; lpVersionInformation
-					.text:100306AC          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x306A8);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x350FD);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2EA25);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
-				#endif
-
-				WriteToLog("Hook CSLQuery::Initialize\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x2F9C0);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x196B0);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 9600 && FV.Build == 16384)
-			{
-				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018008181F                 cmp     [rsp+48h+arg_18], 0
-					.text:0000000180081824                 jz      loc_180031DEF <- nop + jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x81824);
-				b = 0x90;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x81825);
-				b = 0xE9;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-				#else
-				/*
-					.text:100A271C          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:100A2721          test    eax, eax
-					.text:100A2723          js      short loc_100A2740
-					.text:100A2725          cmp     [ebp+var_8], 0
-					.text:100A2729          jz      short loc_100A2740 <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xA2729);
-				b = 0xEB;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-				#endif
-
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:000000018002023B          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
-					.text:0000000180020240          mov     ebx, 1     <- 0
-					.text:0000000180020245          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:000000018002024D          mov     [rdi], ebx
-					.text:000000018002024F          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x20241);
-				b = 0;
-				#else
-				/*
-					.text:10018024          lea     eax, [esp+150h+VersionInformation]
-					.text:10018028          inc     ebx            <- nop
-					.text:10018029          mov     [edi], ebx
-					.text:1001802B          push    eax             ; lpVersionInformation
-					.text:1001802C          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x18028);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x57829);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x16115);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
-				#endif
-
-				WriteToLog("Hook CSLQuery::Initialize\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x554C0);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1CEB0);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-			if (FV.Release == 9600 && FV.Build == 17095)
-			{
-				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
-				#ifdef _WIN64
-				/*
-					.text:00000001800B914B          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:00000001800B9150          test    eax, eax
-					.text:00000001800B9152          js      short loc_1800B9173
-					.text:00000001800B9154          cmp     [rsp+48h+arg_18], 0
-					.text:00000001800B9159          jz      short loc_1800B9173 <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xB9159);
-				#else
-				/*
-					.text:100A36C4          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:100A36C9          test    eax, eax
-					.text:100A36CB          js      short loc_100A36E8
-					.text:100A36CD          cmp     [ebp+var_8], 0
-					.text:100A36D1          jz      short loc_100A36E8 <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xA36D1);
-				#endif
-				b = 0xEB;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:0000000180021823          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
-					.text:0000000180021828          mov     ebx, 1     <- 0
-					.text:000000018002182D          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180021835          mov     [rdi], ebx
-					.text:0000000180021837          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x21829);
-				b = 0;
-				#else
-				/*
-					.text:10036BA5          lea     eax, [esp+150h+VersionInformation]
-					.text:10036BA9          inc     ebx            <- nop
-					.text:10036BAA          mov     [edi], ebx
-					.text:10036BAC          push    eax             ; lpVersionInformation
-					.text:10036BAD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x36BA9);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1F6A1);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x37529);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
-				#endif
-
-				WriteToLog("Hook CSLQuery::Initialize\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x3B110);
-				Jump.MovOp = 0x48;
-				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
-				Jump.PushRaxOp = 0x50;
-				Jump.RetOp = 0xC3;
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x117F1);
-				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
-				Jump.RetOp = 0xC3;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
-			}
-		}
 	}
 	if (Ver == 0x0604)
 	{
 		// Windows 10
 		// uses SL Policy internal inline code
+	}
 
+	char *Sect;
+	Sect = new char[1024];
+	wsprintfA(Sect, "%d.%d.%d.%d", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
+	if (INISectionExists(INI, Sect))
+	{
 		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
 		{
-			// Patch functions:
-			// CEnforcementCore::GetInstanceOfTSLicense
-			// CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
-			// CDefPolicy::Query
-			// Hook function:
-			// CSLQuery::Initialize
-
-			if (FV.Release == 9841 && FV.Build == 0)
+			#ifdef _WIN64
+			if (INIReadBool(INI, Sect, "LocalOnlyPatch.x64", false))
+			#else
+			if (INIReadBool(INI, Sect, "LocalOnlyPatch.x86", false))
+			#endif
 			{
 				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
+				int i = -1;
 				#ifdef _WIN64
-				/*
-					.text:0000000180081133          call    sub_1800A9048
-					.text:0000000180081138          test    eax, eax
-					.text:000000018008113A          js      short loc_18008115B
-					.text:000000018008113C          cmp     [rsp+58h+arg_18], 0
-					.text:0000000180081141          jz      short loc_18008115B <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x81141);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "LocalOnlyOffset.x64", 0));
+				i = SListFind(PatchList, INIReadString(INI, Sect, "LocalOnlyCode.x64", ""));
 				#else
-				/*
-					.text:1009569B          call    sub_100B7EE5
-					.text:100956A0          test    eax, eax
-					.text:100956A2          js      short loc_100956BF
-					.text:100956A4          cmp     [ebp+var_C], 0
-					.text:100956A8          jz      short loc_100956BF <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x956A8);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "LocalOnlyOffset.x86", 0));
+				i = SListFind(PatchList, INIReadString(INI, Sect, "LocalOnlyCode.x86", ""));
 				#endif
-				b = 0xEB;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
+				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch[i], sizeof(Patch[i]), &bw);
+			}
+			#ifdef _WIN64
+			if (INIReadBool(INI, Sect, "SingleUserPatch.x64", false))
+			#else
+			if (INIReadBool(INI, Sect, "SingleUserPatch.x86", false))
+			#endif
+			{
 				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
+				int i = -1;
 				#ifdef _WIN64
-				/*
-					.text:0000000180012153          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
-					.text:0000000180012158          mov     ebx, 1     <- 0
-					.text:000000018001215D          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180012165          mov     [rdi], ebx
-					.text:0000000180012167          call    cs:GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x12159);
-				b = 0;
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "SingleUserOffset.x64", 0));
+				i = SListFind(PatchList, INIReadString(INI, Sect, "SingleUserCode.x64", ""));
 				#else
-				/*
-					.text:10030121          lea     eax, [esp+150h+VersionInformation]
-					.text:10030125          inc     ebx            <- nop
-					.text:10030126          mov     [edi], ebx
-					.text:10030128          push    eax             ; lpVersionInformation
-					.text:10030129          call    ds:GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x30125);
-				b = 0x90;
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "SingleUserOffset.x86", 0));
+				i = SListFind(PatchList, INIReadString(INI, Sect, "SingleUserCode.x86", ""));
 				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
+				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch[i], sizeof(Patch[i]), &bw);
+			}
+			#ifdef _WIN64
+			if (INIReadBool(INI, Sect, "DefPolicyPatch.x64", false))
+			#else
+			if (INIReadBool(INI, Sect, "DefPolicyPatch.x86", false))
+			#endif
+			{
 				WriteToLog("Patch CDefPolicy::Query\r\n");
+				int i = -1;
 				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xC125);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "DefPolicyOffset.x64", 0));
+				i = SListFind(PatchList, INIReadString(INI, Sect, "DefPolicyCode.x64", ""));
 				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x3B989);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "DefPolicyOffset.x86", 0));
+				i = SListFind(PatchList, INIReadString(INI, Sect, "DefPolicyCode.x86", ""));
 				#endif
-
-				WriteToLog("Hook CSLQuery::Initialize\r\n");
+				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch[i], sizeof(Patch[i]), &bw);
+			}
+			#ifdef _WIN64
+			if (INIReadBool(INI, Sect, "SLPolicyInternal.x64", false))
+			#else
+			if (INIReadBool(INI, Sect, "SLPolicyInternal.x86", false))
+			#endif
+			{
+				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
+				char *FuncName;
+				FuncName = new char[1024];
 				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1EA50);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "SLPolicyOffset.x64", 0));
 				Jump.MovOp = 0x48;
 				Jump.MovRegArg = 0xB8;
-				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
 				Jump.PushRaxOp = 0x50;
 				Jump.RetOp = 0xC3;
+				FuncName = INIReadString(INI, Sect, "SLPolicyFunc.x64", "New_Win8SL");
+				if (strcmp(FuncName, "New_Win8SL"))
+				{
+					Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
+				}
 				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x46A68);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "SLPolicyOffset.x86", 0));
 				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
 				Jump.RetOp = 0xC3;
+				FuncName = INIReadString(INI, Sect, "SLPolicyFunc.x86", "New_Win8SL");
+				if (strcmp(FuncName, "New_Win8SL"))
+				{
+					Jump.MovArg = (PLATFORM_DWORD)New_Win8SL;
+				}
+				if (strcmp(FuncName, "New_Win8SL_CP"))
+				{
+					Jump.MovArg = (PLATFORM_DWORD)New_Win8SL_CP;
+				}
 				#endif
+				delete[] FuncName;
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
 			}
-			if (FV.Release == 9860 && FV.Build == 0)
+			#ifdef _WIN64
+			if (INIReadBool(INI, Sect, "SLInitHook.x64", false))
+			#else
+			if (INIReadBool(INI, Sect, "SLInitHook.x86", false))
+			#endif
 			{
-				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
-				#ifdef _WIN64
-				/*
-					.text:0000000180081083          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:0000000180081088          test    eax, eax
-					.text:000000018008108A          js      short loc_1800810AB
-					.text:000000018008108C          cmp     [rsp+58h+arg_18], 0
-					.text:0000000180081091          jz      short loc_1800810AB <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x81091);
-				#else
-				/*
-					.text:100962BB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
-					.text:100962C0          test    eax, eax
-					.text:100962C2          js      short loc_100962DF
-					.text:100962C4          cmp     [ebp+var_C], 0
-					.text:100962C8          jz      short loc_100962DF <- jmp
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x962C8);
-				#endif
-				b = 0xEB;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				#ifdef _WIN64
-				/*
-					.text:0000000180011AA3          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
-					.text:0000000180011AA8          mov     ebx, 1     <- 0
-					.text:0000000180011AAD          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
-					.text:0000000180011AB5          mov     [rdi], ebx
-					.text:0000000180011AB7          call    cs:__imp_GetVersionExW
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x11AA9);
-				b = 0;
-				#else
-				/*
-					.text:10030841          lea     eax, [esp+150h+VersionInformation]
-					.text:10030845          inc     ebx            <- nop
-					.text:10030846          mov     [edi], ebx
-					.text:10030848          push    eax             ; lpVersionInformation
-					.text:10030849          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
-				*/
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x30845);
-				b = 0x90;
-				#endif
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &b, sizeof(b), &bw);
-
-				WriteToLog("Patch CDefPolicy::Query\r\n");
-				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0xB9F5);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_rcx, sizeof(CDefPolicy_Query_eax_rcx), &bw);
-				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x3BEC9);
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &CDefPolicy_Query_eax_ecx, sizeof(CDefPolicy_Query_eax_ecx), &bw);
-				#endif
-
 				WriteToLog("Hook CSLQuery::Initialize\r\n");
+				char *FuncName;
+				FuncName = new char[1024];
 				#ifdef _WIN64
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x1EB00);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "SLInitOffset.x64", 0));
 				Jump.MovOp = 0x48;
 				Jump.MovRegArg = 0xB8;
 				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
 				Jump.PushRaxOp = 0x50;
 				Jump.RetOp = 0xC3;
+				FuncName = INIReadString(INI, Sect, "SLInitFunc.x64", "New_CSLQuery_Initialize");
+				if (strcmp(FuncName, "New_CSLQuery_Initialize"))
+				{
+					Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				}
 				#else
-				SignPtr = (PLATFORM_DWORD)(TermSrvBase + 0x46F18);
+				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(INI, Sect, "SLInitOffset.x86", 0));
 				Jump.PushOp = 0x68;
-				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
 				Jump.RetOp = 0xC3;
+				FuncName = INIReadString(INI, Sect, "SLInitFunc.x86", "New_CSLQuery_Initialize");
+				if (strcmp(FuncName, "New_CSLQuery_Initialize"))
+				{
+					Jump.MovArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
+				}
 				#endif
+				delete[] FuncName;
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
 			}
 		}
 	}
+	delete[] Sect;
+
 	WriteToLog("resume\r\n");
 	SetThreadsState(true);
 	return;

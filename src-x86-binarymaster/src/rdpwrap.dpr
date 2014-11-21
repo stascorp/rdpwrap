@@ -641,70 +641,50 @@ begin
     if GetModuleAddress('termsrv.dll', GetCurrentProcessId, TermSrvBase, TermSrvSize) then begin
       if INIReadBool(INI, Sect, 'LocalOnlyPatch.x86', False) then begin
         WriteLog('Patch CEnforcementCore::GetInstanceOfTSLicense');
-        try
-          SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'LocalOnlyOffset.x86', 0));
-          I := SListFind(PatchList, INIReadString(INI, Sect, 'LocalOnlyCode.x86', ''));
-          if I >= 0 then
-            WriteProcessMemory(GetCurrentProcess, SignPtr, @Patch[I][0], Length(Patch[I]), bw);
-        except
-
-        end;
+        SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'LocalOnlyOffset.x86', 0));
+        I := SListFind(PatchList, INIReadString(INI, Sect, 'LocalOnlyCode.x86', ''));
+        if I >= 0 then
+          WriteProcessMemory(GetCurrentProcess, SignPtr, @Patch[I][0], Length(Patch[I]), bw);
       end;
       if INIReadBool(INI, Sect, 'SingleUserPatch.x86', False) then begin
         WriteLog('Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled');
-        try
-          SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'SingleUserOffset.x86', 0));
-          I := SListFind(PatchList, INIReadString(INI, Sect, 'SingleUserCode.x86', ''));
-          if I >= 0 then
-            WriteProcessMemory(GetCurrentProcess, SignPtr, @Patch[I][0], Length(Patch[I]), bw);
-        except
-
-        end;
+        SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'SingleUserOffset.x86', 0));
+        I := SListFind(PatchList, INIReadString(INI, Sect, 'SingleUserCode.x86', ''));
+        if I >= 0 then
+          WriteProcessMemory(GetCurrentProcess, SignPtr, @Patch[I][0], Length(Patch[I]), bw);
       end;
       if INIReadBool(INI, Sect, 'DefPolicyPatch.x86', False) then begin
         WriteLog('Patch CDefPolicy::Query');
-        try
-          SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'DefPolicyOffset.x86', 0));
-          I := SListFind(PatchList, INIReadString(INI, Sect, 'DefPolicyCode.x86', ''));
-          if I >= 0 then
-            WriteProcessMemory(GetCurrentProcess, SignPtr, @Patch[I][0], Length(Patch[I]), bw);
-        except
-
-        end;
+        SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'DefPolicyOffset.x86', 0));
+        I := SListFind(PatchList, INIReadString(INI, Sect, 'DefPolicyCode.x86', ''));
+        if I >= 0 then
+          WriteProcessMemory(GetCurrentProcess, SignPtr, @Patch[I][0], Length(Patch[I]), bw);
       end;
       if INIReadBool(INI, Sect, 'SLPolicyInternal.x86', False) then begin
         WriteLog('Hook SLGetWindowsInformationDWORDWrapper');
-        try
-          SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'SLPolicyOffset.x86', 0));
-        except
-          SignPtr := nil;
-        end;
+        SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'SLPolicyOffset.x86', 0));
         MovJump.MovOp := $89;  // mov eax, ecx
         MovJump.MovArg := $C8; // __msfastcall compatibility
         MovJump.PushOp := $68;
-        MovJump.PushArg := nil;
+        MovJump.PushArg := @New_Win8SL;
+        MovJump.RetOp := $C3;
         FuncName := INIReadString(INI, Sect, 'SLPolicyFunc.x86', 'New_Win8SL');
         if FuncName = 'New_Win8SL' then
           MovJump.PushArg := @New_Win8SL;
         if FuncName = 'New_Win8SL_CP' then
           MovJump.PushArg := @New_Win8SL_CP;
-        MovJump.RetOp := $C3;
         WriteProcessMemory(GetCurrentProcess, SignPtr,
           @MovJump, SizeOf(mov_far_jmp), bw);
       end;
       if INIReadBool(INI, Sect, 'SLInitHook.x86', False) then begin
         WriteLog('Hook CSLQuery::Initialize');
-        try
-          SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'SLInitOffset.x86', 0));
-        except
-          SignPtr := nil;
-        end;
+        SignPtr := Pointer(Cardinal(TermSrvBase) + INIReadDWordHex(INI, Sect, 'SLInitOffset.x86', 0));
         Jump.PushOp := $68;
-        Jump.PushArg := nil;
+        Jump.PushArg := @New_CSLQuery_Initialize;
+        Jump.RetOp := $C3;
         FuncName := INIReadString(INI, Sect, 'SLInitFunc.x86', 'New_CSLQuery_Initialize');
         if FuncName = 'New_CSLQuery_Initialize' then
           Jump.PushArg := @New_CSLQuery_Initialize;
-        Jump.RetOp := $C3;
         WriteProcessMemory(GetCurrentProcess, SignPtr,
           @Jump, SizeOf(far_jmp), bw);
       end;
