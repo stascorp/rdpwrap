@@ -45,6 +45,12 @@ Known failures
 
 Source code changelog (rdpwrap library):
 
+2014.11.21 :
+- new LiteINI module to read INI files
+- added support to store patch settings in INI file
+- version support can be extended without recompilation
+- C++ version needs to be updated
+
 2014.11.20 :
 - improved comments
 - researching KB3000850
