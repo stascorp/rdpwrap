@@ -3,8 +3,8 @@ object MainForm: TMainForm
   Top = 0
   BorderStyle = bsDialog
   Caption = 'RDP Wrapper Configuration'
-  ClientHeight = 245
-  ClientWidth = 326
+  ClientHeight = 326
+  ClientWidth = 351
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -15,18 +15,19 @@ object MainForm: TMainForm
   Position = poDesktopCenter
   OnCloseQuery = FormCloseQuery
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
   object lRDPPort: TLabel
-    Left = 203
-    Top = 33
+    Left = 225
+    Top = 103
     Width = 47
     Height = 13
     Caption = 'RDP Port:'
   end
   object bOK: TButton
-    Left = 45
-    Top = 212
+    Left = 10
+    Top = 293
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -35,8 +36,8 @@ object MainForm: TMainForm
     OnClick = bOKClick
   end
   object bCancel: TButton
-    Left = 126
-    Top = 212
+    Left = 91
+    Top = 293
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -45,8 +46,8 @@ object MainForm: TMainForm
     OnClick = bCancelClick
   end
   object bApply: TButton
-    Left = 207
-    Top = 212
+    Left = 172
+    Top = 293
     Width = 75
     Height = 25
     Caption = 'Apply'
@@ -56,7 +57,7 @@ object MainForm: TMainForm
   end
   object cbSingleSessionPerUser: TCheckBox
     Left = 8
-    Top = 31
+    Top = 112
     Width = 130
     Height = 17
     Caption = 'Single Session Per User'
@@ -65,8 +66,8 @@ object MainForm: TMainForm
   end
   object rgNLA: TRadioGroup
     Left = 8
-    Top = 54
-    Width = 310
+    Top = 135
+    Width = 335
     Height = 73
     Caption = 'Security Mode'
     Items.Strings = (
@@ -78,7 +79,7 @@ object MainForm: TMainForm
   end
   object cbAllowTSConnections: TCheckBox
     Left = 8
-    Top = 8
+    Top = 89
     Width = 174
     Height = 17
     Caption = 'Enable Remote Desktop Protocol'
@@ -87,20 +88,20 @@ object MainForm: TMainForm
   end
   object rgShadow: TRadioGroup
     Left = 8
-    Top = 133
-    Width = 310
+    Top = 214
+    Width = 335
     Height = 73
     Caption = 'Session Shadowing Mode'
     Items.Strings = (
       'Disable Shadowing'
-      'Shadowing will request user permission'
-      'Shadowing sessions immediately')
+      'Shadowing will request user'#39's permission'
+      'Shadow sessions immediately')
     TabOrder = 6
     OnClick = cbAllowTSConnectionsClick
   end
   object seRDPPort: TSpinEdit
-    Left = 256
-    Top = 30
+    Left = 278
+    Top = 100
     Width = 62
     Height = 22
     MaxValue = 65535
@@ -110,12 +111,96 @@ object MainForm: TMainForm
     OnChange = seRDPPortChange
   end
   object bLicense: TButton
-    Left = 224
-    Top = 6
-    Width = 94
-    Height = 21
+    Left = 253
+    Top = 293
+    Width = 87
+    Height = 25
     Caption = 'View license...'
     TabOrder = 8
     OnClick = bLicenseClick
+  end
+  object gbDiag: TGroupBox
+    Left = 8
+    Top = 6
+    Width = 335
+    Height = 77
+    Caption = 'Diagnostics'
+    TabOrder = 9
+    object lListener: TLabel
+      Left = 11
+      Top = 55
+      Width = 70
+      Height = 13
+      Caption = 'Listener state:'
+    end
+    object lService: TLabel
+      Left = 11
+      Top = 36
+      Width = 67
+      Height = 13
+      Caption = 'Service state:'
+    end
+    object lsListener: TLabel
+      Left = 91
+      Top = 55
+      Width = 44
+      Height = 13
+      Caption = 'Unknown'
+    end
+    object lsService: TLabel
+      Left = 91
+      Top = 36
+      Width = 44
+      Height = 13
+      Caption = 'Unknown'
+    end
+    object lsTSVer: TLabel
+      Left = 206
+      Top = 36
+      Width = 44
+      Height = 13
+      Caption = 'Unknown'
+    end
+    object lsWrapper: TLabel
+      Left = 91
+      Top = 17
+      Width = 44
+      Height = 13
+      Caption = 'Unknown'
+    end
+    object lsWrapVer: TLabel
+      Left = 206
+      Top = 17
+      Width = 44
+      Height = 13
+      Caption = 'Unknown'
+    end
+    object lTSVer: TLabel
+      Left = 182
+      Top = 36
+      Width = 20
+      Height = 13
+      Caption = 'ver.'
+    end
+    object lWrapper: TLabel
+      Left = 11
+      Top = 17
+      Width = 74
+      Height = 13
+      Caption = 'Wrapper state:'
+    end
+    object lWrapVer: TLabel
+      Left = 182
+      Top = 17
+      Width = 20
+      Height = 13
+      Caption = 'ver.'
+    end
+  end
+  object Timer: TTimer
+    Interval = 250
+    OnTimer = TimerTimer
+    Left = 280
+    Top = 19
   end
 end

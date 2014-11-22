@@ -676,6 +676,7 @@ begin
   FileVersion.bPrivate := (VersionInfo.Value.dwFileFlags and VFF_PRIVATE) = VFF_PRIVATE;
   FileVersion.bSpecial := (VersionInfo.Value.dwFileFlags and VFF_SPECIAL) = VFF_SPECIAL;
 
+  FreeLibrary(hFile);
   Result := True;
 end;
 

@@ -20,7 +20,7 @@ interface
 
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Spin, ExtCtrls, Registry;
+  Dialogs, StdCtrls, Spin, ExtCtrls, Registry, WinSvc;
 
 type
   TMainForm = class(TForm)
@@ -33,7 +33,19 @@ type
     rgShadow: TRadioGroup;
     seRDPPort: TSpinEdit;
     lRDPPort: TLabel;
+    lService: TLabel;
+    lListener: TLabel;
+    lWrapper: TLabel;
+    lsListener: TLabel;
+    lsService: TLabel;
+    lsWrapper: TLabel;
+    Timer: TTimer;
+    lTSVer: TLabel;
+    lsTSVer: TLabel;
+    lWrapVer: TLabel;
+    lsWrapVer: TLabel;
     bLicense: TButton;
+    gbDiag: TGroupBox;
     procedure FormCreate(Sender: TObject);
     procedure cbAllowTSConnectionsClick(Sender: TObject);
     procedure seRDPPortChange(Sender: TObject);
@@ -42,6 +54,8 @@ type
     procedure bOKClick(Sender: TObject);
     procedure FormCloseQuery(Sender: TObject; var CanClose: Boolean);
     procedure bLicenseClick(Sender: TObject);
+    procedure TimerTimer(Sender: TObject);
+    procedure FormDestroy(Sender: TObject);
   private
     { Private declarations }
   public
@@ -49,10 +63,36 @@ type
     procedure ReadSettings;
     procedure WriteSettings;
   end;
+  FILE_VERSION = record
+    Version: record case Boolean of
+      True: (dw: DWORD);
+      False: (w: record
+        Minor, Major: Word;
+      end;)
+    end;
+    Release, Build: Word;
+    bDebug, bPrerelease, bPrivate, bSpecial: Boolean;
+  end;
+  WTS_SESSION_INFOW = record
+    SessionId: DWORD;
+    Name: packed array [0..33] of WideChar;
+    State: DWORD;
+  end;
+  WTS_SESSION = Array[0..0] of WTS_SESSION_INFOW;
+  PWTS_SESSION_INFOW = ^WTS_SESSION;
 
+const
+  winstadll = 'winsta.dll';
 var
   MainForm: TMainForm;
   Ready: Boolean = False;
+  Arch: Byte;
+  OldWow64RedirectionValue: LongBool;
+
+function WinStationEnumerateW(hServer: THandle;
+  var ppSessionInfo: PWTS_SESSION_INFOW; var pCount: DWORD): BOOL; stdcall;
+  external winstadll name 'WinStationEnumerateW';
+function WinStationFreeMemory(P: Pointer): BOOL; stdcall; external winstadll;
 
 implementation
 
@@ -61,6 +101,214 @@ implementation
 
 uses
   LicenseUnit;
+
+function ExpandPath(Path: String): String;
+var
+  Str: Array[0..511] of Char;
+begin
+  Result := '';
+  FillChar(Str, 512, 0);
+  if Arch = 64 then
+    Path := StringReplace(Path, '%ProgramFiles%', '%ProgramW6432%', [rfReplaceAll, rfIgnoreCase]);
+  if ExpandEnvironmentStrings(PWideChar(Path), Str, 512) > 0 then
+    Result := Str;
+end;
+
+function DisableWowRedirection: Boolean;
+type
+  TFunc = function(var Wow64FsEnableRedirection: LongBool): LongBool; stdcall;
+var
+  hModule: THandle;
+  Wow64DisableWow64FsRedirection: TFunc;
+begin
+  Result := False;
+  hModule := GetModuleHandle(kernel32);
+  if hModule <> 0 then
+    Wow64DisableWow64FsRedirection := GetProcAddress(hModule, 'Wow64DisableWow64FsRedirection')
+  else
+    Exit;
+  if @Wow64DisableWow64FsRedirection <> nil then
+    Result := Wow64DisableWow64FsRedirection(OldWow64RedirectionValue);
+end;
+
+function RevertWowRedirection: Boolean;
+type
+  TFunc = function(var Wow64RevertWow64FsRedirection: LongBool): LongBool; stdcall;
+var
+  hModule: THandle;
+  Wow64RevertWow64FsRedirection: TFunc;
+begin
+  Result := False;
+  hModule := GetModuleHandle(kernel32);
+  if hModule <> 0 then
+    Wow64RevertWow64FsRedirection := GetProcAddress(hModule, 'Wow64RevertWow64FsRedirection')
+  else
+    Exit;
+  if @Wow64RevertWow64FsRedirection <> nil then
+    Result := Wow64RevertWow64FsRedirection(OldWow64RedirectionValue);
+end;
+
+function GetFileVersion(const FileName: TFileName; var FileVersion: FILE_VERSION): Boolean;
+type
+  VS_VERSIONINFO = record
+    wLength, wValueLength, wType: Word;
+    szKey: Array[1..16] of WideChar;
+    Padding1: Word;
+    Value: VS_FIXEDFILEINFO;
+    Padding2, Children: Word;
+  end;
+  PVS_VERSIONINFO = ^VS_VERSIONINFO;
+const
+  VFF_DEBUG = 1;
+  VFF_PRERELEASE = 2;
+  VFF_PRIVATE = 8;
+  VFF_SPECIAL = 32;
+var
+  hFile: HMODULE;
+  hResourceInfo: HRSRC;
+  VersionInfo: PVS_VERSIONINFO;
+begin
+  Result := False;
+
+  hFile := LoadLibraryEx(PWideChar(FileName), 0, LOAD_LIBRARY_AS_DATAFILE);
+  if hFile = 0 then
+    Exit;
+
+  hResourceInfo := FindResource(hFile, PWideChar(1), PWideChar($10));
+  if hResourceInfo = 0 then
+    Exit;
+
+  VersionInfo := Pointer(LoadResource(hFile, hResourceInfo));
+  if VersionInfo = nil then
+    Exit;
+
+  FileVersion.Version.dw := VersionInfo.Value.dwFileVersionMS;
+  FileVersion.Release := Word(VersionInfo.Value.dwFileVersionLS shr 16);
+  FileVersion.Build := Word(VersionInfo.Value.dwFileVersionLS);
+  FileVersion.bDebug := (VersionInfo.Value.dwFileFlags and VFF_DEBUG) = VFF_DEBUG;
+  FileVersion.bPrerelease := (VersionInfo.Value.dwFileFlags and VFF_PRERELEASE) = VFF_PRERELEASE;
+  FileVersion.bPrivate := (VersionInfo.Value.dwFileFlags and VFF_PRIVATE) = VFF_PRIVATE;
+  FileVersion.bSpecial := (VersionInfo.Value.dwFileFlags and VFF_SPECIAL) = VFF_SPECIAL;
+
+  FreeLibrary(hFile);
+  Result := True;
+end;
+
+function IsWrapperInstalled(var WrapperPath: String): ShortInt;
+var
+  TermServiceHost,
+  TermServicePath: String;
+  Reg: TRegistry;
+begin
+  Result := -1;
+  WrapperPath := '';
+  Reg := TRegistry.Create;
+  Reg.RootKey := HKEY_LOCAL_MACHINE;
+  if not Reg.OpenKeyReadOnly('\SYSTEM\CurrentControlSet\Services\TermService') then begin
+    Reg.Free;
+    Exit;
+  end;
+  TermServiceHost := Reg.ReadString('ImagePath');
+  Reg.CloseKey;
+  if Pos('svchost.exe', LowerCase(TermServiceHost)) = 0 then
+  begin
+    Result := 2;
+    Reg.Free;
+    Exit;
+  end;
+  if not Reg.OpenKeyReadOnly('\SYSTEM\CurrentControlSet\Services\TermService\Parameters') then
+  begin
+    Reg.Free;
+    Exit;
+  end;
+  TermServicePath := Reg.ReadString('ServiceDll');
+  Reg.CloseKey;
+  Reg.Free;
+  if (Pos('termsrv.dll', LowerCase(TermServicePath)) = 0)
+  and (Pos('rdpwrap.dll', LowerCase(TermServicePath)) = 0) then
+  begin
+    Result := 2;
+    Exit;
+  end;
+
+  if Pos('rdpwrap.dll', LowerCase(TermServicePath)) > 0 then begin
+    WrapperPath := TermServicePath;
+    Result := 1;
+  end else
+    Result := 0;
+end;
+
+function GetTermSrvState: ShortInt;
+type
+  SERVICE_STATUS_PROCESS = record
+    dwServiceType,
+    dwCurrentState,
+    dwControlsAccepted,
+    dwWin32ExitCode,
+    dwServiceSpecificExitCode,
+    dwCheckPoint,
+    dwWaitHint,
+    dwProcessId,
+    dwServiceFlags: DWORD;
+  end;
+  PSERVICE_STATUS_PROCESS = ^SERVICE_STATUS_PROCESS;
+const
+  SvcName = 'TermService';
+var
+  hSC: SC_HANDLE;
+  hSvc: THandle;
+  lpServiceStatusProcess: PSERVICE_STATUS_PROCESS;
+  Buf: Pointer;
+  cbBufSize, pcbBytesNeeded: Cardinal;
+begin
+  Result := -1;
+  hSC := OpenSCManager(nil, SERVICES_ACTIVE_DATABASE, SC_MANAGER_CONNECT);
+  if hSC = 0 then
+    Exit;
+
+  hSvc := OpenService(hSC, PWideChar(SvcName), SERVICE_QUERY_STATUS);
+  if hSvc = 0 then
+  begin
+    CloseServiceHandle(hSC);
+    Exit;
+  end;
+
+  if QueryServiceStatusEx(hSvc, SC_STATUS_PROCESS_INFO, nil, 0, pcbBytesNeeded) then
+    Exit;
+
+  cbBufSize := pcbBytesNeeded;
+  GetMem(Buf, cbBufSize);
+
+  if not QueryServiceStatusEx(hSvc, SC_STATUS_PROCESS_INFO, Buf, cbBufSize, pcbBytesNeeded) then begin
+    FreeMem(Buf, cbBufSize);
+    CloseServiceHandle(hSvc);
+    CloseServiceHandle(hSC);
+    Exit;
+  end else begin
+    lpServiceStatusProcess := Buf;
+    Result := ShortInt(lpServiceStatusProcess^.dwCurrentState);
+  end;
+  FreeMem(Buf, cbBufSize);
+  CloseServiceHandle(hSvc);
+  CloseServiceHandle(hSC);
+end;
+
+function IsListenerWorking: Boolean;
+var
+  pCount: DWORD;
+  SessionInfo: PWTS_SESSION_INFOW;
+  I: Integer;
+begin
+  Result := False;
+  if not WinStationEnumerateW(0, SessionInfo, pCount) then
+    Exit;
+  for I := 0 to pCount - 1 do
+    if SessionInfo^[I].Name = 'RDP-Tcp' then begin
+      Result := True;
+      Break;
+    end;
+  WinStationFreeMemory(SessionInfo);
+end;
 
 function ExtractResText(ResName: String): String;
 var
@@ -192,6 +440,98 @@ begin
   Reg.Free;
 end;
 
+procedure TMainForm.TimerTimer(Sender: TObject);
+var
+  WrapperPath: String;
+  FV: FILE_VERSION;
+begin
+  case IsWrapperInstalled(WrapperPath) of
+    -1: begin
+      lsWrapper.Caption := 'Unknown';
+      lsWrapper.Font.Color := clGrayText;
+    end;
+    0: begin
+      lsWrapper.Caption := 'Not installed';
+      lsWrapper.Font.Color := clGrayText;
+    end;
+    1: begin
+      lsWrapper.Caption := 'Installed';
+      lsWrapper.Font.Color := clGreen;
+    end;
+    2: begin
+      lsWrapper.Caption := '3rd-party';
+      lsWrapper.Font.Color := clRed;
+    end;
+  end;
+  case GetTermSrvState of
+    -1, 0: begin
+      lsService.Caption := 'Unknown';
+      lsService.Font.Color := clGrayText;
+    end;
+    SERVICE_STOPPED: begin
+      lsService.Caption := 'Stopped';
+      lsService.Font.Color := clRed;
+    end;
+    SERVICE_START_PENDING: begin
+      lsService.Caption := 'Starting...';
+      lsService.Font.Color := clGrayText;
+    end;
+    SERVICE_STOP_PENDING: begin
+      lsService.Caption := 'Stopping...';
+      lsService.Font.Color := clGrayText;
+    end;
+    SERVICE_RUNNING: begin
+      lsService.Caption := 'Running';
+      lsService.Font.Color := clGreen;
+    end;
+    SERVICE_CONTINUE_PENDING: begin
+      lsService.Caption := 'Resuming...';
+      lsService.Font.Color := clGrayText;
+    end;
+    SERVICE_PAUSE_PENDING: begin
+      lsService.Caption := 'Suspending...';
+      lsService.Font.Color := clGrayText;
+    end;
+    SERVICE_PAUSED: begin
+      lsService.Caption := 'Suspended';
+      lsService.Font.Color := clWindowText;
+    end;
+  end;
+  if IsListenerWorking then begin
+    lsListener.Caption := 'Listening';
+    lsListener.Font.Color := clGreen;
+  end else begin
+    lsListener.Caption := 'Not listening';
+    lsListener.Font.Color := clRed;
+  end;
+  if WrapperPath = '' then begin
+    lsWrapVer.Caption := 'N/A';
+    lsWrapVer.Font.Color := clGrayText;
+  end else
+    if not GetFileVersion(ExpandPath(WrapperPath), FV) then begin
+      lsWrapVer.Caption := 'N/A';
+      lsWrapVer.Font.Color := clGrayText;
+    end else begin
+      lsWrapVer.Caption :=
+      IntToStr(FV.Version.w.Major)+'.'+
+      IntToStr(FV.Version.w.Minor)+'.'+
+      IntToStr(FV.Release)+'.'+
+      IntToStr(FV.Build);
+      lsWrapVer.Font.Color := clWindowText;
+    end;
+  if not GetFileVersion('termsrv.dll', FV) then begin
+    lsTSVer.Caption := 'N/A';
+    lsTSVer.Font.Color := clGrayText;
+  end else begin
+    lsTSVer.Caption :=
+    IntToStr(FV.Version.w.Major)+'.'+
+    IntToStr(FV.Version.w.Minor)+'.'+
+    IntToStr(FV.Release)+'.'+
+    IntToStr(FV.Build);
+    lsTSVer.Font.Color := clWindowText;
+  end;
+end;
+
 procedure TMainForm.bLicenseClick(Sender: TObject);
 begin
   LicenseForm.mText.Text := ExtractResText('LICENSE');
@@ -212,9 +552,26 @@ begin
 end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
+var
+  SI: TSystemInfo;
 begin
+  GetNativeSystemInfo(SI);
+  case SI.wProcessorArchitecture of
+    0: Arch := 32;
+    6: Arch := 64; // Itanium-based x64
+    9: Arch := 64; // Intel/AMD x64
+    else Arch := 0;
+  end;
+  if Arch = 64 then
+    DisableWowRedirection;
   ReadSettings;
   Ready := True;
+end;
+
+procedure TMainForm.FormDestroy(Sender: TObject);
+begin
+  if Arch = 64 then
+    RevertWowRedirection;
 end;
 
 procedure TMainForm.FormCloseQuery(Sender: TObject; var CanClose: Boolean);
