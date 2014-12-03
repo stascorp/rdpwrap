@@ -35,7 +35,7 @@ Terminal Services supported versions
 6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
 6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
 6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
-6.3.9600.17415 (Windows 8.1 with KB3000850)            [!todo]
+6.3.9600.17415 (Windows 8.1 with KB3000850)            [init hook + extended patch ~ requires INI support]
 6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
 6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
 6.4.9879.0     (Windows 10 Technical Preview Update 2) [!todo]
@@ -44,6 +44,17 @@ Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 Source code changelog (rdpwrap library):
+
+2014.12.03 :
+- added INI reader by Fusix for C++ version
+- asulwer also helped with the development
+
+2014.11.25 :
+- corrected some typos in INI file
+- added EasyPrint policy value
+
+2014.11.24 :
+- added support for termsrv.dll 6.3.9600.17415
 
 2014.11.21 :
 - new LiteINI module to read INI files
