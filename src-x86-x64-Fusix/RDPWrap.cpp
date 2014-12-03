@@ -15,6 +15,7 @@
 */
 
 #include "stdafx.h"
+#include "IniFile.h"
 
 typedef struct
 {
@@ -54,9 +55,7 @@ struct FARJMP
 FARJMP Old_SLGetWindowsInformationDWORD, Stub_SLGetWindowsInformationDWORD;
 SLGETWINDOWSINFORMATIONDWORD _SLGetWindowsInformationDWORD;
 
-// Implement this
-INIFile INI;
-// Correct this
+INI_FILE *IniFile;
 LPCTSTR LogFile = L"\\rdpwrap.txt";
 HMODULE hTermSrv;
 HMODULE hSLC;
@@ -240,9 +239,9 @@ BOOL __stdcall GetFileVersion(LPCWSTR lptstrFilename, FILE_VERSION *FileVersion)
 
 bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 {
-	if (INIValueExists(INI, "SLPolicy", ValueName))
+	if (IniFile->VariableExists(INI, "SLPolicy", ValueName))
 	{
-		*Value = INIReadDWord(INI, "SLPolicy", ValueName, 0);
+		if (!(IniFile->GetVariableInSection("SLPolicy", ValueName, Value))) *Value = 0;
 		return true;
 	}
 	return false;
@@ -371,7 +370,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	Sect = new char[1024];
 	wsprintfA(Sect, "%d.%d.%d.%d-SLInit", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
 
-	if (INISectionExists(INI, Sect))
+	if (IniFile->SectionExists(Sect))
 	{
 		#ifdef _WIN64
 		bServerSku = (DWORD*)(TermSrvBase + INIReadDWordHex(INI, Sect, "bServerSku.x64", 0));
@@ -397,7 +396,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 
 	if (bServerSku)
 	{
-		*bServerSku = INIReadDWord(INI, "SLInit", "bServerSku", 1);
+		if (!(IniFile->GetVariableInSection("SLInit", "bServerSku", bServerSku))) *bServerSku = 1;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bServerSku = %d\r\n", bServerSku, *bServerSku);
@@ -406,7 +405,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bRemoteConnAllowed)
 	{
-		*bRemoteConnAllowed = INIReadDWord(INI, "SLInit", "bRemoteConnAllowed", 1);
+		if (!(IniFile->GetVariableInSection("SLInit", "bRemoteConnAllowed", bRemoteConnAllowed))) *bRemoteConnAllowed = 1;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bRemoteConnAllowed = %d\r\n", bRemoteConnAllowed, *bRemoteConnAllowed);
@@ -415,7 +414,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bFUSEnabled)
 	{
-		*bFUSEnabled = INIReadDWord(INI, "SLInit", "bFUSEnabled", 1);
+		if (!(IniFile->GetVariableInSection("SLInit", "bFUSEnabled", bFUSEnabled))) *bFUSEnabled = 1;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bFUSEnabled = %d\r\n", bFUSEnabled, *bFUSEnabled);
@@ -424,7 +423,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bAppServerAllowed)
 	{
-		*bAppServerAllowed = INIReadDWord(INI, "SLInit", "bAppServerAllowed", 1);
+		if (!(IniFile->GetVariableInSection("SLInit", "bAppServerAllowed", bAppServerAllowed))) *bAppServerAllowed = 1;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bAppServerAllowed = %d\r\n", bAppServerAllowed, *bAppServerAllowed);
@@ -433,7 +432,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bMultimonAllowed)
 	{
-		*bMultimonAllowed = INIReadDWord(INI, "SLInit", "bMultimonAllowed", 1);
+		if (!(IniFile->GetVariableInSection("SLInit", "bMultimonAllowed", bMultimonAllowed))) *bMultimonAllowed = 1;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bMultimonAllowed = %d\r\n", bMultimonAllowed, *bMultimonAllowed);
@@ -442,7 +441,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (lMaxUserSessions)
 	{
-		*lMaxUserSessions = INIReadDWord(INI, "SLInit", "lMaxUserSessions", 0);
+		if (!(IniFile->GetVariableInSection("SLInit", "lMaxUserSessions", lMaxUserSessions))) *lMaxUserSessions = 0;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] lMaxUserSessions = %d\r\n", lMaxUserSessions, *lMaxUserSessions);
@@ -451,7 +450,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (ulMaxDebugSessions)
 	{
-		*ulMaxDebugSessions = INIReadDWord(INI, "SLInit", "ulMaxDebugSessions", 0);
+		if (!(IniFile->GetVariableInSection("SLInit", "ulMaxDebugSessions", ulMaxDebugSessions))) *ulMaxDebugSessions = 0;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] ulMaxDebugSessions = %d\r\n", ulMaxDebugSessions, *ulMaxDebugSessions);
@@ -460,7 +459,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bInitialized)
 	{
-		*bInitialized = INIReadDWord(INI, "SLInit", "bInitialized", 1);
+		if (!(IniFile->GetVariableInSection("SLInit", "bInitialized", bInitialized))) *bInitialized = 1;
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bInitialized = %d\r\n", bInitialized, *bInitialized);
@@ -483,12 +482,17 @@ void Hook()
 	AlreadyHooked = true;
 
 	WriteToLog("Loading configuration...\r\n");
-	if (!INILoad(INI, ExtractFilePath(GetBinaryPath()) + "rdpwrap.ini"))
+	*IniFile = new INI_FILE(ExtractFilePath(GetBinaryPath()) + L"rdpwrap.ini");
+	if (*IniFile == NULL)
 	{
 		WriteToLog("Error: Failed to load configuration\r\n");
 		return;
 	}
-	LogFile = INIReadString(INI, "Main", "LogFile", ExtractFilePath(GetBinaryPath()) + "rdpwrap.txt");
+	
+	if(!(IniFile->GetVariableInSection("Main", "LogFile", &LogFile)))
+	{
+		LogFile = ExtractFilePath(GetBinaryPath()) + L"rdpwrap.txt";
+	}
 
 	bool Result;
 	char *Log;
@@ -559,17 +563,23 @@ void Hook()
 	SetThreadsState(false);
 
 	WriteToLog("Loading patch codes...\r\n");
-	PatchList = INIReadSection(INI, "PatchCodes");
-	//SetLength(Patch, Length(PatchList));
+	INI->ReadSection("PatchCodes", &PatchList);
+
+	INI_VAR_BYTEARRAY Patch[PatchList.length];
 	for (int i = 0; i < Patch.length; i++)
 	{
-		Patch[i] = INIReadBytes(INI, "PatchCodes", PatchList[i]);
-		// for security reasons
-		// not more than 16 bytes
-		if (Patch[i].length > 16) SetLength(Patch[i], 16);
+		if (IniFile->GetVariableInSection("PatchCodes", PatchList[i], &Patch[i]))
+		{
+			// for security reasons
+			// not more than 16 bytes
+			if (Patch[i].length > 16) SetLength(Patch[i], 16);
+		}
 	}
 
-	if ((Ver == 0x0600) && (INIReadBool(INI, "Main", "SLPolicyHookNT60", true)))
+	bool bSLHook;
+	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT60", &bSLHook))) bSLHook = true;
+
+	if ((Ver == 0x0600) && bSLHook)
 	{
 		// Windows Vista
 		// uses SL Policy API (slc.dll)
@@ -598,7 +608,10 @@ void Hook()
 			WriteProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Stub_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
 		}
 	}
-	if ((Ver == 0x0601) && (INIReadBool(INI, "Main", "SLPolicyHookNT61", true)))
+
+	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT60", &bSLHook))) bSLHook = true;
+
+	if ((Ver == 0x0601) && bSLHook)
 	{
 		// Windows 7
 		// uses SL Policy API (slc.dll)
@@ -651,15 +664,17 @@ void Hook()
 	char *Sect;
 	Sect = new char[1024];
 	wsprintfA(Sect, "%d.%d.%d.%d", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
-	if (INISectionExists(INI, Sect))
+	if (IniFile->SectionExists(Sect))
 	{
 		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
 		{
+			bool Bool;
 			#ifdef _WIN64
-			if (INIReadBool(INI, Sect, "LocalOnlyPatch.x64", false))
+			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x64", &Bool))) Bool = true;
 			#else
-			if (INIReadBool(INI, Sect, "LocalOnlyPatch.x86", false))
+			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x86", &Bool))) Bool = true;
 			#endif
+			if (Bool)
 			{
 				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
 				int i = -1;
@@ -673,10 +688,11 @@ void Hook()
 				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch[i], sizeof(Patch[i]), &bw);
 			}
 			#ifdef _WIN64
-			if (INIReadBool(INI, Sect, "SingleUserPatch.x64", false))
+			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x64", &Bool))) Bool = true;
 			#else
-			if (INIReadBool(INI, Sect, "SingleUserPatch.x86", false))
+			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x86", &Bool))) Bool = true;
 			#endif
+			if (Bool)
 			{
 				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
 				int i = -1;
@@ -690,10 +706,11 @@ void Hook()
 				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch[i], sizeof(Patch[i]), &bw);
 			}
 			#ifdef _WIN64
-			if (INIReadBool(INI, Sect, "DefPolicyPatch.x64", false))
+			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x64", &Bool))) Bool = true;
 			#else
-			if (INIReadBool(INI, Sect, "DefPolicyPatch.x86", false))
+			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x86", &Bool))) Bool = true;
 			#endif
+			if (Bool)
 			{
 				WriteToLog("Patch CDefPolicy::Query\r\n");
 				int i = -1;
@@ -707,10 +724,11 @@ void Hook()
 				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch[i], sizeof(Patch[i]), &bw);
 			}
 			#ifdef _WIN64
-			if (INIReadBool(INI, Sect, "SLPolicyInternal.x64", false))
+			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x64", &Bool))) Bool = true;
 			#else
-			if (INIReadBool(INI, Sect, "SLPolicyInternal.x86", false))
+			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x86", &Bool))) Bool = true;
 			#endif
+			if (Bool)
 			{
 				WriteToLog("Hook SLGetWindowsInformationDWORDWrapper\r\n");
 				char *FuncName;
@@ -746,10 +764,11 @@ void Hook()
 				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
 			}
 			#ifdef _WIN64
-			if (INIReadBool(INI, Sect, "SLInitHook.x64", false))
+			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x64", &Bool))) Bool = true;
 			#else
-			if (INIReadBool(INI, Sect, "SLInitHook.x86", false))
+			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x86", &Bool))) Bool = true;
 			#endif
+			if (Bool)
 			{
 				WriteToLog("Hook CSLQuery::Initialize\r\n");
 				char *FuncName;
