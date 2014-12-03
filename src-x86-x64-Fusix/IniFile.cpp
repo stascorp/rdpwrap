@@ -88,7 +88,7 @@ bool INI_FILE::CreateStringsMap()
 	return true;
 }
 
-int INI_FILE::StrTrim(char* Str, STRING_TRIM_TYPE Type) 
+int INI_FILE::StrTrim(char* Str, STRING_TRIM_TYPE Type)
 {
     int StrLn = strlen(Str) + 1;
     if ((StrLn == 0) || (Type < TRIM_LEFT) || (Type > TRIM_BOTH)) {
@@ -169,7 +169,7 @@ bool INI_FILE::FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD Str
 	for(DWORD i = 0; i < StrSize; i++)
 	{
 		if(Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
-		if(Str[i] == '=' && !Quotes) 
+		if(Str[i] == '=' && !Quotes)
 		{
 			memcpy(Variable->VariableName, Str, i);
 			memcpy(Variable->VariableValue, &(Str[i+1]), StrSize-(i-1));
@@ -193,14 +193,14 @@ bool INI_FILE::Parse()
 	DWORD CurrentSectionNum = -1;
 	DWORD CurrentVariableNum = -1;
 
-	// Calculate sections count
+	// Calculate section count
 	for(DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') continue; // It's comment	
+		if(CurrentString[0] == ';') continue; // It's a comment
 		
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section diclarate
+		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section declaration
 		{
 			SectionsCount++;
 			continue;
@@ -214,15 +214,15 @@ bool INI_FILE::Parse()
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') continue; // It's comment	
+		if(CurrentString[0] == ';') continue; // It's a comment
 		
 
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section diclarate
+		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section declaration
 		{
 			CurrentSectionNum++;
 			continue;
 		}
-		if(IsVariable(CurrentString, CurrentStringSize)) 
+		if(IsVariable(CurrentString, CurrentStringSize))
 		{
 			VariablesCount++;
 			SectionVariableCount[CurrentSectionNum]++;
@@ -250,9 +250,9 @@ bool INI_FILE::Parse()
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') // It's comment
+		if(CurrentString[0] == ';') // It's a comment
 		{
-			continue; 
+			continue;
 		}
 
 		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')
@@ -263,7 +263,7 @@ bool INI_FILE::Parse()
 			continue;
 		}
 
-		if(IsVariable(CurrentString, CurrentStringSize)) 
+		if(IsVariable(CurrentString, CurrentStringSize))
 		{
 			FillVariable(&(IniData.Section[CurrentSectionNum].Variables[CurrentVariableNum]), CurrentString, CurrentStringSize);
 			CurrentVariableNum++;
@@ -442,7 +442,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 		switch(Variable->VariableValue[i+1])
 		{
-						case '0': break;
+			case '0': break;
 			case '1': RetVariable->Value[(i/2)] += 1; break;
 			case '2': RetVariable->Value[(i/2)] += 2; break;
 			case '3': RetVariable->Value[(i/2)] += 3; break;
