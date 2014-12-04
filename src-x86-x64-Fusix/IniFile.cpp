@@ -76,7 +76,7 @@ bool INI_FILE::CreateStringsMap()
 
 	StringsCount = 1;
 
-	for(DWORD i = 9; i < FileSize; i++)
+	for(DWORD i = 0; i < FileSize; i++)
 	{
 		if(FileRaw[i] == '\r' && FileRaw[i+1] == '\n')
 		{
@@ -88,40 +88,32 @@ bool INI_FILE::CreateStringsMap()
 	return true;
 }
 
-int INI_FILE::StrTrim(char* Str, STRING_TRIM_TYPE Type)
+int INI_FILE::StrTrim(char* Str) 
 {
-    int StrLn = strlen(Str) + 1;
-    if ((StrLn == 0) || (Type < TRIM_LEFT) || (Type > TRIM_BOTH)) {
-        return 0;
-    }
-    char *NewStr = new char[StrLn];
-    int IdxSrc = -1, IdxDest = 0;
-    if ((Type == TRIM_LEFT) || (Type == TRIM_BOTH)) {
-        bool InText = false;
-        while(Str[++IdxSrc]) {
-            if (!InText && (Str[IdxSrc] != ' ') && (Str[IdxSrc] != '\n') && (Str[IdxSrc] != '\t')) {
-                InText = true;
-            }
-            if (InText) {
-                NewStr[IdxDest++] = Str[IdxSrc];
-            }
-        }
-        NewStr[IdxDest] = '\0';
-    } else {
-        IdxDest = StrLn - 1;
-        strcpy_s(NewStr, StrLn, Str);
-    }
-    if ((Type == TRIM_RIGHT) || (Type == TRIM_BOTH)) {
-        while(--IdxDest > 0) {
-            if ((NewStr[IdxDest] != ' ') && (NewStr[IdxDest] != '\n') && (NewStr[IdxDest] != '\t')) {
-                break;
-            }
-        }
-    NewStr[IdxDest] = '\0';
-    }
-    strcpy_s(Str, StrLn, NewStr);
-    delete NewStr;
-    return IdxDest;
+	int i = 0, j;
+	while((Str[i]==' ')||(Str[i]=='\t')) 
+	{
+		i++;
+	}
+	if(i>0) 
+	{
+		for(j=0; j < strlen(Str); j++)
+		{
+			Str[j]=Str[j+i];
+		}
+		Str[j]='\0';
+	} 
+ 
+	i = strlen(Str)-1;
+	while((Str[i] == ' ')||(Str[i]=='\t')) 
+	{
+		i--;
+	}
+	if(i < (strlen(Str)-1))
+	{
+		Str[i+1] = '\0';
+	}
+	return 0;
 }
 
 DWORD INI_FILE::GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD Size)
@@ -169,12 +161,12 @@ bool INI_FILE::FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD Str
 	for(DWORD i = 0; i < StrSize; i++)
 	{
 		if(Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
-		if(Str[i] == '=' && !Quotes)
+		if(Str[i] == '=' && !Quotes) 
 		{
 			memcpy(Variable->VariableName, Str, i);
 			memcpy(Variable->VariableValue, &(Str[i+1]), StrSize-(i-1));
-			//StrTrim(Variable->VariableName, TRIM_BOTH);
-			//StrTrim(Variable->VariableValue, TRIM_BOTH);
+			StrTrim(Variable->VariableName);
+			StrTrim(Variable->VariableValue);
 			break;
 		}
 	}
@@ -193,14 +185,14 @@ bool INI_FILE::Parse()
 	DWORD CurrentSectionNum = -1;
 	DWORD CurrentVariableNum = -1;
 
-	// Calculate section count
+	// Calculate sections count
 	for(DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') continue; // It's a comment
+		if(CurrentString[0] == ';') continue; // It's comment	
 		
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section declaration
+		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section diclarate
 		{
 			SectionsCount++;
 			continue;
@@ -214,15 +206,15 @@ bool INI_FILE::Parse()
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') continue; // It's a comment
+		if(CurrentString[0] == ';') continue; // It's comment	
 		
 
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section declaration
+		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section diclarate
 		{
 			CurrentSectionNum++;
 			continue;
 		}
-		if(IsVariable(CurrentString, CurrentStringSize))
+		if(IsVariable(CurrentString, CurrentStringSize)) 
 		{
 			VariablesCount++;
 			SectionVariableCount[CurrentSectionNum]++;
@@ -250,9 +242,9 @@ bool INI_FILE::Parse()
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') // It's a comment
+		if(CurrentString[0] == ';') // It's comment
 		{
-			continue;
+			continue; 
 		}
 
 		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')
@@ -263,7 +255,7 @@ bool INI_FILE::Parse()
 			continue;
 		}
 
-		if(IsVariable(CurrentString, CurrentStringSize))
+		if(IsVariable(CurrentString, CurrentStringSize)) 
 		{
 			FillVariable(&(IniData.Section[CurrentSectionNum].Variables[CurrentVariableNum]), CurrentString, CurrentStringSize);
 			CurrentVariableNum++;
@@ -286,7 +278,7 @@ bool INI_FILE::SectionExists(char *SectionName)
 	return false;
 }
 
-bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_STRING *RetVariable)
+bool INI_FILE::GetVariableInSectionPrivate(char *SectionName, char *VariableName, INI_SECTION_VARIABLE *RetVariable)
 {
 	INI_SECTION *Section = NULL;
 	INI_SECTION_VARIABLE *Variable = NULL;
@@ -305,6 +297,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 		SetLastError(318); // This region is not found
 		return false;
 	}
+
 	// Find variable
 	for(DWORD i = 0; i < Section->VariablesCount; i++)
 	{
@@ -321,106 +314,66 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 	}
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
-	memcpy(RetVariable->Name, Variable->VariableName, strlen(Variable->VariableName));
-	memcpy(RetVariable->Value, Variable->VariableValue, strlen(Variable->VariableValue));
+	memcpy(RetVariable, Variable, sizeof(*Variable));
+
+	return true;
+}
+
+bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_STRING *RetVariable)
+{
+	bool Status = false;
+	INI_SECTION_VARIABLE Variable = {};
+
+	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
+	if(!Status)	return Status;
+
+	memset(RetVariable, 0x00, sizeof(*RetVariable));
+	memcpy(RetVariable->Name, Variable.VariableName, strlen(Variable.VariableName));
+	memcpy(RetVariable->Value, Variable.VariableValue, strlen(Variable.VariableValue));
 	
 	return true;
 }
 
 bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_DWORD *RetVariable)
 {
-	INI_SECTION *Section = NULL;
-	INI_SECTION_VARIABLE *Variable = NULL;
+	bool Status = false;
+	INI_SECTION_VARIABLE Variable = {};
 
-	// Find section
-	for(DWORD i = 0; i < IniData.SectionCount; i++)
-	{
-		if(memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
-		{
-			Section = &(IniData.Section[i]);
-			break;
-		}
-	}
-	if(Section == NULL)	
-	{
-		SetLastError(318); // This region is not found
-		return false;
-	}
-	// Find variable
-	for(DWORD i = 0; i < Section->VariablesCount; i++)
-	{
-		if(memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
-		{
-			Variable = &(Section->Variables[i]);
-			break;
-		}
-	}
-	if(Variable == NULL)
-	{
-		SetLastError(1898); // Member of the group is not found
-		return false;
-	}
+	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
+	if(!Status)	return Status;
 	
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
-	memcpy(RetVariable->Name, Variable->VariableName, strlen(Variable->VariableName));
+	memcpy(RetVariable->Name, Variable.VariableName, strlen(Variable.VariableName));
 
 #ifndef _WIN64
-	RetVariable->ValueDec = strtol(Variable->VariableValue, NULL, 10);
-	RetVariable->ValueHex = strtol(Variable->VariableValue, NULL, 16);
+	RetVariable->ValueDec = strtol(Variable.VariableValue, NULL, 10);
+	RetVariable->ValueHex = strtol(Variable.VariableValue, NULL, 16);
 #else
-	RetVariable->ValueDec = _strtoi64(Variable->VariableValue, NULL, 10);
-	RetVariable->ValueHex = _strtoi64(Variable->VariableValue, NULL, 16);
+	RetVariable->ValueDec = _strtoi64(Variable.VariableValue, NULL, 10);
+	RetVariable->ValueHex = _strtoi64(Variable.VariableValue, NULL, 16);
 #endif
 	return true;
 }
 
 bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_BYTEARRAY *RetVariable)
 {
-	INI_SECTION *Section = NULL;
-	INI_SECTION_VARIABLE *Variable = NULL;
+	bool Status = false;
+	INI_SECTION_VARIABLE Variable = {};
 
-	// Find section
-	for(DWORD i = 0; i < IniData.SectionCount; i++)
-	{
-		if(memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
-		{
-			Section = &(IniData.Section[i]);
-			break;
-		}
-	}
-	if(Section == NULL)	
-	{
-		SetLastError(318); // This region is not found
-		return false;
-	}
-	// Find variable
-	for(DWORD i = 0; i < Section->VariablesCount; i++)
-	{
-		if(memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
-		{
-			Variable = &(Section->Variables[i]);
-			break;
-		}
-	}
-	if(Variable == NULL)
-	{
-		SetLastError(1898); // Member of the group is not found
-		return false;
-	}
-
-	DWORD ValueLen = strlen(Variable->VariableName);
+	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
+	if(!Status)	return Status;
+	
+	DWORD ValueLen = strlen(Variable.VariableValue);
 	if((ValueLen % 2) != 0) return false;
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
-	memcpy(RetVariable->Name, Variable->VariableName, ValueLen);
-
-	char Mask[15] = {};
+	memcpy(RetVariable->Name, Variable.VariableName, ValueLen);
 
 	for(DWORD i = 0; i <= ValueLen; i++)
 	{
 		if((i % 2) != 0) continue;
 		
-		switch(Variable->VariableValue[i])
+		switch(Variable.VariableValue[i])
 		{
 			case '0': break;
 			case '1': RetVariable->Value[(i/2)] += (1 << 4); break;
@@ -440,9 +393,9 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 			case 'F': RetVariable->Value[(i/2)] += (15 << 4); break;
 		}	
 
-		switch(Variable->VariableValue[i+1])
+		switch(Variable.VariableValue[i+1])
 		{
-			case '0': break;
+						case '0': break;
 			case '1': RetVariable->Value[(i/2)] += 1; break;
 			case '2': RetVariable->Value[(i/2)] += 2; break;
 			case '3': RetVariable->Value[(i/2)] += 3; break;
@@ -466,39 +419,13 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_BOOL *RetVariable)
 {
-	INI_SECTION *Section = NULL;
-	INI_SECTION_VARIABLE *Variable = NULL;
+	bool Status = false;
+	INI_SECTION_VARIABLE Variable = {};
 
-	// Find section
-	for(DWORD i = 0; i < IniData.SectionCount; i++)
-	{
-		if(memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
-		{
-			Section = &(IniData.Section[i]);
-			break;
-		}
-	}
-	if(Section == NULL)	
-	{
-		SetLastError(318); // This region is not found
-		return false;
-	}
-	// Find variable
-	for(DWORD i = 0; i < Section->VariablesCount; i++)
-	{
-		if(memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
-		{
-			Variable = &(Section->Variables[i]);
-			break;
-		}
-	}
-	if(Variable == NULL)
-	{
-		SetLastError(1898); // Member of the group is not found
-		return false;
-	}
-	
+	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
+	if(!Status)	return Status;
+
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
-	RetVariable->Value = (bool)strtol(Variable->VariableValue, NULL, 10);
+	RetVariable->Value = (bool)strtol(Variable.VariableValue, NULL, 10);
 	return true;
 }
