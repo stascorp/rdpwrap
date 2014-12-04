@@ -244,9 +244,9 @@ bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 	if (IniFile->VariableExists(INI, "SLPolicy", ValueName))
 	{
 		if (!(IniFile->GetVariableInSection("SLPolicy", ValueName, &Variable))) *Value = 0;
+		else *Value = Variable.ValueDec;
 		return true;
 	}
-	*Value = Variable.ValueDec;
 	return false;
 }
 
