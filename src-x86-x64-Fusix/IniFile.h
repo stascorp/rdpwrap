@@ -17,14 +17,7 @@
 #include "stdafx.h"
 #include <Windows.h>
 
-typedef enum _STRING_TRIM_TYPE
-{
-	TRIM_LEFT,
-	TRIM_RIGHT,
-	TRIM_BOTH,
-} STRING_TRIM_TYPE;
-
-// Out values struÒts
+// Out values stru—Åts
 typedef struct _INI_VAR_STRING
 {
 	char Name[128];
@@ -99,11 +92,15 @@ private:
 	DWORD *FileStringsMap;	// String-map
 	INI_DATA IniData;	// Parsed data
 
-	bool IsVariable(char *Str, DWORD StrSize);	// Is variable (for Parse)
-	bool FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD StrSize);	// Fill INI_SECTION_VARIABLE struct (for Parse)
-	int StrTrim(char* Str, STRING_TRIM_TYPE Type);
-	DWORD GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD Size);	// Get stroing from string-map
+	// Common service functions
+	int StrTrim(char* Str);
+
+	// Class service functions
 	bool CreateStringsMap(); // Create file string-map
 	bool Parse();	// Parse file to class structures
+	DWORD GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD Size);	// Get stroing from string-map
+	bool IsVariable(char *Str, DWORD StrSize);
+	bool FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD StrSize);	// Fill INI_SECTION_VARIABLE struct (for Parse)
+	bool GetVariableInSectionPrivate(char *SectionName, char *VariableName, INI_SECTION_VARIABLE *RetVariable);
 };
 
