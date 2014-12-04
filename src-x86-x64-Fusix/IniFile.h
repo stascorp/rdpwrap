@@ -28,10 +28,10 @@ typedef struct _INI_VAR_DWORD
 {
 	char Name[128];
 #ifndef _WIN64
-	DWORD ValueDec; 
+	DWORD ValueDec;
 	DWORD ValueHex;
 #else
-	DWORD64 ValueDec; 
+	DWORD64 ValueDec;
 	DWORD64 ValueHex;
 #endif
 
@@ -88,7 +88,7 @@ public:
 private:
 	DWORD FileSize;	// Ini file size
 	char *FileRaw;	// Ini file raw dump
-	DWORD FileStringsCount;	//	String-map lenght
+	DWORD FileStringsCount;	//	String-map length
 	DWORD *FileStringsMap;	// String-map
 	INI_DATA IniData;	// Parsed data
 
@@ -98,7 +98,7 @@ private:
 	// Class service functions
 	bool CreateStringsMap(); // Create file string-map
 	bool Parse();	// Parse file to class structures
-	DWORD GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD Size);	// Get stroing from string-map
+	DWORD GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD Size);	// Get string from string-map
 	bool IsVariable(char *Str, DWORD StrSize);
 	bool FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD StrSize);	// Fill INI_SECTION_VARIABLE struct (for Parse)
 	bool GetVariableInSectionPrivate(char *SectionName, char *VariableName, INI_SECTION_VARIABLE *RetVariable);
