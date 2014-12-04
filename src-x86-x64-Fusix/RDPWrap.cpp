@@ -239,11 +239,14 @@ BOOL __stdcall GetFileVersion(LPCWSTR lptstrFilename, FILE_VERSION *FileVersion)
 
 bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 {
+	INI_VAR_DWORD Variable = {0};
+	
 	if (IniFile->VariableExists(INI, "SLPolicy", ValueName))
 	{
-		if (!(IniFile->GetVariableInSection("SLPolicy", ValueName, Value))) *Value = 0;
+		if (!(IniFile->GetVariableInSection("SLPolicy", ValueName, &Variable))) *Value = 0;
 		return true;
 	}
+	*Value = Variable.ValueDec;
 	return false;
 }
 
@@ -482,8 +485,8 @@ void Hook()
 	AlreadyHooked = true;
 
 	WriteToLog("Loading configuration...\r\n");
-	*IniFile = new INI_FILE(ExtractFilePath(GetBinaryPath()) + L"rdpwrap.ini");
-	if (*IniFile == NULL)
+	IniFile = new INI_FILE(ExtractFilePath(GetBinaryPath()) + L"rdpwrap.ini");
+	if (IniFile == NULL)
 	{
 		WriteToLog("Error: Failed to load configuration\r\n");
 		return;
