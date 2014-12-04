@@ -17,16 +17,18 @@
 #include "stdafx.h"
 #include <Windows.h>
 
+#define MAX_STRING_LEN 255
+
 // Out values struсts
 typedef struct _INI_VAR_STRING
 {
-	char Name[128];
-	char Value[128];
-} INI_VAR_STRING, PINI_VAR_STRING;
+	char Name[MAX_STRING_LEN];
+	char Value[MAX_STRING_LEN];
+} INI_VAR_STRING, *PINI_VAR_STRING;
 
 typedef struct _INI_VAR_DWORD
 {
-	char Name[128];
+	char Name[MAX_STRING_LEN];
 #ifndef _WIN64
 	DWORD ValueDec;
 	DWORD ValueHex;
@@ -35,37 +37,43 @@ typedef struct _INI_VAR_DWORD
 	DWORD64 ValueHex;
 #endif
 
-} INI_VAR_DWORD, PINI_VAR_DWORD;
-
-typedef struct _INI_VAR_BOOL
-{
-	char Name[128];
-	bool Value;
-} INI_VAR_BOOL, PINI_VAR_BOOL;
+} INI_VAR_DWORD, *PINI_VAR_DWORD;
 
 typedef struct _INI_VAR_BYTEARRAY
 {
-	char Name[128];
+	char Name[MAX_STRING_LEN];
 	byte ArraySize;
-	char Value[255];
-} INI_VAR_BYTEARRAY, PINI_VAR_BYTEARRAY;
+	char Value[MAX_STRING_LEN];
+} INI_VAR_BYTEARRAY, *PINI_VAR_BYTEARRAY;
+
+typedef struct _INI_SECTION_VARLIST_ENTRY
+{
+	char String[MAX_STRING_LEN];
+} INI_SECTION_VARLIST_ENTRY, *PINI_SECTION_VARLIST_ENTRY;
+
+typedef struct _INI_SECTION_VARLIST
+{
+	DWORD EntriesCount;
+	[length_is(EntriesCount)] INI_SECTION_VARLIST_ENTRY *NamesEntries;
+	[length_is(EntriesCount)] INI_SECTION_VARLIST_ENTRY *ValuesEntries;
+} INI_SECTION_VARLIST, *PINI_SECTION_VARLIST;
 
 // end
 
 typedef struct _INI_SECTION_VARIABLE
 {
-	char VariableName[128];
-	char VariableValue[128];
-} INI_SECTION_VARIABLE, PINI_SECTION_VARIABLE;
+	char VariableName[MAX_STRING_LEN];
+	char VariableValue[MAX_STRING_LEN];
+} INI_SECTION_VARIABLE, *PINI_SECTION_VARIABLE;
 
 
 typedef struct _INI_SECTION
 {
-	char SectionName[128];
+	char SectionName[MAX_STRING_LEN];
 	DWORD VariablesCount;
 	[length_is(SectionCount)]	INI_SECTION_VARIABLE *Variables;
 
-} INI_SECTION, PINI_SECTION;
+} INI_SECTION, *PINI_SECTION;
 
 typedef struct _INI_DATA
 {
@@ -80,10 +88,12 @@ public:
 	~INI_FILE();
 
 	bool SectionExists(char *SectionName);
+	bool VariableExists(char *SectionName, char *VariableName);
 	bool GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_STRING *Variable);
 	bool GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_DWORD *Variable);
-	bool GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_BOOL *Variable);
+	bool GetVariableInSection(char *SectionName, char *VariableName, bool *Variable);
 	bool GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_BYTEARRAY *Variable);
+	bool GetSectionVariablesList(char *SectionName, INI_SECTION_VARLIST *VariablesList);
 
 private:
 	DWORD FileSize;	// Ini file size
@@ -101,6 +111,6 @@ private:
 	DWORD GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD Size);	// Get string from string-map
 	bool IsVariable(char *Str, DWORD StrSize);
 	bool FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD StrSize);	// Fill INI_SECTION_VARIABLE struct (for Parse)
+	PINI_SECTION GetSection(char *SectionName);
 	bool GetVariableInSectionPrivate(char *SectionName, char *VariableName, INI_SECTION_VARIABLE *RetVariable);
 };
-
