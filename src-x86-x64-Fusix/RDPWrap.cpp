@@ -87,11 +87,14 @@ HMODULE GetCurrentModule()
 }
 
 // Correct this
+// TODO: Add *wchar_t argument, size argument. Write ExtractFilePath function
+// Variable "Filename" will be deleted after you exit the function.
+// Stas => vk.com/im
 LPCWSTR GetBinaryPath()
 {
 	wchar_t Filename[256];
-	GetModuleFileName(GetCurrentModule(), &Filename[0], 256);
-	return &Filename[0];
+	GetModuleFileName(GetCurrentModule(), Filename, 256);
+	return Filename;
 }
 
 /*PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size, char *Signature, int SignatureSize)
