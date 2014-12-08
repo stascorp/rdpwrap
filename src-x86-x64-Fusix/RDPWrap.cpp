@@ -21,7 +21,7 @@ typedef struct
 {
 	union
 	{
-		struct 
+		struct
 		{
 			WORD Minor;
 			WORD Major;
@@ -68,7 +68,7 @@ bool AlreadyHooked = false;
 DWORD INIReadDWordHex(INI_FILE *IniFile, char *Sect, char *VariableName, PLATFORM_DWORD Default)
 {
 	INI_VAR_DWORD Variable;
-	
+
 	if(IniFile->GetVariableInSection(Sect, VariableName, &Variable))
 	{
 		return Variable.ValueHex;
@@ -82,27 +82,17 @@ void INIReadString(INI_FILE *IniFile, char *Sect, char *VariableName, char *Defa
 
 	memset(Ret, 0x00, RetSize);
 	if(!IniFile->GetVariableInSection(Sect, VariableName, &Variable))
-	{	
+	{
 		strcpy_s(Ret, RetSize, Default);
 		return;
 	}
 	strcpy_s(Ret, RetSize, Variable.Value);
 }
 
-int SListFind(INI_SECTION_VARLIST List, char *Name)
-{
-	for (DWORD i = 0; i < List.EntriesCount; i++)
-	{
-		if(strcmp(List.NamesEntries[i].String, Name) == 0) return i;
-	}
-	return -1;
-}
-
 void WriteToLog(LPSTR Text)
 {
 	DWORD dwBytesOfWritten;
 
-	// Correct this - LogFile
 	HANDLE hFile = CreateFile(LogFile, GENERIC_WRITE, FILE_SHARE_WRITE | FILE_SHARE_READ, NULL, OPEN_ALWAYS, FILE_ATTRIBUTE_NORMAL, NULL);
 	if (hFile == INVALID_HANDLE_VALUE) return;
 
@@ -114,17 +104,8 @@ void WriteToLog(LPSTR Text)
 HMODULE GetCurrentModule()
 {
 	HMODULE hModule = NULL;
-	// Check this
 	GetModuleHandleEx(GET_MODULE_HANDLE_EX_FLAG_FROM_ADDRESS, (LPCWSTR)GetCurrentModule, &hModule);
 	return hModule;
-}
-
-// Correct this
-LPCWSTR GetBinaryPath()
-{
-	wchar_t Filename[256];
-	GetModuleFileName(GetCurrentModule(), &Filename[0], 256);
-	return &Filename[0];
 }
 
 /*PLATFORM_DWORD SearchAddressBySignature(char *StartPosition, PLATFORM_DWORD Size, char *Signature, int SignatureSize)
@@ -169,7 +150,7 @@ void SetThreadsState(bool Resume)
 
 	CurrTh = GetCurrentThreadId();
 	CurrPr = GetCurrentProcessId();
-	
+
 	h = CreateToolhelp32Snapshot(TH32CS_SNAPTHREAD, 0);
 	if (h != INVALID_HANDLE_VALUE)
 	{
@@ -187,14 +168,14 @@ void SetThreadsState(bool Resume)
 					CloseHandle(hThread);
 				}
 			}
-		} while (Thread32Next(h, &Thread));	
+		} while (Thread32Next(h, &Thread));
 		CloseHandle(h);
 	}
 }
 
 BOOL __stdcall GetModuleVersion(LPCWSTR lptstrModuleName, FILE_VERSION *FileVersion)
 {
-	typedef struct 
+	typedef struct
 	{
 		WORD             wLength;
 		WORD             wValueLength;
@@ -211,13 +192,13 @@ BOOL __stdcall GetModuleVersion(LPCWSTR lptstrModuleName, FILE_VERSION *FileVers
 	{
 		return false;
 	}
-	
-	HRSRC hResourceInfo = FindResourceW(hMod, (LPCWSTR)1, (LPCWSTR)0x10);	
+
+	HRSRC hResourceInfo = FindResourceW(hMod, (LPCWSTR)1, (LPCWSTR)0x10);
 	if(!hResourceInfo)
 	{
 		return false;
 	}
-	
+
 	VS_VERSIONINFO *VersionInfo = (VS_VERSIONINFO*)LoadResource(hMod, hResourceInfo);
 	if(!VersionInfo)
 	{
@@ -233,7 +214,7 @@ BOOL __stdcall GetModuleVersion(LPCWSTR lptstrModuleName, FILE_VERSION *FileVers
 
 BOOL __stdcall GetFileVersion(LPCWSTR lptstrFilename, FILE_VERSION *FileVersion)
 {
-	typedef struct 
+	typedef struct
 	{
 		WORD             wLength;
 		WORD             wValueLength;
@@ -250,13 +231,13 @@ BOOL __stdcall GetFileVersion(LPCWSTR lptstrFilename, FILE_VERSION *FileVersion)
 	{
 		return false;
 	}
-	
-	HRSRC hResourceInfo = FindResourceW(hFile, (LPCWSTR)1, (LPCWSTR)0x10);	
+
+	HRSRC hResourceInfo = FindResourceW(hFile, (LPCWSTR)1, (LPCWSTR)0x10);
 	if(!hResourceInfo)
 	{
 		return false;
 	}
-	
+
 	VS_VERSIONINFO *VersionInfo = (VS_VERSIONINFO*)LoadResource(hFile, hResourceInfo);
 	if(!VersionInfo)
 	{
@@ -273,7 +254,7 @@ BOOL __stdcall GetFileVersion(LPCWSTR lptstrFilename, FILE_VERSION *FileVersion)
 bool OverrideSL(LPWSTR ValueName, DWORD *Value)
 {
 	INI_VAR_DWORD Variable = {0};
-	
+
 	if (IniFile->VariableExists(L"SLPolicy", ValueName))
 	{
 		if (!(IniFile->GetVariableInSection(L"SLPolicy", ValueName, &Variable))) *Value = 0;
@@ -312,7 +293,7 @@ HRESULT WINAPI New_SLGetWindowsInformationDWORD(PWSTR pwszValueName, DWORD *pdwV
 		WriteToLog(Log);
 		delete[] Log;
 
-		return S_OK; 
+		return S_OK;
 	}
 
 	WriteProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Old_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
@@ -358,7 +339,7 @@ HRESULT __fastcall New_Win8SL(PWSTR pwszValueName, DWORD *pdwValue)
 		WriteToLog(Log);
 		delete[] Log;
 
-		return S_OK; 
+		return S_OK;
 	}
 
 	Result = _SLGetWindowsInformationDWORD(pwszValueName, pdwValue);
@@ -371,7 +352,7 @@ HRESULT __fastcall New_Win8SL(PWSTR pwszValueName, DWORD *pdwValue)
 	} else {
 		WriteToLog("Failed\r\n");
 	}
-	
+
 	return Result;
 }
 
@@ -432,7 +413,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 
 	if (bServerSku)
 	{
-		 *bServerSku = INIReadDWordHex(IniFile, "SLInit", "bServerSku", 0);
+		*bServerSku = INIReadDWordHex(IniFile, "SLInit", "bServerSku", 1);
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bServerSku = %d\r\n", bServerSku, *bServerSku);
@@ -441,7 +422,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bRemoteConnAllowed)
 	{
-		*bRemoteConnAllowed = INIReadDWordHex(IniFile, "SLInit", "bRemoteConnAllowed", 0);
+		*bRemoteConnAllowed = INIReadDWordHex(IniFile, "SLInit", "bRemoteConnAllowed", 1);
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bRemoteConnAllowed = %d\r\n", bRemoteConnAllowed, *bRemoteConnAllowed);
@@ -450,7 +431,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bFUSEnabled)
 	{
-		*bFUSEnabled = INIReadDWordHex(IniFile, "SLInit", "bFUSEnabled", 0);
+		*bFUSEnabled = INIReadDWordHex(IniFile, "SLInit", "bFUSEnabled", 1);
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bFUSEnabled = %d\r\n", bFUSEnabled, *bFUSEnabled);
@@ -459,7 +440,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bAppServerAllowed)
 	{
-		*bAppServerAllowed = INIReadDWordHex(IniFile, "SLInit", "bAppServerAllowed", 0);
+		*bAppServerAllowed = INIReadDWordHex(IniFile, "SLInit", "bAppServerAllowed", 1);
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bAppServerAllowed = %d\r\n", bAppServerAllowed, *bAppServerAllowed);
@@ -468,7 +449,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bMultimonAllowed)
 	{
-		*bMultimonAllowed = INIReadDWordHex(IniFile, "SLInit", "bMultimonAllowed", 0);
+		*bMultimonAllowed = INIReadDWordHex(IniFile, "SLInit", "bMultimonAllowed", 1);
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bMultimonAllowed = %d\r\n", bMultimonAllowed, *bMultimonAllowed);
@@ -495,7 +476,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	}
 	if (bInitialized)
 	{
-		*bInitialized = INIReadDWordHex(IniFile, "SLInit", "bInitialized", 0);
+		*bInitialized = INIReadDWordHex(IniFile, "SLInit", "bInitialized", 1);
 
 		Log = new char[1024];
 		wsprintfA(Log, "[0x%p] bInitialized = %d\r\n", bInitialized, *bInitialized);
@@ -519,8 +500,7 @@ void Hook()
 
 	wchar_t ConfigFile[256] = {0x00};
 	WriteToLog("Loading configuration...\r\n");
-	
-	// ���� ������. ����� ����� ���
+
 	GetModuleFileName(GetCurrentModule(), ConfigFile, 255);
 	for(DWORD i = wcslen(ConfigFile); i > 0; i--)
 	{
@@ -538,7 +518,7 @@ void Hook()
 		WriteToLog("Error: Failed to load configuration\r\n");
 		return;
 	}
-	
+
 	INI_VAR_STRING LogFileVar;
 
 	if(!(IniFile->GetVariableInSection("Main", "LogFile", &LogFileVar)))
@@ -554,6 +534,8 @@ void Hook()
 			}
 		}
 	}
+	// else...
+	// LogFileVar => LogFile
 
 	char *Log;
 	SIZE_T bw;
@@ -739,7 +721,9 @@ void Hook()
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x86", 0));
 				IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &Patch);
 				#endif
-				
+				// Patch.Value is char
+				// WriteProcessMemory uses LPCVOID lpBuffer, so...
+				// maybe &Patch.Value ?
 				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
@@ -758,7 +742,9 @@ void Hook()
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x86", 0));
 				IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &Patch);
 				#endif
-				
+				// Patch.Value is char
+				// WriteProcessMemory uses LPCVOID lpBuffer, so...
+				// maybe &Patch.Value ?
 				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
@@ -777,7 +763,9 @@ void Hook()
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x86", 0));
 				IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &Patch);
 				#endif
-
+				// Patch.Value is char
+				// WriteProcessMemory uses LPCVOID lpBuffer, so...
+				// maybe &Patch.Value ?
 				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
@@ -809,7 +797,7 @@ void Hook()
 				Jump.PushOp = 0x68;
 				Jump.PushArg = (PLATFORM_DWORD)New_Win8SL;
 				Jump.RetOp = 0xC3;
-				
+
 				INIReadString(IniFile, Sect, "SLPolicyFunc.x86", "New_Win8SL", FuncName, 1024);
 
 				if (strcmp(FuncName, "New_Win8SL"))
@@ -853,9 +841,9 @@ void Hook()
 				Jump.PushOp = 0x68;
 				Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
 				Jump.RetOp = 0xC3;
-				
+
 				INIReadString(IniFile, Sect, "SLInitFunc.x86", "New_CSLQuery_Initialize", FuncName, 1024);
-				
+
 				if (strcmp(FuncName, "New_CSLQuery_Initialize"))
 				{
 					Jump.PushArg = (PLATFORM_DWORD)New_CSLQuery_Initialize;
@@ -886,5 +874,5 @@ void WINAPI SvchostPushServiceGlobals(void *lpGlobalData)
 	WriteToLog("> SvchostPushServiceGlobals\r\n");
 	if (!AlreadyHooked) Hook();
 
-	if (_SvchostPushServiceGlobals != NULL) _SvchostPushServiceGlobals(lpGlobalData); 
+	if (_SvchostPushServiceGlobals != NULL) _SvchostPushServiceGlobals(lpGlobalData);
 }

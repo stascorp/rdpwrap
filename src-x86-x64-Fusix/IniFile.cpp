@@ -400,7 +400,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 		switch(Variable.VariableValue[i+1])
 		{
-						case '0': break;
+			case '0': break;
 			case '1': RetVariable->Value[(i/2)] += 1; break;
 			case '2': RetVariable->Value[(i/2)] += 2; break;
 			case '3': RetVariable->Value[(i/2)] += 3; break;
