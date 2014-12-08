@@ -716,10 +716,10 @@ void Hook()
 				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x64", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x64", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x64", &Patch); // [!] returns patch name, not the patch itself
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x86", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &Patch); // [!] returns patch name, not the patch itself
 				#endif
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
@@ -737,10 +737,10 @@ void Hook()
 				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x64", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x64", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x64", &Patch); // [!] returns patch name, not the patch itself
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x86", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &Patch); // [!] returns patch name, not the patch itself
 				#endif
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
@@ -758,10 +758,10 @@ void Hook()
 				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x64", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x64", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x64", &Patch); // [!] returns patch name, not the patch itself
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x86", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &Patch); // [!] returns patch name, not the patch itself
 				#endif
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
