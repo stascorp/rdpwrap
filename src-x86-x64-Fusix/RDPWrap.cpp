@@ -713,18 +713,18 @@ void Hook()
 			if (Bool)
 			{
 				WriteToLog("Patch CEnforcementCore::GetInstanceOfTSLicense\r\n");
-				int i = -1;
+				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x64", 0));
-				IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x64", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x64", &Patch);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x86", 0));
-				IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &Patch);
 				#endif
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
 				// maybe &Patch.Value ?
-				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
+				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x64", &Bool))) Bool = true;
@@ -734,18 +734,18 @@ void Hook()
 			if (Bool)
 			{
 				WriteToLog("Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled\r\n");
-				int i = -1;
+				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x64", 0));
-				IniFile->GetVariableInSection(Sect, "SingleUserCode.x64", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x64", &Patch);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x86", 0));
-				IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &Patch);
 				#endif
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
 				// maybe &Patch.Value ?
-				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
+				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x64", &Bool))) Bool = true;
@@ -755,18 +755,18 @@ void Hook()
 			if (Bool)
 			{
 				WriteToLog("Patch CDefPolicy::Query\r\n");
-				int i = -1;
+				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x64", 0));
-				IniFile->GetVariableInSection(Sect, "DefPolicyCode.x64", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x64", &Patch);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x86", 0));
-				IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &Patch);
+				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &Patch);
 				#endif
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
 				// maybe &Patch.Value ?
-				if (i >= 0) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
+				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x64", &Bool))) Bool = true;
@@ -810,7 +810,7 @@ void Hook()
 				}
 				#endif
 				delete[] FuncName;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
+				if (SignPtr > TermSrvBase) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x64", &Bool))) Bool = true;
@@ -850,7 +850,7 @@ void Hook()
 				}
 				#endif
 				delete[] FuncName;
-				WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
+				if (SignPtr > TermSrvBase) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
 			}
 		}
 	}
