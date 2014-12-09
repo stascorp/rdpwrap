@@ -714,10 +714,8 @@ void Hook()
 				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &PatchName);
 				#endif
 				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
-				// Patch.Value is char
-				// WriteProcessMemory uses LPCVOID lpBuffer, so...
-				// maybe &Patch.Value ?
-				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
+
+				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x64", &Bool))) Bool = false;
@@ -736,10 +734,8 @@ void Hook()
 				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &PatchName);
 				#endif
 				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
-				// Patch.Value is char
-				// WriteProcessMemory uses LPCVOID lpBuffer, so...
-				// maybe &Patch.Value ?
-				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
+
+				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x64", &Bool))) Bool = false;
@@ -758,10 +754,8 @@ void Hook()
 				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &PatchName);
 				#endif
 				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
-				// Patch.Value is char
-				// WriteProcessMemory uses LPCVOID lpBuffer, so...
-				// maybe &Patch.Value ?
-				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
+
+				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x64", &Bool))) Bool = false;
