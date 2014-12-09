@@ -523,8 +523,7 @@ void Hook()
 
 	if(!(IniFile->GetVariableInSection("Main", "LogFile", &LogFileVar)))
 	{
-		memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));
-
+		GetModuleFileName(GetCurrentModule(), LogFile, 255);
 		for(DWORD i = wcslen(LogFile); i > 0; i--)
 		{
 			if(LogFile[i] == '\\')
@@ -534,8 +533,7 @@ void Hook()
 			}
 		}
 	}
-	// else...
-	// LogFileVar => LogFile
+	else memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));
 
 	char *Log;
 	SIZE_T bw;
@@ -603,13 +601,6 @@ void Hook()
 	WriteToLog("freeze\r\n");
 	SetThreadsState(false);
 
-	WriteToLog("Loading patch codes...\r\n");
-
-	INI_SECTION_VARLIST PatchList;
-
-	IniFile->GetSectionVariablesList("PatchCodes", &PatchList);
-
-
 	bool bSLHook;
 	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT60", &bSLHook))) bSLHook = true;
 
@@ -643,7 +634,7 @@ void Hook()
 		}
 	}
 
-	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT60", &bSLHook))) bSLHook = true;
+	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT61", &bSLHook))) bSLHook = true;
 
 	if ((Ver == 0x0601) && bSLHook)
 	{
@@ -696,6 +687,7 @@ void Hook()
 	}
 
 	char *Sect;
+	INI_VAR_STRING PatchName;
 	INI_VAR_BYTEARRAY Patch;
 	Sect = new char[1024];
 	wsprintfA(Sect, "%d.%d.%d.%d", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
@@ -706,9 +698,9 @@ void Hook()
 		{
 			bool Bool;
 			#ifdef _WIN64
-			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x64", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x64", &Bool))) Bool = false;
 			#else
-			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x86", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x86", &Bool))) Bool = false;
 			#endif
 			if (Bool)
 			{
@@ -716,20 +708,21 @@ void Hook()
 				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x64", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x64", &Patch); // [!] returns patch name, not the patch itself
+				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x64", &PatchName);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "LocalOnlyOffset.x86", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &Patch); // [!] returns patch name, not the patch itself
+				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &PatchName);
 				#endif
+				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
 				// maybe &Patch.Value ?
 				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
-			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x64", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x64", &Bool))) Bool = false;
 			#else
-			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x86", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "SingleUserPatch.x86", &Bool))) Bool = false;
 			#endif
 			if (Bool)
 			{
@@ -737,20 +730,21 @@ void Hook()
 				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x64", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x64", &Patch); // [!] returns patch name, not the patch itself
+				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x64", &PatchName);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "SingleUserOffset.x86", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &Patch); // [!] returns patch name, not the patch itself
+				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &PatchName);
 				#endif
+				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
 				// maybe &Patch.Value ?
 				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
-			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x64", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x64", &Bool))) Bool = false;
 			#else
-			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x86", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "DefPolicyPatch.x86", &Bool))) Bool = false;
 			#endif
 			if (Bool)
 			{
@@ -758,20 +752,21 @@ void Hook()
 				Bool = false;
 				#ifdef _WIN64
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x64", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x64", &Patch); // [!] returns patch name, not the patch itself
+				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x64", &PatchName);
 				#else
 				SignPtr = (PLATFORM_DWORD)(TermSrvBase + INIReadDWordHex(IniFile, Sect, "DefPolicyOffset.x86", 0));
-				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &Patch); // [!] returns patch name, not the patch itself
+				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &PatchName);
 				#endif
+				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
 				// Patch.Value is char
 				// WriteProcessMemory uses LPCVOID lpBuffer, so...
 				// maybe &Patch.Value ?
 				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
-			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x64", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x64", &Bool))) Bool = false;
 			#else
-			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x86", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "SLPolicyInternal.x86", &Bool))) Bool = false;
 			#endif
 			if (Bool)
 			{
@@ -813,9 +808,9 @@ void Hook()
 				if (SignPtr > TermSrvBase) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, &Jump, sizeof(FARJMP), &bw);
 			}
 			#ifdef _WIN64
-			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x64", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x64", &Bool))) Bool = false;
 			#else
-			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x86", &Bool))) Bool = true;
+			if (!(IniFile->GetVariableInSection(Sect, "SLInitHook.x86", &Bool))) Bool = false;
 			#endif
 			if (Bool)
 			{
