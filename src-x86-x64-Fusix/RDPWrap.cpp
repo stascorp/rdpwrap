@@ -56,7 +56,7 @@ FARJMP Old_SLGetWindowsInformationDWORD, Stub_SLGetWindowsInformationDWORD;
 SLGETWINDOWSINFORMATIONDWORD _SLGetWindowsInformationDWORD;
 
 INI_FILE *IniFile;
-wchar_t LogFile[256] = L"\\rdpwrap.txt";
+wchar_t LogFile[256] = L"\\rdpwrap.txt\0";
 HMODULE hTermSrv;
 HMODULE hSLC;
 PLATFORM_DWORD TermSrvBase;
@@ -497,6 +497,7 @@ void Hook()
 	extern wchar_t LogFile[256];
 
 	AlreadyHooked = true;
+	char *Log;
 
 	wchar_t ConfigFile[256] = {0x00};
 	WriteToLog("Loading configuration...\r\n");
@@ -507,9 +508,14 @@ void Hook()
 		if(ConfigFile[i] == '\\')
 		{
 			memset(&ConfigFile[i+1], 0x00, ((256-(i+1)))*2);
-			memcpy(&ConfigFile[i+1], "rdpwrap.ini", strlen("rdpwrap.ini")*2);
+			memcpy(&ConfigFile[i+1], L"rdpwrap.ini", strlen("rdpwrap.ini")*2);
 		}
 	}
+
+	Log = new char[1024];
+	wsprintfA(Log, "Configuration file: %S\r\n", ConfigFile);
+	WriteToLog(Log);
+	delete[] Log;
 
 	IniFile = new INI_FILE(ConfigFile);
 
@@ -519,7 +525,7 @@ void Hook()
 		return;
 	}
 
-	/*INI_VAR_STRING LogFileVar;
+	INI_VAR_STRING LogFileVar;
 
 	if(!(IniFile->GetVariableInSection("Main", "LogFile", &LogFileVar)))
 	{
@@ -529,13 +535,17 @@ void Hook()
 			if(LogFile[i] == '\\')
 			{
 				memset(&LogFile[i+1], 0x00, ((256-(i+1)))*2);
-				memcpy(&LogFile[i+1], "rdpwrap.txt", strlen("rdpwrap.txt")*2);
+				memcpy(&LogFile[i+1], L"rdpwrap.txt", strlen("rdpwrap.txt")*2);
 			}
 		}
 	}
-	else memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));*/
+	else memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));
 
-	char *Log;
+	Log = new char[1024];
+	wsprintfA(Log, "Log file: %S\r\n", LogFile);
+	WriteToLog(Log);
+	delete[] Log;
+
 	SIZE_T bw;
 	WORD Ver = 0;
 	PLATFORM_DWORD TermSrvSize, SignPtr;
