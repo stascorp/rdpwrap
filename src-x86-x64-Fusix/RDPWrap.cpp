@@ -583,17 +583,7 @@ void Hook()
 	}
 
 	Log = new char[1024];
-	wsprintfA(Log, "Version: %d.%d\r\n", FV.wVersion.Major, FV.wVersion.Minor);
-	WriteToLog(Log);
-	delete[] Log;
-
-	Log = new char[1024];
-	wsprintfA(Log, "Release: %d\r\n", FV.Release);
-	WriteToLog(Log);
-	delete[] Log;
-
-	Log = new char[1024];
-	wsprintfA(Log, "Build:   %d\r\n", FV.Build);
+	wsprintfA(Log, "Version: %d.%d.%d.%d\r\n", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
 	WriteToLog(Log);
 	delete[] Log;
 
@@ -714,9 +704,6 @@ void Hook()
 				Bool = IniFile->GetVariableInSection(Sect, "LocalOnlyCode.x86", &PatchName);
 				#endif
 				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
-				// Patch.Value is char
-				// WriteProcessMemory uses LPCVOID lpBuffer, so...
-				// maybe &Patch.Value ?
 				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
@@ -736,9 +723,6 @@ void Hook()
 				Bool = IniFile->GetVariableInSection(Sect, "SingleUserCode.x86", &PatchName);
 				#endif
 				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
-				// Patch.Value is char
-				// WriteProcessMemory uses LPCVOID lpBuffer, so...
-				// maybe &Patch.Value ?
 				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
@@ -758,9 +742,6 @@ void Hook()
 				Bool = IniFile->GetVariableInSection(Sect, "DefPolicyCode.x86", &PatchName);
 				#endif
 				if (Bool) Bool = IniFile->GetVariableInSection("PatchCodes", PatchName.Value, &Patch);
-				// Patch.Value is char
-				// WriteProcessMemory uses LPCVOID lpBuffer, so...
-				// maybe &Patch.Value ?
 				if (Bool && (SignPtr > TermSrvBase)) WriteProcessMemory(GetCurrentProcess(), (LPVOID)SignPtr, Patch.Value, Patch.ArraySize, &bw);
 			}
 			#ifdef _WIN64
