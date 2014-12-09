@@ -45,6 +45,11 @@ Known failures
 
 Source code changelog (rdpwrap library):
 
+2014.12.09 :
+- many bug fixes in C++ version, you can track it in the git history :)
+- it can be compiled now :D
+- we are getting closer to the finish line!
+
 2014.12.03 :
 - added INI reader by Fusix for C++ version
 - asulwer also helped with the development
