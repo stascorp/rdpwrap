@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include <Windows.h>
+#include <stdlib.h>
 #include "IniFile.h"
 
 INI_FILE::INI_FILE(wchar_t *FilePath)
@@ -370,8 +371,6 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 	DWORD ValueLen = strlen(Variable.VariableValue);
 	if((ValueLen % 2) != 0) return false;
-	// for security reasons not more than 16 bytes
-	if (ValueLen > 32) ValueLen = 32;  // 32 hex digits
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
 	memcpy(RetVariable->Name, Variable.VariableName, ValueLen);
@@ -402,7 +401,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 		switch(Variable.VariableValue[i+1])
 		{
-			case '0': break;
+						case '0': break;
 			case '1': RetVariable->Value[(i/2)] += 1; break;
 			case '2': RetVariable->Value[(i/2)] += 2; break;
 			case '3': RetVariable->Value[(i/2)] += 3; break;
@@ -465,4 +464,82 @@ bool INI_FILE::GetSectionVariablesList(char *SectionName, INI_SECTION_VARLIST *V
 	}
 
 	return true;
+}
+
+
+// ---------------------------- WCHAR_T BLOCK ----------------------------------------------
+
+bool INI_FILE::SectionExists(wchar_t *SectionName)
+{
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+
+	return GetSection(cSectionName);
+}
+
+bool INI_FILE::VariableExists(wchar_t *SectionName, wchar_t *VariableName)
+{	
+	INI_SECTION_VARIABLE Variable = {0};
+
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cVariableName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
+
+	return GetVariableInSectionPrivate(cSectionName, cVariableName, &Variable);
+}
+
+bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_STRING *RetVariable)
+{
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cVariableName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
+
+	return GetVariableInSection(cSectionName, cVariableName, RetVariable);
+}
+
+bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_DWORD *RetVariable)
+{
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cVariableName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
+
+	return GetVariableInSection(cSectionName, cVariableName, RetVariable);
+}
+
+bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_BYTEARRAY *RetVariable)
+{
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cVariableName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
+
+	return GetVariableInSection(cSectionName, cVariableName, RetVariable);
+}
+
+bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, bool *RetVariable)
+{
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cVariableName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
+
+	return GetVariableInSection(cSectionName, cVariableName, RetVariable);
+}
+
+bool INI_FILE::GetSectionVariablesList(wchar_t *SectionName, INI_SECTION_VARLIST *VariablesList)
+{
+	char cSectionName[MAX_STRING_LEN] = {0x00};
+
+	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
+
+	return GetSectionVariablesList(cSectionName, VariablesList);
 }
