@@ -42,7 +42,7 @@ typedef struct _INI_VAR_DWORD
 typedef struct _INI_VAR_BYTEARRAY
 {
 	char Name[MAX_STRING_LEN];
-	byte ArraySize;
+	BYTE ArraySize;
 	char Value[MAX_STRING_LEN];
 } INI_VAR_BYTEARRAY, *PINI_VAR_BYTEARRAY;
 
