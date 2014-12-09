@@ -509,6 +509,7 @@ void Hook()
 		{
 			memset(&ConfigFile[i+1], 0x00, ((256-(i+1)))*2);
 			memcpy(&ConfigFile[i+1], L"rdpwrap.ini", strlen("rdpwrap.ini")*2);
+			break;
 		}
 	}
 
@@ -536,6 +537,7 @@ void Hook()
 			{
 				memset(&LogFile[i+1], 0x00, ((256-(i+1)))*2);
 				memcpy(&LogFile[i+1], L"rdpwrap.txt", strlen("rdpwrap.txt")*2);
+				break;
 			}
 		}
 	}
