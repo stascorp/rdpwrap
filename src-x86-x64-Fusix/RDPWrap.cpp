@@ -56,7 +56,7 @@ FARJMP Old_SLGetWindowsInformationDWORD, Stub_SLGetWindowsInformationDWORD;
 SLGETWINDOWSINFORMATIONDWORD _SLGetWindowsInformationDWORD;
 
 INI_FILE *IniFile;
-wchar_t LogFile[256] = {0x00};
+wchar_t LogFile[256] = L"\\rdpwrap.txt";
 HMODULE hTermSrv;
 HMODULE hSLC;
 PLATFORM_DWORD TermSrvBase;
@@ -519,7 +519,7 @@ void Hook()
 		return;
 	}
 
-	INI_VAR_STRING LogFileVar;
+	/*INI_VAR_STRING LogFileVar;
 
 	if(!(IniFile->GetVariableInSection("Main", "LogFile", &LogFileVar)))
 	{
@@ -533,7 +533,7 @@ void Hook()
 			}
 		}
 	}
-	else memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));
+	else memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));*/
 
 	char *Log;
 	SIZE_T bw;
@@ -583,7 +583,7 @@ void Hook()
 	}
 
 	Log = new char[1024];
-	wsprintfA(Log, "Version: %d.%d.%d.%d\r\n", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
+	wsprintfA(Log, "Version:    %d.%d.%d.%d\r\n", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
 	WriteToLog(Log);
 	delete[] Log;
 
@@ -680,6 +680,7 @@ void Hook()
 	INI_VAR_STRING PatchName;
 	INI_VAR_BYTEARRAY Patch;
 	Sect = new char[1024];
+	memset(Sect, 0x00, 1024);
 	wsprintfA(Sect, "%d.%d.%d.%d", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
 
 	if (IniFile->SectionExists(Sect))

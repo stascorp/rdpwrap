@@ -1,17 +1,17 @@
 /*
-  Copyright 2014 Stas'M Corp.
+Copyright 2014 Stas'M Corp.
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
 
 #include "stdafx.h"
@@ -87,6 +87,7 @@ public:
 	INI_FILE(wchar_t*);
 	~INI_FILE();
 
+	// char block
 	bool SectionExists(char *SectionName);
 	bool VariableExists(char *SectionName, char *VariableName);
 	bool GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_STRING *Variable);
@@ -94,6 +95,15 @@ public:
 	bool GetVariableInSection(char *SectionName, char *VariableName, bool *Variable);
 	bool GetVariableInSection(char *SectionName, char *VariableName, INI_VAR_BYTEARRAY *Variable);
 	bool GetSectionVariablesList(char *SectionName, INI_SECTION_VARLIST *VariablesList);
+
+	// wchar_t tramps
+	bool SectionExists(wchar_t *SectionName);
+	bool VariableExists(wchar_t *SectionName, wchar_t *VariableName);
+	bool GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_STRING *Variable);
+	bool GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_DWORD *Variable);
+	bool GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, bool *Variable);
+	bool GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_BYTEARRAY *Variable);
+	bool GetSectionVariablesList(wchar_t *SectionName, INI_SECTION_VARLIST *VariablesList);
 
 private:
 	DWORD FileSize;	// Ini file size

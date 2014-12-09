@@ -1,17 +1,17 @@
 /*
-  Copyright 2014 Stas'M Corp.
+Copyright 2014 Stas'M Corp.
 
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
 
-      http://www.apache.org/licenses/LICENSE-2.0
+http://www.apache.org/licenses/LICENSE-2.0
 
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
 */
 
 #include "stdafx.h"
@@ -24,23 +24,23 @@ INI_FILE::INI_FILE(wchar_t *FilePath)
 	DWORD Status = 0;
 	DWORD NumberOfBytesRead = 0;
 
-	HANDLE hFile = CreateFile(FilePath, GENERIC_ALL, FILE_SHARE_READ|FILE_SHARE_WRITE,
-							NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+	HANDLE hFile = CreateFile(FilePath, GENERIC_ALL, FILE_SHARE_READ | FILE_SHARE_WRITE,
+		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
-	if(hFile == INVALID_HANDLE_VALUE)
+	if (hFile == INVALID_HANDLE_VALUE)
 	{
 		return;
 	}
 
 	FileSize = GetFileSize(hFile, NULL);
-	if(FileSize == INVALID_FILE_SIZE)
+	if (FileSize == INVALID_FILE_SIZE)
 	{
 		return;
 	}
 
 	FileRaw = new char[FileSize];
-	Status = (bool)ReadFile(hFile, FileRaw, FileSize, &NumberOfBytesRead, NULL);
-	if(!Status)
+	Status = ReadFile(hFile, FileRaw, FileSize, &NumberOfBytesRead, NULL);
+	if (!Status)
 	{
 		return;
 	}
@@ -52,7 +52,7 @@ INI_FILE::INI_FILE(wchar_t *FilePath)
 
 INI_FILE::~INI_FILE()
 {
-	for(DWORD i = 0; i < IniData.SectionCount; i++)
+	for (DWORD i = 0; i < IniData.SectionCount; i++)
 	{
 		delete[] IniData.Section[i].Variables;
 	}
@@ -65,9 +65,9 @@ bool INI_FILE::CreateStringsMap()
 {
 	DWORD StringsCount = 1;
 
-	for(DWORD i = 0; i < FileSize; i++)
+	for (DWORD i = 0; i < FileSize; i++)
 	{
-		if(FileRaw[i] == '\r' && FileRaw[i+1] == '\n') StringsCount++;
+		if (FileRaw[i] == '\r' && FileRaw[i + 1] == '\n') StringsCount++;
 	}
 
 	FileStringsCount = StringsCount;
@@ -77,11 +77,11 @@ bool INI_FILE::CreateStringsMap()
 
 	StringsCount = 1;
 
-	for(DWORD i = 0; i < FileSize; i++)
+	for (DWORD i = 0; i < FileSize; i++)
 	{
-		if(FileRaw[i] == '\r' && FileRaw[i+1] == '\n')
+		if (FileRaw[i] == '\r' && FileRaw[i + 1] == '\n')
 		{
-			FileStringsMap[StringsCount] = i+2;
+			FileStringsMap[StringsCount] = i + 2;
 			StringsCount++;
 		}
 	}
@@ -92,27 +92,27 @@ bool INI_FILE::CreateStringsMap()
 int INI_FILE::StrTrim(char* Str)
 {
 	int i = 0, j;
-	while((Str[i]==' ')||(Str[i]=='\t'))
+	while ((Str[i] == ' ') || (Str[i] == '\t'))
 	{
 		i++;
 	}
-	if(i>0)
+	if (i>0)
 	{
-		for(j=0; j < strlen(Str); j++)
+		for (j = 0; j < strlen(Str); j++)
 		{
-			Str[j]=Str[j+i];
+			Str[j] = Str[j + i];
 		}
-		Str[j]='\0';
+		Str[j] = '\0';
 	}
 
-	i = strlen(Str)-1;
-	while((Str[i] == ' ')||(Str[i]=='\t'))
+	i = strlen(Str) - 1;
+	while ((Str[i] == ' ') || (Str[i] == '\t'))
 	{
 		i--;
 	}
-	if(i < (strlen(Str)-1))
+	if (i < (strlen(Str) - 1))
 	{
-		Str[i+1] = '\0';
+		Str[i + 1] = '\0';
 	}
 	return 0;
 }
@@ -123,20 +123,20 @@ DWORD INI_FILE::GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD 
 	DWORD EndStringPos = 0;
 	DWORD StringSize = 0;
 
-	if(StringNumber > FileStringsCount) return -1;
+	if (StringNumber > FileStringsCount) return -1;
 
-	for(DWORD i = FileStringsMap[StringNumber]; i < FileSize; i++)
+	for (DWORD i = FileStringsMap[StringNumber]; i < FileSize; i++)
 	{
-		if((FileRaw[i] == '\r' && FileRaw[i+1] == '\n') || i == (FileSize-1))
+		if ((FileRaw[i] == '\r' && FileRaw[i + 1] == '\n') || i == (FileSize - 1))
 		{
 			EndStringPos = i;
 			break;
 		}
 	}
 
-	StringSize = EndStringPos-FileStringsMap[StringNumber];
+	StringSize = EndStringPos - FileStringsMap[StringNumber];
 
-	if(Size < StringSize) return -1;
+	if (Size < StringSize) return -1;
 
 	memset(RetString, 0x00, Size);
 	memcpy(RetString, &(FileRaw[FileStringsMap[StringNumber]]), StringSize);
@@ -147,10 +147,10 @@ bool INI_FILE::IsVariable(char *Str, DWORD StrSize)
 {
 	bool Quotes = false;
 
-	for(DWORD i = 0; i < StrSize; i++)
+	for (DWORD i = 0; i < StrSize; i++)
 	{
-		if(Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
-		if(Str[i] == '=' && !Quotes) return true;
+		if (Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
+		if (Str[i] == '=' && !Quotes) return true;
 	}
 	return false;
 }
@@ -159,13 +159,13 @@ bool INI_FILE::FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD Str
 {
 	bool Quotes = false;
 
-	for(DWORD i = 0; i < StrSize; i++)
+	for (DWORD i = 0; i < StrSize; i++)
 	{
-		if(Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
-		if(Str[i] == '=' && !Quotes)
+		if (Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
+		if (Str[i] == '=' && !Quotes)
 		{
 			memcpy(Variable->VariableName, Str, i);
-			memcpy(Variable->VariableValue, &(Str[i+1]), StrSize-(i-1));
+			memcpy(Variable->VariableValue, &(Str[i + 1]), StrSize - (i - 1));
 			StrTrim(Variable->VariableName);
 			StrTrim(Variable->VariableValue);
 			break;
@@ -187,13 +187,13 @@ bool INI_FILE::Parse()
 	DWORD CurrentVariableNum = -1;
 
 	// Calculate sections count
-	for(DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
+	for (DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') continue; // It's a comment
-	
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section declaration
+		if (CurrentString[0] == ';') continue; // It's a comment
+
+		if (CurrentString[0] == '[' && CurrentString[CurrentStringSize - 1] == ']')	// It's section declaration
 		{
 			SectionsCount++;
 			continue;
@@ -203,19 +203,19 @@ bool INI_FILE::Parse()
 	DWORD *SectionVariableCount = new DWORD[SectionsCount];
 	memset(SectionVariableCount, 0x00, sizeof(DWORD)*SectionsCount);
 
-	for(DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
+	for (DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') continue; // It's a comment
-	
+		if (CurrentString[0] == ';') continue; // It's a comment
 
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')	// It's section declaration
+
+		if (CurrentString[0] == '[' && CurrentString[CurrentStringSize - 1] == ']')	// It's section declaration
 		{
 			CurrentSectionNum++;
 			continue;
 		}
-		if(IsVariable(CurrentString, CurrentStringSize))
+		if (IsVariable(CurrentString, CurrentStringSize))
 		{
 			VariablesCount++;
 			SectionVariableCount[CurrentSectionNum]++;
@@ -227,7 +227,7 @@ bool INI_FILE::Parse()
 	IniData.Section = new INI_SECTION[SectionsCount];
 	memset(IniData.Section, 0x00, sizeof(PINI_SECTION)*SectionsCount);
 
-	for(DWORD i = 0; i < SectionsCount; i++)
+	for (DWORD i = 0; i < SectionsCount; i++)
 	{
 		IniData.Section[i].VariablesCount = SectionVariableCount[i];
 		IniData.Section[i].Variables = new INI_SECTION_VARIABLE[SectionVariableCount[i]];
@@ -239,24 +239,24 @@ bool INI_FILE::Parse()
 	CurrentSectionNum = -1;
 	CurrentVariableNum = -1;
 
-	for(DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
+	for (DWORD CurrentStringNum = 0; CurrentStringNum < FileStringsCount; CurrentStringNum++)
 	{
 		CurrentStringSize = GetFileStringFromNum(CurrentStringNum, CurrentString, 512);
 
-		if(CurrentString[0] == ';') // It's a comment
+		if (CurrentString[0] == ';') // It's a comment
 		{
 			continue;
 		}
 
-		if(CurrentString[0] == '[' && CurrentString[CurrentStringSize-1] == ']')
+		if (CurrentString[0] == '[' && CurrentString[CurrentStringSize - 1] == ']')
 		{
 			CurrentSectionNum++;
 			CurrentVariableNum = 0;
-			memcpy(IniData.Section[CurrentSectionNum].SectionName, &(CurrentString[1]), (CurrentStringSize-2));
+			memcpy(IniData.Section[CurrentSectionNum].SectionName, &(CurrentString[1]), (CurrentStringSize - 2));
 			continue;
 		}
 
-		if(IsVariable(CurrentString, CurrentStringSize))
+		if (IsVariable(CurrentString, CurrentStringSize))
 		{
 			FillVariable(&(IniData.Section[CurrentSectionNum].Variables[CurrentVariableNum]), CurrentString, CurrentStringSize);
 			CurrentVariableNum++;
@@ -269,9 +269,9 @@ bool INI_FILE::Parse()
 
 PINI_SECTION INI_FILE::GetSection(char *SectionName)
 {
-	for(DWORD i = 0; i < IniData.SectionCount; i++)
+	for (DWORD i = 0; i < IniData.SectionCount; i++)
 	{
-		if(memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
+		if (memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
 		{
 			return &IniData.Section[i];
 		}
@@ -281,13 +281,13 @@ PINI_SECTION INI_FILE::GetSection(char *SectionName)
 
 bool INI_FILE::SectionExists(char *SectionName)
 {
-	if(GetSection(SectionName) == NULL)	return false;
+	if (GetSection(SectionName) == NULL)	return false;
 	return true;
 }
 
 bool INI_FILE::VariableExists(char *SectionName, char *VariableName)
-{	
-	INI_SECTION_VARIABLE Variable = {0};
+{
+	INI_SECTION_VARIABLE Variable = { 0 };
 	return GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
 }
 
@@ -298,22 +298,22 @@ bool INI_FILE::GetVariableInSectionPrivate(char *SectionName, char *VariableName
 
 	// Find section
 	Section = GetSection(SectionName);
-	if(Section == NULL)
+	if (Section == NULL)
 	{
 		SetLastError(318); // This region is not found
 		return false;
 	}
 
 	// Find variable
-	for(DWORD i = 0; i < Section->VariablesCount; i++)
+	for (DWORD i = 0; i < Section->VariablesCount; i++)
 	{
-		if(memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
+		if (memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
 		{
 			Variable = &(Section->Variables[i]);
 			break;
 		}
 	}
-	if(Variable == NULL)
+	if (Variable == NULL)
 	{
 		SetLastError(1898); // Member of the group is not found
 		return false;
@@ -331,7 +331,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 	INI_SECTION_VARIABLE Variable = {};
 
 	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
-	if(!Status)	return Status;
+	if (!Status)	return Status;
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
 	memcpy(RetVariable->Name, Variable.VariableName, strlen(Variable.VariableName));
@@ -346,7 +346,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 	INI_SECTION_VARIABLE Variable = {};
 
 	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
-	if(!Status)	return Status;
+	if (!Status)	return Status;
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
 	memcpy(RetVariable->Name, Variable.VariableName, strlen(Variable.VariableName));
@@ -367,61 +367,62 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 	INI_SECTION_VARIABLE Variable = {};
 
 	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
-	if(!Status)	return Status;
+	if (!Status)	return Status;
 
 	DWORD ValueLen = strlen(Variable.VariableValue);
-	if((ValueLen % 2) != 0) return false;
+	if ((ValueLen % 2) != 0) return false;
+
 	// for security reasons not more than 16 bytes
 	if (ValueLen > 32) ValueLen = 32;  // 32 hex digits
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
 	memcpy(RetVariable->Name, Variable.VariableName, ValueLen);
 
-	for(DWORD i = 0; i <= ValueLen; i++)
+	for (DWORD i = 0; i <= ValueLen; i++)
 	{
-		if((i % 2) != 0) continue;
-	
-		switch(Variable.VariableValue[i])
+		if ((i % 2) != 0) continue;
+
+		switch (Variable.VariableValue[i])
 		{
-			case '0': break;
-			case '1': RetVariable->Value[(i/2)] += (1 << 4); break;
-			case '2': RetVariable->Value[(i/2)] += (2 << 4); break;
-			case '3': RetVariable->Value[(i/2)] += (3 << 4); break;
-			case '4': RetVariable->Value[(i/2)] += (4 << 4); break;
-			case '5': RetVariable->Value[(i/2)] += (5 << 4); break;
-			case '6': RetVariable->Value[(i/2)] += (6 << 4); break;
-			case '7': RetVariable->Value[(i/2)] += (7 << 4); break;
-			case '8': RetVariable->Value[(i/2)] += (8 << 4); break;
-			case '9': RetVariable->Value[(i/2)] += (9 << 4); break;
-			case 'A': RetVariable->Value[(i/2)] += (10 << 4); break;
-			case 'B': RetVariable->Value[(i/2)] += (11 << 4); break;
-			case 'C': RetVariable->Value[(i/2)] += (12 << 4); break;
-			case 'D': RetVariable->Value[(i/2)] += (13 << 4); break;
-			case 'E': RetVariable->Value[(i/2)] += (14 << 4); break;
-			case 'F': RetVariable->Value[(i/2)] += (15 << 4); break;
+		case '0': break;
+		case '1': RetVariable->Value[(i / 2)] += (1 << 4); break;
+		case '2': RetVariable->Value[(i / 2)] += (2 << 4); break;
+		case '3': RetVariable->Value[(i / 2)] += (3 << 4); break;
+		case '4': RetVariable->Value[(i / 2)] += (4 << 4); break;
+		case '5': RetVariable->Value[(i / 2)] += (5 << 4); break;
+		case '6': RetVariable->Value[(i / 2)] += (6 << 4); break;
+		case '7': RetVariable->Value[(i / 2)] += (7 << 4); break;
+		case '8': RetVariable->Value[(i / 2)] += (8 << 4); break;
+		case '9': RetVariable->Value[(i / 2)] += (9 << 4); break;
+		case 'A': RetVariable->Value[(i / 2)] += (10 << 4); break;
+		case 'B': RetVariable->Value[(i / 2)] += (11 << 4); break;
+		case 'C': RetVariable->Value[(i / 2)] += (12 << 4); break;
+		case 'D': RetVariable->Value[(i / 2)] += (13 << 4); break;
+		case 'E': RetVariable->Value[(i / 2)] += (14 << 4); break;
+		case 'F': RetVariable->Value[(i / 2)] += (15 << 4); break;
 		}
 
-		switch(Variable.VariableValue[i+1])
+		switch (Variable.VariableValue[i + 1])
 		{
-			case '0': break;
-			case '1': RetVariable->Value[(i/2)] += 1; break;
-			case '2': RetVariable->Value[(i/2)] += 2; break;
-			case '3': RetVariable->Value[(i/2)] += 3; break;
-			case '4': RetVariable->Value[(i/2)] += 4; break;
-			case '5': RetVariable->Value[(i/2)] += 5; break;
-			case '6': RetVariable->Value[(i/2)] += 6; break;
-			case '7': RetVariable->Value[(i/2)] += 7; break;
-			case '8': RetVariable->Value[(i/2)] += 8; break;
-			case '9': RetVariable->Value[(i/2)] += 9; break;
-			case 'A': RetVariable->Value[(i/2)] += 10; break;
-			case 'B': RetVariable->Value[(i/2)] += 11; break;
-			case 'C': RetVariable->Value[(i/2)] += 12; break;
-			case 'D': RetVariable->Value[(i/2)] += 13; break;
-			case 'E': RetVariable->Value[(i/2)] += 14; break;
-			case 'F': RetVariable->Value[(i/2)] += 15; break;
+		case '0': break;
+		case '1': RetVariable->Value[(i / 2)] += 1; break;
+		case '2': RetVariable->Value[(i / 2)] += 2; break;
+		case '3': RetVariable->Value[(i / 2)] += 3; break;
+		case '4': RetVariable->Value[(i / 2)] += 4; break;
+		case '5': RetVariable->Value[(i / 2)] += 5; break;
+		case '6': RetVariable->Value[(i / 2)] += 6; break;
+		case '7': RetVariable->Value[(i / 2)] += 7; break;
+		case '8': RetVariable->Value[(i / 2)] += 8; break;
+		case '9': RetVariable->Value[(i / 2)] += 9; break;
+		case 'A': RetVariable->Value[(i / 2)] += 10; break;
+		case 'B': RetVariable->Value[(i / 2)] += 11; break;
+		case 'C': RetVariable->Value[(i / 2)] += 12; break;
+		case 'D': RetVariable->Value[(i / 2)] += 13; break;
+		case 'E': RetVariable->Value[(i / 2)] += 14; break;
+		case 'F': RetVariable->Value[(i / 2)] += 15; break;
 		}
 	}
-	RetVariable->ArraySize = ValueLen/2;
+	RetVariable->ArraySize = ValueLen / 2;
 	return true;
 }
 
@@ -431,7 +432,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, bool 
 	INI_SECTION_VARIABLE Variable = {};
 
 	Status = GetVariableInSectionPrivate(SectionName, VariableName, &Variable);
-	if(!Status)	return Status;
+	if (!Status)	return Status;
 
 	*RetVariable = (bool)strtol(Variable.VariableValue, NULL, 10);
 	return true;
@@ -442,7 +443,7 @@ bool INI_FILE::GetSectionVariablesList(char *SectionName, INI_SECTION_VARLIST *V
 	INI_SECTION *Section = NULL;
 
 	Section = GetSection(SectionName);
-	if(Section == NULL)
+	if (Section == NULL)
 	{
 		SetLastError(318); // This region is not found
 		return false;
@@ -451,17 +452,17 @@ bool INI_FILE::GetSectionVariablesList(char *SectionName, INI_SECTION_VARLIST *V
 	VariablesList->EntriesCount = Section->VariablesCount;
 
 	VariablesList->NamesEntries = new INI_SECTION_VARLIST_ENTRY[VariablesList->EntriesCount];
-	memset(VariablesList->NamesEntries, 0x00, sizeof(INI_SECTION_VARLIST_ENTRY)*VariablesList->EntriesCount);	
-	
+	memset(VariablesList->NamesEntries, 0x00, sizeof(INI_SECTION_VARLIST_ENTRY)*VariablesList->EntriesCount);
+
 	VariablesList->ValuesEntries = new INI_SECTION_VARLIST_ENTRY[VariablesList->EntriesCount];
 	memset(VariablesList->ValuesEntries, 0x00, sizeof(INI_SECTION_VARLIST_ENTRY)*VariablesList->EntriesCount);
 
-	for(DWORD i = 0; i < Section->VariablesCount; i++)
+	for (DWORD i = 0; i < Section->VariablesCount; i++)
 	{
-		memcpy(VariablesList->NamesEntries[i].String, Section->Variables[i].VariableName, 
-				strlen(Section->Variables[i].VariableName));
-	
-		memcpy(VariablesList->ValuesEntries[i].String, Section->Variables[i].VariableValue, 
+		memcpy(VariablesList->NamesEntries[i].String, Section->Variables[i].VariableName,
+			strlen(Section->Variables[i].VariableName));
+
+		memcpy(VariablesList->ValuesEntries[i].String, Section->Variables[i].VariableValue,
 			strlen(Section->Variables[i].VariableValue));
 	}
 
@@ -473,7 +474,7 @@ bool INI_FILE::GetSectionVariablesList(char *SectionName, INI_SECTION_VARLIST *V
 
 bool INI_FILE::SectionExists(wchar_t *SectionName)
 {
-	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 
@@ -481,11 +482,11 @@ bool INI_FILE::SectionExists(wchar_t *SectionName)
 }
 
 bool INI_FILE::VariableExists(wchar_t *SectionName, wchar_t *VariableName)
-{	
-	INI_SECTION_VARIABLE Variable = {0};
+{
+	INI_SECTION_VARIABLE Variable = { 0 };
 
-	char cSectionName[MAX_STRING_LEN] = {0x00};
-	char cVariableName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
+	char cVariableName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
@@ -495,8 +496,8 @@ bool INI_FILE::VariableExists(wchar_t *SectionName, wchar_t *VariableName)
 
 bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_STRING *RetVariable)
 {
-	char cSectionName[MAX_STRING_LEN] = {0x00};
-	char cVariableName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
+	char cVariableName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
@@ -506,8 +507,8 @@ bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName,
 
 bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_DWORD *RetVariable)
 {
-	char cSectionName[MAX_STRING_LEN] = {0x00};
-	char cVariableName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
+	char cVariableName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
@@ -517,8 +518,8 @@ bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName,
 
 bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, INI_VAR_BYTEARRAY *RetVariable)
 {
-	char cSectionName[MAX_STRING_LEN] = {0x00};
-	char cVariableName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
+	char cVariableName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
@@ -528,8 +529,8 @@ bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName,
 
 bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName, bool *RetVariable)
 {
-	char cSectionName[MAX_STRING_LEN] = {0x00};
-	char cVariableName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
+	char cVariableName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 	wcstombs(cVariableName, VariableName, MAX_STRING_LEN);
@@ -539,7 +540,7 @@ bool INI_FILE::GetVariableInSection(wchar_t *SectionName, wchar_t *VariableName,
 
 bool INI_FILE::GetSectionVariablesList(wchar_t *SectionName, INI_SECTION_VARLIST *VariablesList)
 {
-	char cSectionName[MAX_STRING_LEN] = {0x00};
+	char cSectionName[MAX_STRING_LEN] = { 0x00 };
 
 	wcstombs(cSectionName, SectionName, MAX_STRING_LEN);
 
