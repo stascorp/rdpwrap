@@ -123,7 +123,7 @@ DWORD INI_FILE::GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD 
 	DWORD EndStringPos = 0;
 	DWORD StringSize = 0;
 
-	if (StringNumber > FileStringsCount) return -1;
+	if (StringNumber > FileStringsCount) return 0;
 
 	for (DWORD i = FileStringsMap[StringNumber]; i < FileSize; i++)
 	{
@@ -136,7 +136,7 @@ DWORD INI_FILE::GetFileStringFromNum(DWORD StringNumber, char *RetString, DWORD 
 
 	StringSize = EndStringPos - FileStringsMap[StringNumber];
 
-	if (Size < StringSize) return -1;
+	if (Size < StringSize) return 0;
 
 	memset(RetString, 0x00, Size);
 	memcpy(RetString, &(FileRaw[FileStringsMap[StringNumber]]), StringSize);
