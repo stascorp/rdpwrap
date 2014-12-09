@@ -371,6 +371,8 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 	DWORD ValueLen = strlen(Variable.VariableValue);
 	if((ValueLen % 2) != 0) return false;
+	// for security reasons not more than 16 bytes
+	if (ValueLen > 32) ValueLen = 32;  // 32 hex digits
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
 	memcpy(RetVariable->Name, Variable.VariableName, ValueLen);
@@ -401,7 +403,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 
 		switch(Variable.VariableValue[i+1])
 		{
-						case '0': break;
+			case '0': break;
 			case '1': RetVariable->Value[(i/2)] += 1; break;
 			case '2': RetVariable->Value[(i/2)] += 2; break;
 			case '3': RetVariable->Value[(i/2)] += 3; break;
