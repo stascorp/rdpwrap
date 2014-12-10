@@ -193,14 +193,14 @@ Change log:<br>
 • Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386 : RDP works, but termsrv.dll crashes on logon attempt)<br>
 <br>
 <u>Installation instructions:</u><br>
-1. Download and unpack files<br>
+1. Download latest release binaries and unpack files<br>
 2. Run <b>Command Prompt (cmd)</b> as administrator<br>
-3. Change directory to <b>/bin</b> (where binaries and batch files are placed)<br>
+3. Change directory to where you extracted the files<br>
 4. Type <b>install.bat</b> and press Enter<br>
 5. See command output for details<br>
 <br>
 <u>To uninstall:</u><br>
 1. Run <b>Command Prompt</b> as administrator<br>
-2. Change directory to <b>/bin</b><br>
+2. Change directory to where you extracted the files<br>
 3. Type <b>uninstall.bat</b> and press Enter<br>
 4. See command output for details<br>
