@@ -164,6 +164,8 @@ bool INI_FILE::FillVariable(INI_SECTION_VARIABLE *Variable, char *Str, DWORD Str
 		if (Str[i] == '"' || Str[i] == '\'') Quotes = !Quotes;
 		if (Str[i] == '=' && !Quotes)
 		{
+			memset(Variable->VariableName, 0, MAX_STRING_LEN);
+			memset(Variable->VariableValue, 0, MAX_STRING_LEN);
 			memcpy(Variable->VariableName, Str, i);
 			memcpy(Variable->VariableValue, &(Str[i + 1]), StrSize - (i - 1));
 			StrTrim(Variable->VariableName);
@@ -252,6 +254,7 @@ bool INI_FILE::Parse()
 		{
 			CurrentSectionNum++;
 			CurrentVariableNum = 0;
+			memset(IniData.Section[CurrentSectionNum].SectionName, 0, MAX_STRING_LEN);
 			memcpy(IniData.Section[CurrentSectionNum].SectionName, &(CurrentString[1]), (CurrentStringSize - 2));
 			continue;
 		}
@@ -271,7 +274,10 @@ PINI_SECTION INI_FILE::GetSection(char *SectionName)
 {
 	for (DWORD i = 0; i < IniData.SectionCount; i++)
 	{
-		if (memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
+		if (
+			(strlen(IniData.Section[i].SectionName) == strlen(SectionName)) &&
+			(memcmp(IniData.Section[i].SectionName, SectionName, strlen(SectionName)) == 0)
+		)
 		{
 			return &IniData.Section[i];
 		}
@@ -307,7 +313,10 @@ bool INI_FILE::GetVariableInSectionPrivate(char *SectionName, char *VariableName
 	// Find variable
 	for (DWORD i = 0; i < Section->VariablesCount; i++)
 	{
-		if (memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
+		if (
+			(strlen(Section->Variables[i].VariableName) == strlen(VariableName)) &&
+			(memcmp(Section->Variables[i].VariableName, VariableName, strlen(VariableName)) == 0)
+		)
 		{
 			Variable = &(Section->Variables[i]);
 			break;
