@@ -600,6 +600,7 @@ begin
       Writeln('[*] Path: ', ExtractFilePath(ExpandPath(WrapPath)));
       Halt(0);
     end;
+  ExtractRes('config', ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini');
   case Arch of
     32: begin
       ExtractRes('rdpw32', ExpandPath(WrapPath));
@@ -617,14 +618,27 @@ end;
 procedure DeleteFiles;
 var
   Code: DWORD;
+  FullPath, Path: String;
 begin
-  if not DeleteFile(PWideChar(ExpandPath(TermServicePath))) then
+  FullPath := ExpandPath(TermServicePath);
+  Path := ExtractFilePath(FullPath);
+
+  if not DeleteFile(PWideChar(Path + 'rdpwrap.ini')) then
   begin
     Code := GetLastError;
     Writeln('[-] DeleteFile error (code ', Code, ').');
     Exit;
   end;
-  Writeln('[+] Removed file: ', ExpandPath(TermServicePath));
+  Writeln('[+] Removed file: ', FullPath);
+
+  if not DeleteFile(PWideChar(FullPath)) then
+  begin
+    Code := GetLastError;
+    Writeln('[-] DeleteFile error (code ', Code, ').');
+    Exit;
+  end;
+  Writeln('[+] Removed file: ', FullPath);
+
   if not RemoveDirectory(PWideChar(ExtractFilePath(ExpandPath(TermServicePath)))) then
   begin
     Code := GetLastError;
@@ -683,11 +697,12 @@ end;
 procedure CheckTermsrvVersion;
 var
   SuppLvl: Byte;
+  VerTxt: String;
 begin
   GetFileVersion(ExpandPath(TermServicePath), FV);
-  Writeln('[*] Terminal Services version: ',
-  Format('%d.%d.%d.%d',
-  [FV.Version.w.Major, FV.Version.w.Minor, FV.Release, FV.Build]));
+  VerTxt := Format('%d.%d.%d.%d',
+  [FV.Version.w.Major, FV.Version.w.Minor, FV.Release, FV.Build]);
+  Writeln('[*] Terminal Services version: ', VerTxt);
 
   if (FV.Version.w.Major = 5) and (FV.Version.w.Minor = 1) then
   begin
@@ -716,60 +731,11 @@ begin
       Writeln('[!] This version of Terminal Services may crash on logon attempt.');
       Writeln('It''s recommended to upgrade to Service Pack 1 or higher.');
     end;
-    if (FV.Release = 6000) and (FV.Build = 16386) then
-      SuppLvl := 2;
-    if (FV.Release = 6001) and (FV.Build = 18000) then
-      SuppLvl := 2;
-    if (FV.Release = 6002) and (FV.Build = 18005) then
-      SuppLvl := 2;
-    if (FV.Release = 6002) and (FV.Build = 19214) then
-      SuppLvl := 2;
-    if (FV.Release = 6002) and (FV.Build = 23521) then
-      SuppLvl := 2;
   end;
-  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then begin
+  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then
     SuppLvl := 1;
-    if (FV.Release = 7600) and (FV.Build = 16385) then
-      SuppLvl := 2;
-    if (FV.Release = 7601) and (FV.Build = 17514) then
-      SuppLvl := 2;
-    if (FV.Release = 7601) and (FV.Build = 18540) then
-      SuppLvl := 2;
-    if (FV.Release = 7601) and (FV.Build = 22750) then
-      SuppLvl := 2;
-    if (FV.Release = 7601) and (FV.Build = 18637) then
-      SuppLvl := 2;
-    if (FV.Release = 7601) and (FV.Build = 22843) then
-      SuppLvl := 2;
-  end;
-  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 2) then begin
-    if (FV.Release = 8102) and (FV.Build = 0) then
-      SuppLvl := 2;
-    if (FV.Release = 8250) and (FV.Build = 0) then
-      SuppLvl := 2;
-    if (FV.Release = 8400) and (FV.Build = 0) then
-      SuppLvl := 2;
-    if (FV.Release = 9200) and (FV.Build = 16384) then
-      SuppLvl := 2;
-    if (FV.Release = 9200) and (FV.Build = 17048) then
-      SuppLvl := 2;
-    if (FV.Release = 9200) and (FV.Build = 21166) then
-      SuppLvl := 2;
-  end;
-  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 3) then begin
-    if (FV.Release = 9431) and (FV.Build = 0) then
-      SuppLvl := 2;
-    if (FV.Release = 9600) and (FV.Build = 16384) then
-      SuppLvl := 2;
-    if (FV.Release = 9600) and (FV.Build = 17095) then
-      SuppLvl := 2;
-  end;
-  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 4) then begin
-    if (FV.Release = 9841) and (FV.Build = 0) then
-      SuppLvl := 2;
-    if (FV.Release = 9860) and (FV.Build = 0) then
-      SuppLvl := 2;
-  end;
+  if Pos('[' + VerTxt + ']', ExtractResText('config')) > 0 then
+    SuppLvl := 2;
   case SuppLvl of
     0: begin
       Writeln('[-] This version of Terminal Services is not supported.');
@@ -915,7 +881,7 @@ end;
 var
   I: Integer;
 begin
-  Writeln('RDP Wrapper Library v1.4');
+  Writeln('RDP Wrapper Library v1.5');
   Writeln('Installer v2.2');
   Writeln('Copyright (C) Stas''M Corp. 2014');
   Writeln('');
@@ -941,7 +907,7 @@ begin
 
   if ParamStr(1) = '-l' then
   begin
-    Writeln(ExtractResText('LICENSE'));
+    Writeln(ExtractResText('license'));
     Exit;
   end;
 

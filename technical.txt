@@ -35,15 +35,20 @@ Terminal Services supported versions
 6.3.9431.0     (Windows 8.1 Preview)                   [init hook + extended patch]
 6.3.9600.16384 (Windows 8.1)                           [init hook + extended patch]
 6.3.9600.17095 (Windows 8.1 with KB2959626)            [init hook + extended patch]
-6.3.9600.17415 (Windows 8.1 with KB3000850)            [init hook + extended patch ~ requires INI support]
+6.3.9600.17415 (Windows 8.1 with KB3000850)            [init hook + extended patch]
 6.4.9841.0     (Windows 10 Technical Preview)          [init hook + extended patch]
 6.4.9860.0     (Windows 10 Technical Preview Update 1) [init hook + extended patch]
-6.4.9879.0     (Windows 10 Technical Preview Update 2) [!todo]
+6.4.9879.0     (Windows 10 Technical Preview Update 2) [init hook + extended patch]
 
 Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 Source code changelog (rdpwrap library):
+
+2014.12.10 :
+- C++ version seems to work well now!
+- added support for termsrv.dll 6.4.9879.0
+- preparing the new release
 
 2014.12.09 :
 - many bug fixes in C++ version, you can track it in the git history :)

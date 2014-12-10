@@ -1,4 +1,0 @@
-rdpclip64 RCData "..\\rdpclip-x64.exe"
-rdpclip32 RCData "..\\rdpclip-x86.exe"
-rdpw32 RCData "..\\v1.2-x86-binarymaster\\rdpwrap.dll"
-rdpw64 RCData "..\\v1.2-x86-x64-Fusix\\rdpw64.dll"
