@@ -16,6 +16,7 @@
 
 #include "stdafx.h"
 #include "IniFile.h"
+#include <stdlib.h>
 
 typedef struct
 {
@@ -499,16 +500,16 @@ void Hook()
 	AlreadyHooked = true;
 	char *Log;
 
-	wchar_t ConfigFile[256] = {0x00};
+	wchar_t ConfigFile[256] = { 0x00 };
 	WriteToLog("Loading configuration...\r\n");
 
 	GetModuleFileName(GetCurrentModule(), ConfigFile, 255);
-	for(DWORD i = wcslen(ConfigFile); i > 0; i--)
+	for (DWORD i = wcslen(ConfigFile); i > 0; i--)
 	{
-		if(ConfigFile[i] == '\\')
+		if (ConfigFile[i] == '\\')
 		{
-			memset(&ConfigFile[i+1], 0x00, ((256-(i+1)))*2);
-			memcpy(&ConfigFile[i+1], L"rdpwrap.ini", strlen("rdpwrap.ini")*2);
+			memset(&ConfigFile[i + 1], 0x00, ((256 - (i + 1))) * 2);
+			memcpy(&ConfigFile[i + 1], L"rdpwrap.ini", strlen("rdpwrap.ini") * 2);
 			break;
 		}
 	}
@@ -520,6 +521,7 @@ void Hook()
 
 	IniFile = new INI_FILE(ConfigFile);
 
+	// TODO: implement this
 	if (IniFile == NULL)
 	{
 		WriteToLog("Error: Failed to load configuration\r\n");
@@ -541,12 +543,14 @@ void Hook()
 			}
 		}
 	}
-	else memcpy((void*)LogFile, LogFileVar.Value, strlen(LogFileVar.Value));
-
-	Log = new char[1024];
-	wsprintfA(Log, "Log file: %S\r\n", LogFile);
-	WriteToLog(Log);
-	delete[] Log;
+	else
+	{
+		// TODO: Change it before add UNICODE in IniFile
+		wchar_t wcLogFile[256];
+		memset(wcLogFile, 0x00, 256);
+		mbstowcs(wcLogFile, LogFileVar.Value, 255);
+		wcscpy(LogFile, wcLogFile);
+	}
 
 	SIZE_T bw;
 	WORD Ver = 0;
@@ -603,10 +607,10 @@ void Hook()
 	WriteToLog("freeze\r\n");
 	SetThreadsState(false);
 
-	bool bSLHook;
-	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT60", &bSLHook))) bSLHook = true;
+	bool Bool;
+	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT60", &Bool))) Bool = true;
 
-	if ((Ver == 0x0600) && bSLHook)
+	if ((Ver == 0x0600) && Bool)
 	{
 		// Windows Vista
 		// uses SL Policy API (slc.dll)
@@ -636,9 +640,9 @@ void Hook()
 		}
 	}
 
-	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT61", &bSLHook))) bSLHook = true;
+	if (!(IniFile->GetVariableInSection("Main", "SLPolicyHookNT61", &Bool))) Bool = true;
 
-	if ((Ver == 0x0601) && bSLHook)
+	if ((Ver == 0x0601) && Bool)
 	{
 		// Windows 7
 		// uses SL Policy API (slc.dll)
@@ -699,7 +703,6 @@ void Hook()
 	{
 		if (GetModuleCodeSectionInfo(hTermSrv, &TermSrvBase, &TermSrvSize))
 		{
-			bool Bool;
 			#ifdef _WIN64
 			if (!(IniFile->GetVariableInSection(Sect, "LocalOnlyPatch.x64", &Bool))) Bool = false;
 			#else

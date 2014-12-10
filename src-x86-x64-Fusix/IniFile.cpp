@@ -24,7 +24,7 @@ INI_FILE::INI_FILE(wchar_t *FilePath)
 	DWORD Status = 0;
 	DWORD NumberOfBytesRead = 0;
 
-	HANDLE hFile = CreateFile(FilePath, GENERIC_ALL, FILE_SHARE_READ | FILE_SHARE_WRITE,
+	HANDLE hFile = CreateFile(FilePath, GENERIC_READ, FILE_SHARE_WRITE|FILE_SHARE_READ,
 		NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
 	if (hFile == INVALID_HANDLE_VALUE)
@@ -376,7 +376,7 @@ bool INI_FILE::GetVariableInSection(char *SectionName, char *VariableName, INI_V
 	if (ValueLen > 32) ValueLen = 32;  // 32 hex digits
 
 	memset(RetVariable, 0x00, sizeof(*RetVariable));
-	memcpy(RetVariable->Name, Variable.VariableName, ValueLen);
+	memcpy(RetVariable->Name, Variable.VariableName, strlen(Variable.VariableName));
 
 	for (DWORD i = 0; i <= ValueLen; i++)
 	{
