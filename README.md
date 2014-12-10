@@ -57,11 +57,23 @@ Files description:<br>
 <tbody>
 <tr><td style="border: 1px solid black;"><b>RDPWInst.exe</b></td><td style="border: 1px solid black;">RDP Wrapper Library installer/uninstaller</td></tr>
 <tr><td style="border: 1px solid black;"><b>RDPCheck.exe</b></td><td style="border: 1px solid black;">Local RDP Checker (you can check the RDP is working)</td></tr>
+<tr><td style="border: 1px solid black;"><b>RDPConf.exe</b></td><td style="border: 1px solid black;">RDP Wrapper Configuration</td></tr>
 <tr><td style="border: 1px solid black;"><b>install.bat</b></td><td style="border: 1px solid black;">Quick install batch file</td></tr>
 <tr><td style="border: 1px solid black;"><b>uninstall.bat</b></td><td style="border: 1px solid black;">Quick uninstall batch file</td></tr>
 </tbody>
 </table><br>
 Change log:<br>
+<br>
+<b><u>2014.12.11</u></b><br>
+• Version 1.5<br>
+• Added INI config support<br>
+• Configuration is stored in INI file now<br>
+• We can extend version support without building new binaries<br>
+• Added support for Windows 8.1 with KB3000850<br>
+• Added support for Windows 10 Technical Preview Update 2<br>
+• Installer updated<br>
+• RDP Config updated<br>
+• Diagnostics feature added to RDP Config<br>
 <br>
 <b><u>2014.11.14</u></b><br>
 • Version 1.4<br>
@@ -145,8 +157,10 @@ Change log:<br>
 • <u>6.3.9431.0</u> (Windows 8.1 Preview)<br>
 • <u>6.3.9600.16384</u> (Windows 8.1 / Server 2012 R2)<br>
 • <u>6.3.9600.17095</u> (Windows 8.1 with KB2959626)<br>
+• <u>6.3.9600.17415</u> (Windows 8.1 with KB3000850)<br>
 • <u>6.4.9841.0</u> (Windows 10 Technical Preview)<br>
 • <u>6.4.9860.0</u> (Windows 10 Technical Preview Update 1)<br>
+• <u>6.4.9879.0</u> (Windows 10 Technical Preview Update 2)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
