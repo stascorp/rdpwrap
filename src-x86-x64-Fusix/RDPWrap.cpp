@@ -385,7 +385,8 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	WriteToLog("> CSLQuery::Initialize\r\n");
 
 	char *Sect;
-	Sect = new char[1024];
+	Sect = new char[256];
+	memset(Sect, 0x00, 256);
 	wsprintfA(Sect, "%d.%d.%d.%d-SLInit", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
 
 	if (IniFile->SectionExists(Sect))
@@ -691,8 +692,8 @@ void Hook()
 	char *Sect;
 	INI_VAR_STRING PatchName;
 	INI_VAR_BYTEARRAY Patch;
-	Sect = new char[1024];
-	memset(Sect, 0x00, 1024);
+	Sect = new char[256];
+	memset(Sect, 0x00, 256);
 	wsprintfA(Sect, "%d.%d.%d.%d", FV.wVersion.Major, FV.wVersion.Minor, FV.Release, FV.Build);
 
 	if (IniFile->SectionExists(Sect))
