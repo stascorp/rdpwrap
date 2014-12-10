@@ -46,6 +46,7 @@ type
     lsWrapVer: TLabel;
     bLicense: TButton;
     gbDiag: TGroupBox;
+    lsSuppVer: TLabel;
     procedure FormCreate(Sender: TObject);
     procedure cbAllowTSConnectionsClick(Sender: TObject);
     procedure seRDPPortChange(Sender: TObject);
@@ -88,6 +89,7 @@ var
   Ready: Boolean = False;
   Arch: Byte;
   OldWow64RedirectionValue: LongBool;
+  INI: String;
 
 function WinStationEnumerateW(hServer: THandle;
   var ppSessionInfo: PWTS_SESSION_INFOW; var pCount: DWORD): BOOL; stdcall;
@@ -440,11 +442,29 @@ begin
   Reg.Free;
 end;
 
+function CheckSupport(FV: FILE_VERSION): Byte;
+var
+  VerTxt: String;
+begin
+  Result := 0;
+  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 0) then
+    Result := 1;
+  if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then
+    Result := 1;
+  VerTxt := Format('%d.%d.%d.%d',
+  [FV.Version.w.Major, FV.Version.w.Minor, FV.Release, FV.Build]);
+  if Pos('[' + VerTxt + ']', INI) > 0 then
+    Result := 2;
+end;
+
 procedure TMainForm.TimerTimer(Sender: TObject);
 var
-  WrapperPath: String;
+  WrapperPath, INIPath: String;
   FV: FILE_VERSION;
+  L: TStringList;
+  CheckSupp: Boolean;
 begin
+  CheckSupp := False;
   case IsWrapperInstalled(WrapperPath) of
     -1: begin
       lsWrapper.Caption := 'Unknown';
@@ -457,6 +477,10 @@ begin
     1: begin
       lsWrapper.Caption := 'Installed';
       lsWrapper.Font.Color := clGreen;
+      CheckSupp := True;
+      INIPath := ExtractFilePath(ExpandPath(WrapperPath)) + 'rdpwrap.ini';
+      if not FileExists(INIPath) then
+        CheckSupp := False;
     end;
     2: begin
       lsWrapper.Caption := '3rd-party';
@@ -529,6 +553,33 @@ begin
     IntToStr(FV.Release)+'.'+
     IntToStr(FV.Build);
     lsTSVer.Font.Color := clWindowText;
+    lsSuppVer.Visible := CheckSupp;
+    if CheckSupp then begin
+      if INI = '' then begin
+        L := TStringList.Create;
+        try
+          L.LoadFromFile(INIPath);
+        except
+
+        end;
+        INI := L.Text;
+        L.Free;
+      end;
+      case CheckSupport(FV) of
+        0: begin
+          lsSuppVer.Caption := '[not supported]';
+          lsSuppVer.Font.Color := clRed;
+        end;
+        1: begin
+          lsSuppVer.Caption := '[supported partially]';
+          lsSuppVer.Font.Color := clOlive;
+        end;
+        2: begin
+          lsSuppVer.Caption := '[fully supported]';
+          lsSuppVer.Font.Color := clGreen;
+        end;
+      end;
+    end;
   end;
 end;
 

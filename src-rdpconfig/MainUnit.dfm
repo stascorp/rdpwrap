@@ -196,6 +196,13 @@ object MainForm: TMainForm
       Height = 13
       Caption = 'ver.'
     end
+    object lsSuppVer: TLabel
+      Left = 182
+      Top = 55
+      Width = 70
+      Height = 13
+      Caption = '[support level]'
+    end
   end
   object Timer: TTimer
     Interval = 250
