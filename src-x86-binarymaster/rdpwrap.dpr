@@ -541,8 +541,8 @@ begin
   TSMain := GetProcAddress(TS_Handle, 'ServiceMain');
   TSGlobals := GetProcAddress(TS_Handle, 'SvchostPushServiceGlobals');
   WriteLog(
-    'Base addr:  0x' + IntToHex(TS_Handle, 8) +
-    'SvcMain:    termsrv.dll+0x' + IntToHex(Cardinal(@TSMain) - TS_Handle, 1) +
+    'Base addr:  0x' + IntToHex(TS_Handle, 8) + #13#10 +
+    'SvcMain:    termsrv.dll+0x' + IntToHex(Cardinal(@TSMain) - TS_Handle, 1) + #13#10 +
     'SvcGlobals: termsrv.dll+0x' + IntToHex(Cardinal(@TSGlobals) - TS_Handle, 1)
   );
 

@@ -629,7 +629,7 @@ begin
     Writeln('[-] DeleteFile error (code ', Code, ').');
     Exit;
   end;
-  Writeln('[+] Removed file: ', FullPath);
+  Writeln('[+] Removed file: ', Path + 'rdpwrap.ini');
 
   if not DeleteFile(PWideChar(FullPath)) then
   begin
