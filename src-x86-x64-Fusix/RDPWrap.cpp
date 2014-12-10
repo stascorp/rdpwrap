@@ -568,18 +568,14 @@ void Hook()
 	_ServiceMain = (SERVICEMAIN)GetProcAddress(hTermSrv, "ServiceMain");
 	_SvchostPushServiceGlobals = (SVCHOSTPUSHSERVICEGLOBALS)GetProcAddress(hTermSrv, "SvchostPushServiceGlobals");
 
-	Log = new char[1024];
-	wsprintfA(Log, "Base addr:  0x%p\r\n", hTermSrv);
-	WriteToLog(Log);
-	delete[] Log;
-
-	Log = new char[1024];
-	wsprintfA(Log, "SvcMain:    termsrv.dll+0x%p\r\n", (PLATFORM_DWORD)_ServiceMain - (PLATFORM_DWORD)hTermSrv);
-	WriteToLog(Log);
-	delete[] Log;
-
-	Log = new char[1024];
-	wsprintfA(Log, "SvcGlobals: termsrv.dll+0x%p\r\n", (PLATFORM_DWORD)_SvchostPushServiceGlobals - (PLATFORM_DWORD)hTermSrv);
+	Log = new char[4096];
+	wsprintfA(Log,
+		"Base addr:  0x%p\r\n"
+		"SvcMain:    termsrv.dll+0x%p\r\n"
+		"SvcGlobals: termsrv.dll+0x%p\r\n",
+		hTermSrv,
+		(PLATFORM_DWORD)_ServiceMain - (PLATFORM_DWORD)hTermSrv,
+		(PLATFORM_DWORD)_SvchostPushServiceGlobals - (PLATFORM_DWORD)hTermSrv);
 	WriteToLog(Log);
 	delete[] Log;
 
