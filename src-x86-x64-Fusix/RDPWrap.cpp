@@ -290,7 +290,7 @@ HRESULT WINAPI New_SLGetWindowsInformationDWORD(PWSTR pwszValueName, DWORD *pdwV
 		*pdwValue = dw;
 
 		Log = new char[1024];
-		wsprintfA(Log, "Rewrite: %i\r\n", dw);
+		wsprintfA(Log, "Policy rewrite: %i\r\n", dw);
 		WriteToLog(Log);
 		delete[] Log;
 
@@ -302,11 +302,11 @@ HRESULT WINAPI New_SLGetWindowsInformationDWORD(PWSTR pwszValueName, DWORD *pdwV
 	if (Result == S_OK)
 	{
 		Log = new char[1024];
-		wsprintfA(Log, "Result: %i\r\n", dw);
+		wsprintfA(Log, "Policy result: %i\r\n", dw);
 		WriteToLog(Log);
 		delete[] Log;
 	} else {
-		WriteToLog("Failed\r\n");
+		WriteToLog("Policy request failed\r\n");
 	}
 	WriteProcessMemory(GetCurrentProcess(), _SLGetWindowsInformationDWORD, &Stub_SLGetWindowsInformationDWORD, sizeof(FARJMP), &bw);
 
@@ -336,7 +336,7 @@ HRESULT __fastcall New_Win8SL(PWSTR pwszValueName, DWORD *pdwValue)
 		*pdwValue = dw;
 
 		Log = new char[1024];
-		wsprintfA(Log, "Rewrite: %i\r\n", dw);
+		wsprintfA(Log, "Policy rewrite: %i\r\n", dw);
 		WriteToLog(Log);
 		delete[] Log;
 
@@ -347,11 +347,11 @@ HRESULT __fastcall New_Win8SL(PWSTR pwszValueName, DWORD *pdwValue)
 	if (Result == S_OK)
 	{
 		Log = new char[1024];
-		wsprintfA(Log, "Result: %i\r\n", dw);
+		wsprintfA(Log, "Policy result: %i\r\n", dw);
 		WriteToLog(Log);
 		delete[] Log;
 	} else {
-		WriteToLog("Failed\r\n");
+		WriteToLog("Policy request failed\r\n");
 	}
 
 	return Result;
@@ -382,7 +382,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 	DWORD *ulMaxDebugSessions = NULL;
 	DWORD *bInitialized = NULL;
 
-	WriteToLog("> CSLQuery::Initialize\r\n");
+	WriteToLog(">>> CSLQuery::Initialize\r\n");
 
 	char *Sect;
 	Sect = new char[256];
@@ -418,7 +418,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*bServerSku = INIReadDWordHex(IniFile, "SLInit", "bServerSku", 1);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bServerSku = %d\r\n", bServerSku, *bServerSku);
+		wsprintfA(Log, "SLInit [0x%p] bServerSku = %d\r\n", bServerSku, *bServerSku);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -427,7 +427,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*bRemoteConnAllowed = INIReadDWordHex(IniFile, "SLInit", "bRemoteConnAllowed", 1);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bRemoteConnAllowed = %d\r\n", bRemoteConnAllowed, *bRemoteConnAllowed);
+		wsprintfA(Log, "SLInit [0x%p] bRemoteConnAllowed = %d\r\n", bRemoteConnAllowed, *bRemoteConnAllowed);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -436,7 +436,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*bFUSEnabled = INIReadDWordHex(IniFile, "SLInit", "bFUSEnabled", 1);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bFUSEnabled = %d\r\n", bFUSEnabled, *bFUSEnabled);
+		wsprintfA(Log, "SLInit [0x%p] bFUSEnabled = %d\r\n", bFUSEnabled, *bFUSEnabled);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -445,7 +445,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*bAppServerAllowed = INIReadDWordHex(IniFile, "SLInit", "bAppServerAllowed", 1);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bAppServerAllowed = %d\r\n", bAppServerAllowed, *bAppServerAllowed);
+		wsprintfA(Log, "SLInit [0x%p] bAppServerAllowed = %d\r\n", bAppServerAllowed, *bAppServerAllowed);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -454,7 +454,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*bMultimonAllowed = INIReadDWordHex(IniFile, "SLInit", "bMultimonAllowed", 1);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bMultimonAllowed = %d\r\n", bMultimonAllowed, *bMultimonAllowed);
+		wsprintfA(Log, "SLInit [0x%p] bMultimonAllowed = %d\r\n", bMultimonAllowed, *bMultimonAllowed);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -463,7 +463,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*lMaxUserSessions = INIReadDWordHex(IniFile, "SLInit", "lMaxUserSessions", 0);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] lMaxUserSessions = %d\r\n", lMaxUserSessions, *lMaxUserSessions);
+		wsprintfA(Log, "SLInit [0x%p] lMaxUserSessions = %d\r\n", lMaxUserSessions, *lMaxUserSessions);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -472,7 +472,7 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*ulMaxDebugSessions = INIReadDWordHex(IniFile, "SLInit", "ulMaxDebugSessions", 0);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] ulMaxDebugSessions = %d\r\n", ulMaxDebugSessions, *ulMaxDebugSessions);
+		wsprintfA(Log, "SLInit [0x%p] ulMaxDebugSessions = %d\r\n", ulMaxDebugSessions, *ulMaxDebugSessions);
 		WriteToLog(Log);
 		delete[] Log;
 	}
@@ -481,10 +481,11 @@ HRESULT WINAPI New_CSLQuery_Initialize()
 		*bInitialized = INIReadDWordHex(IniFile, "SLInit", "bInitialized", 1);
 
 		Log = new char[1024];
-		wsprintfA(Log, "[0x%p] bInitialized = %d\r\n", bInitialized, *bInitialized);
+		wsprintfA(Log, "SLInit [0x%p] bInitialized = %d\r\n", bInitialized, *bInitialized);
 		WriteToLog(Log);
 		delete[] Log;
 	}
+	WriteToLog("<<< CSLQuery::Initialize\r\n");
 	return S_OK;
 }
 
@@ -521,7 +522,6 @@ void Hook()
 	delete[] Log;
 
 	IniFile = new INI_FILE(ConfigFile);
-
 	// TODO: implement this
 	if (IniFile == NULL)
 	{
@@ -558,7 +558,7 @@ void Hook()
 	PLATFORM_DWORD TermSrvSize, SignPtr;
 	FARJMP Jump;
 
-	WriteToLog("init\r\n");
+	WriteToLog("Initializing RDP Wrapper...\r\n");
 
 	hTermSrv = LoadLibrary(L"termsrv.dll");
 	if (hTermSrv == 0)
@@ -601,7 +601,7 @@ void Hook()
 	delete[] Log;
 
 	// temporarily freeze threads
-	WriteToLog("freeze\r\n");
+	WriteToLog("Freezing threads...\r\n");
 	SetThreadsState(false);
 
 	bool Bool;
@@ -845,23 +845,25 @@ void Hook()
 	}
 	delete[] Sect;
 
-	WriteToLog("resume\r\n");
+	WriteToLog("Resumimg threads...\r\n");
 	SetThreadsState(true);
 	return;
 }
 
 void WINAPI ServiceMain(DWORD dwArgc, LPTSTR *lpszArgv)
 {
-	WriteToLog("> ServiceMain\r\n");
+	WriteToLog(">>> ServiceMain\r\n");
 	if (!AlreadyHooked) Hook();
 
 	if (_ServiceMain != NULL) _ServiceMain(dwArgc, lpszArgv);
+	WriteToLog("<<< ServiceMain\r\n");
 }
 
 void WINAPI SvchostPushServiceGlobals(void *lpGlobalData)
 {
-	WriteToLog("> SvchostPushServiceGlobals\r\n");
+	WriteToLog(">>> SvchostPushServiceGlobals\r\n");
 	if (!AlreadyHooked) Hook();
 
 	if (_SvchostPushServiceGlobals != NULL) _SvchostPushServiceGlobals(lpGlobalData);
+	WriteToLog("<<< SvchostPushServiceGlobals\r\n");
 }

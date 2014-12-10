@@ -374,7 +374,7 @@ begin
   if OverrideSL(pwszValueName, dw) then begin
     pdwValue^ := dw;
     Result := S_OK;
-    WriteLog('Rewrite: ' + IntToStr(pdwValue^));
+    WriteLog('Policy rewrite: ' + IntToStr(pdwValue^));
     Exit;
   end;
 
@@ -387,9 +387,9 @@ begin
   // get result
   Result := SLGetWindowsInformationDWORD(pwszValueName, pdwValue);
   if Result = S_OK then
-    WriteLog('Result: ' + IntToStr(pdwValue^))
+    WriteLog('Policy result: ' + IntToStr(pdwValue^))
   else
-    WriteLog('Failed');
+    WriteLog('Policy request failed');
   // wrap it back
   WriteProcessMemory(GetCurrentProcess, @SLGetWindowsInformationDWORD,
     @Stub_SLGetWindowsInformationDWORD, SizeOf(far_jmp), bw);
@@ -408,7 +408,7 @@ begin
   if OverrideSL(pwszValueName, dw) then begin
     pdwValue^ := dw;
     Result := S_OK;
-    WriteLog('Rewrite: ' + IntToStr(pdwValue^));
+    WriteLog('Policy rewrite: ' + IntToStr(pdwValue^));
     Exit;
   end;
 
@@ -417,9 +417,9 @@ begin
 
   Result := SLGetWindowsInformationDWORD(pwszValueName, pdwValue);
   if Result = S_OK then
-    WriteLog('Result: ' + IntToStr(pdwValue^))
+    WriteLog('Policy result: ' + IntToStr(pdwValue^))
   else
-    WriteLog('Failed');
+    WriteLog('Policy request failed');
 end;
 
 function New_Win8SL_CP(eax: DWORD; pdwValue: PDWORD; ecx: DWORD; pwszValueName: PWideChar): HRESULT; register;
@@ -450,7 +450,7 @@ begin
   lMaxUserSessions := nil;
   ulMaxDebugSessions := nil;
   bInitialized := nil;
-  WriteLog('> CSLQuery::Initialize');
+  WriteLog('>>> CSLQuery::Initialize');
   Sect := IntToStr(FV.Version.w.Major)+'.'+IntToStr(FV.Version.w.Minor)+'.'+
           IntToStr(FV.Release)+'.'+IntToStr(FV.Build)+'-SLInit';
   if INISectionExists(INI, Sect) then begin
@@ -466,42 +466,43 @@ begin
 
   if bServerSku <> nil then begin
     bServerSku^ := INIReadDWord(INI, 'SLInit', 'bServerSku', 1);
-    WriteLog('[0x'+IntToHex(DWORD(bServerSku), 1)+'] bServerSku = ' + IntToStr(bServerSku^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(bServerSku), 1)+'] bServerSku = ' + IntToStr(bServerSku^));
   end;
   if bRemoteConnAllowed <> nil then begin
     bRemoteConnAllowed^ := INIReadDWord(INI, 'SLInit', 'bRemoteConnAllowed', 1);
-    WriteLog('[0x'+IntToHex(DWORD(bRemoteConnAllowed), 1)+'] bRemoteConnAllowed = ' + IntToStr(bRemoteConnAllowed^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(bRemoteConnAllowed), 1)+'] bRemoteConnAllowed = ' + IntToStr(bRemoteConnAllowed^));
   end;
   if bFUSEnabled <> nil then begin
     bFUSEnabled^ := INIReadDWord(INI, 'SLInit', 'bFUSEnabled', 1);
-    WriteLog('[0x'+IntToHex(DWORD(bFUSEnabled), 1)+'] bFUSEnabled = ' + IntToStr(bFUSEnabled^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(bFUSEnabled), 1)+'] bFUSEnabled = ' + IntToStr(bFUSEnabled^));
   end;
   if bAppServerAllowed <> nil then begin
     bAppServerAllowed^ := INIReadDWord(INI, 'SLInit', 'bAppServerAllowed', 1);
-    WriteLog('[0x'+IntToHex(DWORD(bAppServerAllowed), 1)+'] bAppServerAllowed = ' + IntToStr(bAppServerAllowed^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(bAppServerAllowed), 1)+'] bAppServerAllowed = ' + IntToStr(bAppServerAllowed^));
   end;
   if bMultimonAllowed <> nil then begin
     bMultimonAllowed^ := INIReadDWord(INI, 'SLInit', 'bMultimonAllowed', 1);
-    WriteLog('[0x'+IntToHex(DWORD(bMultimonAllowed), 1)+'] bMultimonAllowed = ' + IntToStr(bMultimonAllowed^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(bMultimonAllowed), 1)+'] bMultimonAllowed = ' + IntToStr(bMultimonAllowed^));
   end;
   if lMaxUserSessions <> nil then begin
     lMaxUserSessions^ := INIReadDWord(INI, 'SLInit', 'lMaxUserSessions', 0);
-    WriteLog('[0x'+IntToHex(DWORD(lMaxUserSessions), 1)+'] lMaxUserSessions = ' + IntToStr(lMaxUserSessions^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(lMaxUserSessions), 1)+'] lMaxUserSessions = ' + IntToStr(lMaxUserSessions^));
   end;
   if ulMaxDebugSessions <> nil then begin
     ulMaxDebugSessions^ := INIReadDWord(INI, 'SLInit', 'ulMaxDebugSessions', 0);
-    WriteLog('[0x'+IntToHex(DWORD(ulMaxDebugSessions), 1)+'] ulMaxDebugSessions = ' + IntToStr(ulMaxDebugSessions^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(ulMaxDebugSessions), 1)+'] ulMaxDebugSessions = ' + IntToStr(ulMaxDebugSessions^));
   end;
   if bInitialized <> nil then begin
     bInitialized^ := INIReadDWord(INI, 'SLInit', 'bInitialized', 1);
-    WriteLog('[0x'+IntToHex(DWORD(bInitialized), 1)+'] bInitialized = ' + IntToStr(bInitialized^));
+    WriteLog('SLInit [0x'+IntToHex(DWORD(bInitialized), 1)+'] bInitialized = ' + IntToStr(bInitialized^));
   end;
   Result := S_OK;
+  WriteLog('<<< CSLQuery::Initialize');
 end;
 
 procedure HookFunctions;
 var
-  Sect, FuncName: String;
+  ConfigFile, Sect, FuncName: String;
   V: DWORD;
   TS_Handle, SLC_Handle: THandle;
   TermSrvSize: DWORD;
@@ -520,14 +521,16 @@ begin
   SLGetWindowsInformationDWORD := nil;
 
   WriteLog('Loading configuration...');
-  INILoad(INI, ExtractFilePath(GetBinaryPath) + 'rdpwrap.ini');
+  ConfigFile := ExtractFilePath(GetBinaryPath) + 'rdpwrap.ini';
+  WriteLog('Configuration file: ' + ConfigFile);
+  INILoad(INI, ConfigFile);
   if Length(INI) = 0 then begin
     WriteLog('Error: Failed to load configuration');
     Exit;
   end;
 
   LogFile := INIReadString(INI, 'Main', 'LogFile', ExtractFilePath(GetBinaryPath) + 'rdpwrap.txt');
-  WriteLog('init');
+  WriteLog('Initializing RDP Wrapper...');
 
   // load termsrv.dll and get functions
   TS_Handle := LoadLibrary('termsrv.dll');
@@ -535,11 +538,13 @@ begin
     WriteLog('Error: Failed to load Terminal Services library');
     Exit;
   end;
-  WriteLog('Base addr:  0x'+IntToHex(TS_Handle, 8));
   TSMain := GetProcAddress(TS_Handle, 'ServiceMain');
-  WriteLog('SvcMain:    termsrv.dll+0x'+IntToHex(Cardinal(@TSMain) - TS_Handle, 1));
   TSGlobals := GetProcAddress(TS_Handle, 'SvchostPushServiceGlobals');
-  WriteLog('SvcGlobals: termsrv.dll+0x'+IntToHex(Cardinal(@TSGlobals) - TS_Handle, 1));
+  WriteLog(
+    'Base addr:  0x' + IntToHex(TS_Handle, 8) +
+    'SvcMain:    termsrv.dll+0x' + IntToHex(Cardinal(@TSMain) - TS_Handle, 1) +
+    'SvcGlobals: termsrv.dll+0x' + IntToHex(Cardinal(@TSGlobals) - TS_Handle, 1)
+  );
 
   V := 0;
   // check termsrv version
@@ -555,15 +560,17 @@ begin
     Exit;
   end;
 
-  WriteLog('Version: '+IntToStr(FV.Version.w.Major)+'.'+IntToStr(FV.Version.w.Minor));
-  WriteLog('Release: '+IntToStr(FV.Release));
-  WriteLog('Build:   '+IntToStr(FV.Build));
+  WriteLog('Version:    '+
+  IntToStr(FV.Version.w.Major)+'.'+
+  IntToStr(FV.Version.w.Minor)+'.'+
+  IntToStr(FV.Release)+'.'+
+  IntToStr(FV.Build));
 
   // temporarily freeze threads
-  WriteLog('freeze');
+  WriteLog('Freezing threads...');
   StopThreads();
 
-  WriteLog('Loading patch codes...');
+  WriteLog('Caching patch codes...');
   PatchList := INIReadSection(INI, 'PatchCodes');
   SetLength(Patch, Length(PatchList));
   for I := 0 to Length(Patch) - 1 do begin
@@ -691,37 +698,38 @@ begin
     end;
 
   // unfreeze threads
-  WriteLog('resume');
+  WriteLog('Resumimg threads...');
   RunThreads();
 end;
 
 function TermServiceMain(dwArgc: DWORD; lpszArgv: PWideChar): DWORD; stdcall;
 begin
   // wrap ServiceMain function
-  WriteLog('> ServiceMain');
+  WriteLog('>>> ServiceMain');
   if not IsHooked then
     HookFunctions;
   Result := 0;
   if @TSMain <> nil then
     Result := TSMain(dwArgc, lpszArgv);
+  WriteLog('<<< ServiceMain');
 end;
 
 function TermServiceGlobals(lpGlobalData: Pointer): DWORD; stdcall;
 begin
   // wrap SvchostPushServiceGlobals function
-  WriteLog('> SvchostPushServiceGlobals');
+  WriteLog('>>> SvchostPushServiceGlobals');
   if not IsHooked then
     HookFunctions;
   Result := 0;
   if @TSGlobals <> nil then
     Result := TSGlobals(lpGlobalData);
+  WriteLog('<<< SvchostPushServiceGlobals');
 end;
 
 // export section
 
 exports
-  TermServiceMain index 1 name 'ServiceMain';
-exports
+  TermServiceMain index 1 name 'ServiceMain',
   TermServiceGlobals index 2 name 'SvchostPushServiceGlobals';
 
 begin
