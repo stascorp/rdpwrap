@@ -61,6 +61,9 @@ Known failures
 
 Source code changelog (rdpwrap library):
 
+2014.12.13 :
+- Added more policy values to INI file
+
 2014.12.10 :
 - C++ version seems to work well now!
 - added support for termsrv.dll 6.4.9879.0
