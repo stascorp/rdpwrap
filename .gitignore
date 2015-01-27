@@ -1,6 +1,12 @@
-# Unnecessary files
-
-*.~pas
-*.dproj.local
+# Delphi local files (user-specific info)
+*.local
 *.identcache
+
+# Delphi history and backups
+__history/
+*.~*
+
+# Compiled binaries
 *.dcu
+*.exe
+*.dll
