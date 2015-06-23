@@ -189,8 +189,11 @@ Change log:<br>
 • Windows 8.1 Enterprise<br>
 • Windows 10 Technical Preview<br>
 <br>
-<b>Working partially:</b><br>
-• Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386 : RDP works, but termsrv.dll crashes on logon attempt)<br>
+<b>Known issues:</b><br>
+• RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
+• If Terminal Services hangs at startup, try to add <b>rdpwrap.dll</b> to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:<br>
+<tt>sc config TermService type= own</tt><br>
+• RDP Wrapper Installer can be removed by AVG Free Antivirus after reboot - add it to exclusions.<br>
 <br>
 <u>Installation instructions:</u><br>
 1. Download latest release binaries and unpack files<br>
