@@ -161,6 +161,8 @@ Change log:<br>
 • <u>6.4.9841.0</u> (Windows 10 Technical Preview)<br>
 • <u>6.4.9860.0</u> (Windows 10 Technical Preview Update 1)<br>
 • <u>6.4.9879.0</u> (Windows 10 Technical Preview Update 2)<br>
+• <u>10.0.9926.0</u> (Windows 10 Pro Technical Preview)<br>
+• <u>10.0.10041.0</u> (Windows 10 Pro Technical Preview Update 1)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
@@ -184,10 +186,14 @@ Change log:<br>
 • Windows 8 Enterprise<br>
 • Windows 8.1 Preview<br>
 • Windows 8.1<br>
+• Windows 8.1 Connected (with Bing)<br>
+• Windows 8.1 Connected Single Language (with Bing)<br>
+• Windows 8.1 Single Language<br>
 • Windows 8.1 Single Language<br>
 • Windows 8.1 Pro<br>
 • Windows 8.1 Enterprise<br>
 • Windows 10 Technical Preview<br>
+• Windows 10 Pro Technical Preview<br>
 <br>
 <b>Known issues:</b><br>
 • RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
