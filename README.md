@@ -187,9 +187,8 @@ Change log:<br>
 • Windows 8.1 Preview<br>
 • Windows 8.1<br>
 • Windows 8.1 Connected (with Bing)<br>
+• Windows 8.1 Single Language<br>
 • Windows 8.1 Connected Single Language (with Bing)<br>
-• Windows 8.1 Single Language<br>
-• Windows 8.1 Single Language<br>
 • Windows 8.1 Pro<br>
 • Windows 8.1 Enterprise<br>
 • Windows 10 Technical Preview<br>
