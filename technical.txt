@@ -57,8 +57,9 @@ Terminal Services supported versions
 6.4.9879.0       (Windows 10 Technical Preview UP2)      [init hook + extended patch]
 10.0.9926.0      (Windows 10 Pro Technical Preview)      [init hook + extended patch]
 10.0.10041.0     (Windows 10 Pro Technical Preview UP1)  [init hook + extended patch]
-10.0.10061.0     (Windows 10 Pro Technical Preview UP2)  [todo]
-10.0.10240.16384 (Windows 10 Pro RTM)                    [init hook + extended patch]
+10.0.10049.0     (Windows 10 Pro Technical Preview UP2)  [todo]
+10.0.10061.0     (Windows 10 Pro Technical Preview UP3)  [todo]
+10.0.10240.16384 (Windows 10 RTM)                        [init hook + extended patch]
 
 Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
@@ -77,7 +78,7 @@ Source code changelog (rdpwrap library):
 - updated installer: added workaround for 1056 error
 - updated copyright years in source code
 - obtained files from build 10.0.10240.16384
-- researching Windows 10 Pro RTM
+- researching Windows 10 RTM
 
 2015.03.23 :
 - researching Windows 10 Pro Technical Preview UP1
