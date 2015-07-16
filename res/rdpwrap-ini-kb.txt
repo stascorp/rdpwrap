@@ -1,0 +1,1576 @@
+[Main]
+; Last updated date
+Updated=2015-03-23
+; Address to log file (RDP Wrapper will write it, if exists)
+LogFile=\rdpwrap.txt
+; Hook SLPolicy API on Windows NT 6.0
+SLPolicyHookNT60=1
+; Hook SLPolicy API on Windows NT 6.1
+SLPolicyHookNT61=1
+
+[SLPolicy]
+; Allow Remote Connections
+TerminalServices-RemoteConnectionManager-AllowRemoteConnections=1
+; Allow Multiple Sessions
+TerminalServices-RemoteConnectionManager-AllowMultipleSessions=1
+; Allow Multiple Sessions (Application Server Mode)
+TerminalServices-RemoteConnectionManager-AllowAppServerMode=1
+; Allow Multiple Monitors
+TerminalServices-RemoteConnectionManager-AllowMultimon=1
+; Max User Sessions (0 = unlimited)
+TerminalServices-RemoteConnectionManager-MaxUserSessions=0
+; Max Debug Sessions (Windows 8, 0 = unlimited)
+TerminalServices-RemoteConnectionManager-ce0ad219-4670-4988-98fb-89b14c2f072b-MaxSessions=0
+; Max Sessions
+; 0 - logon not possible even from console
+; 1 - only one active user (console or remote)
+; 2 - allow concurrent sessions
+TerminalServices-RemoteConnectionManager-45344fe7-00e6-4ac6-9f01-d01fd4ffadfb-MaxSessions=2
+; Allow Advanced Compression with RDP 7 Protocol
+TerminalServices-RDP-7-Advanced-Compression-Allowed=1
+; IsTerminalTypeLocalOnly = 0
+TerminalServices-RemoteConnectionManager-45344fe7-00e6-4ac6-9f01-d01fd4ffadfb-LocalOnly=0
+; Max Sessions (hard limit)
+TerminalServices-RemoteConnectionManager-8dc86f1d-9969-4379-91c1-06fe1dc60575-MaxSessions=1000
+; Allow EasyPrint
+TerminalServices-DeviceRedirection-Licenses-TSEasyPrintAllowed=1
+; Allow PnP Redirection
+TerminalServices-DeviceRedirection-Licenses-PnpRedirectionAllowed=1
+; Allow Media Foundation plugins
+TerminalServices-DeviceRedirection-Licenses-TSMFPluginAllowed=1
+; Allow DWM Remoting
+TerminalServices-RemoteConnectionManager-UiEffects-DWMRemotingAllowed=1
+
+[PatchCodes]
+nop=90
+Zero=00
+jmpshort=EB
+nopjmp=90E9
+CDefPolicy_Query_edx_ecx=BA000100008991200300005E90
+CDefPolicy_Query_eax_rcx_jmp=B80001000089813806000090EB
+CDefPolicy_Query_eax_esi=B80001000089862003000090
+CDefPolicy_Query_eax_rdi=B80001000089873806000090
+CDefPolicy_Query_eax_ecx=B80001000089812003000090
+CDefPolicy_Query_eax_rcx=B80001000089813806000090
+
+[6.0.6000.16386]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F320000
+; .text:6F3360B9          lea     eax, [ebp+VersionInformation]
+; .text:6F3360BF          inc     ebx            <- nop
+; .text:6F3360C0          push    eax             ; lpVersionInformation
+; .text:6F3360C1          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F3360CB          mov     [esi], ebx
+; .text:6F3360CD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=160BF
+SingleUserCode.x86=nop
+; Imagebase: 7FF756E0000
+; .text:000007FF75745E38          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75745E3D          mov     ebx, 1     <- 0
+; .text:000007FF75745E42          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75745E4A          mov     [rdi], ebx
+; .text:000007FF75745E4C          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=65E3E
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F335CD8          cmp     edx, [ecx+320h]
+; .text:6F335CDE          pop     esi
+; .text:6F335CDF          jz      loc_6F3426F1
+; Changed
+; .text:6F335CD8          mov     edx, 100h
+; .text:6F335CDD          mov     [ecx+320h], edx
+; .text:6F335CE3          pop     esi
+; .text:6F335CE4          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=15CD8
+DefPolicyCode.x86=CDefPolicy_Query_edx_ecx
+; Original
+; .text:000007FF7573C88F          mov     eax, [rcx+638h]
+; .text:000007FF7573C895          cmp     [rcx+63Ch], eax
+; .text:000007FF7573C89B          jnz     short loc_7FF7573C8B3
+; Changed
+; .text:000007FF7573C88F          mov     eax, 100h
+; .text:000007FF7573C894          mov     [rcx+638h], eax
+; .text:000007FF7573C89A          nop
+; .text:000007FF7573C89B          jmp     short loc_7FF7573C8B3
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=5C88F
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx_jmp
+
+[6.0.6001.18000]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6E800000
+; .text:6E8185DE          lea     eax, [ebp+VersionInformation]
+; .text:6E8185E4          inc     ebx            <- nop
+; .text:6E8185E5          push    eax             ; lpVersionInformation
+; .text:6E8185E6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6E8185F0          mov     [esi], ebx
+; .text:6E8185F2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=185E4
+SingleUserCode.x86=nop
+; Imagebase: 7FF76220000
+; .text:000007FF76290DB4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF76290DB9          mov     ebx, 1     <- 0
+; .text:000007FF76290DBE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF76290DC6          mov     [rdi], ebx
+; .text:000007FF76290DC8          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=70DBA
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6E817FD8          cmp     edx, [ecx+320h]
+; .text:6E817FDE          pop     esi
+; .text:6E817FDF          jz      loc_6E826F16
+; Changed
+; .text:6E817FD8          mov     edx, 100h
+; .text:6E817FDD          mov     [ecx+320h], edx
+; .text:6E817FE3          pop     esi
+; .text:6E817FE4          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=17FD8
+DefPolicyCode.x86=CDefPolicy_Query_edx_ecx
+; Original
+; .text:000007FF76285BD7          mov     eax, [rcx+638h]
+; .text:000007FF76285BDD          cmp     [rcx+63Ch], eax
+; .text:000007FF76285BE3          jnz     short loc_7FF76285BFB
+; Changed
+; .text:000007FF76285BD7          mov     eax, 100h
+; .text:000007FF76285BDC          mov     [rcx+638h], eax
+; .text:000007FF76285BE2          nop
+; .text:000007FF76285BE3          jmp     short loc_7FF76285BFB
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=65BD7
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx_jmp
+
+[6.0.6002.18005]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F580000
+; .text:6F597FA2          lea     eax, [ebp+VersionInformation]
+; .text:6F597FA8          inc     ebx            <- nop
+; .text:6F597FA9          push    eax             ; lpVersionInformation
+; .text:6F597FAA          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F597FB4          mov     [esi], ebx
+; .text:6F597FB6          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=17FA8
+SingleUserCode.x86=nop
+; Imagebase: 7FF766C0000
+; .text:000007FF76730FF0          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF76730FF5          mov     ebx, 1     <- 0
+; .text:000007FF76730FFA          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF76731002          mov     [rdi], ebx
+; .text:000007FF76731004          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=70FF6
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F5979C0          cmp     edx, [ecx+320h]
+; .text:6F5979C6          pop     esi
+; .text:6F5979C7          jz      loc_6F5A6F26
+; Changed
+; .text:6F5979C0          mov     edx, 100h
+; .text:6F5979C5          mov     [ecx+320h], edx
+; .text:6F5979CB          pop     esi
+; .text:6F5979CC          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=179C0
+DefPolicyCode.x86=CDefPolicy_Query_edx_ecx
+; Original
+; .text:000007FF76725E83          mov     eax, [rcx+638h]
+; .text:000007FF76725E89          cmp     [rcx+63Ch], eax
+; .text:000007FF76725E8F          jz      short loc_7FF76725EA7
+; Changed
+; .text:000007FF76725E83          mov     eax, 100h
+; .text:000007FF76725E88          mov     [rcx+638h], eax
+; .text:000007FF76725E8E          nop
+; .text:000007FF76725E8F          jmp     short loc_7FF76725EA7
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=65E83
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx_jmp
+
+[6.0.6002.19214]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F580000
+; .text:6F597FBE          lea     eax, [ebp+VersionInformation]
+; .text:6F597FC4          inc     ebx            <- nop
+; .text:6F597FC5          push    eax             ; lpVersionInformation
+; .text:6F597FC6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F597FD0          mov     [esi], ebx
+; .text:6F597FD2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=17FC4
+SingleUserCode.x86=nop
+; Imagebase: 7FF75AC0000
+; .text:000007FF75B312A4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75B312A9          mov     ebx, 1     <- 0
+; .text:000007FF75B312AE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75B312B6          mov     [rdi], ebx
+; .text:000007FF75B312B8          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=712AA
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F5979B8          cmp     edx, [ecx+320h]
+; .text:6F5979BE          pop     esi
+; .text:6F5979BF          jz      loc_6F5A6F3E
+; Changed
+; .text:6F5979B8          mov     edx, 100h
+; .text:6F5979BD          mov     [ecx+320h], edx
+; .text:6F5979C3          pop     esi
+; .text:6F5979C4          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=179B8
+DefPolicyCode.x86=CDefPolicy_Query_edx_ecx
+; Original
+; .text:000007FF75B25FF7          mov     eax, [rcx+638h]
+; .text:000007FF75B25FFD          cmp     [rcx+63Ch], eax
+; .text:000007FF75B26003          jnz     short loc_7FF75B2601B
+; Changed
+; .text:000007FF75B25FF7          mov     eax, 100h
+; .text:000007FF75B25FFC          mov     [rcx+638h], eax
+; .text:000007FF75B26002          nop
+; .text:000007FF75B26003          jmp     short loc_7FF75B2601B
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=65FF7
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx_jmp
+
+[6.0.6002.23521]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F580000
+; .text:6F597FAE          lea     eax, [ebp+VersionInformation]
+; .text:6F597FB4          inc     ebx            <- nop
+; .text:6F597FB5          push    eax             ; lpVersionInformation
+; .text:6F597FB6          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F597FC0          mov     [esi], ebx
+; .text:6F597FC2          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=17FB4
+SingleUserCode.x86=nop
+; Imagebase: 7FF75AC0000
+; .text:000007FF75B31EA4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75B31EA9          mov     ebx, 1     <- 0
+; .text:000007FF75B31EAE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75B31EB6          mov     [rdi], ebx
+; .text:000007FF75B31EB8          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=71EAA
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F5979CC          cmp     edx, [ecx+320h]
+; .text:6F5979D2          pop     esi
+; .text:6F5979D3          jz      loc_6F5A6F2E
+; Changed
+; .text:6F5979CC          mov     edx, 100h
+; .text:6F5979D1          mov     [ecx+320h], edx
+; .text:6F5979D7          pop     esi
+; .text:6F5979D8          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=179CC
+DefPolicyCode.x86=CDefPolicy_Query_edx_ecx
+; Original
+; .text:000007FF75B269CB          mov     eax, [rcx+638h]
+; .text:000007FF75B269D1          cmp     [rcx+63Ch], eax
+; .text:000007FF75B269D7          jnz     short loc_7FF75B269EF
+; Changed
+; .text:000007FF75B269CB          mov     eax, 100h
+; .text:000007FF75B269D0          mov     [rcx+638h], eax
+; .text:000007FF75B269D6          nop
+; .text:000007FF75B269D7          jmp     short loc_7FF75B269EF
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=669CB
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx_jmp
+
+[6.1.7600.16385]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F2E0000
+; .text:6F2F9E1F          lea     eax, [ebp+VersionInformation]
+; .text:6F2F9E25          inc     ebx            <- nop
+; .text:6F2F9E26          push    eax             ; lpVersionInformation
+; .text:6F2F9E27          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F2F9E31          mov     [esi], ebx
+; .text:6F2F9E33          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=19E25
+SingleUserCode.x86=nop
+; Imagebase: 7FF75A80000
+; .text:000007FF75A97D90          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75A97D95          mov     ebx, 1     <- 0
+; .text:000007FF75A97D9A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75A97DA2          mov     [rdi], ebx
+; .text:000007FF75A97DA4          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=17D96
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F2F96F3          cmp     eax, [esi+320h]
+; .text:6F2F96F9          jz      loc_6F30E256
+; Changed
+; .text:6F2F96F3          mov     eax, 100h
+; .text:6F2F96F8          mov     [esi+320h], eax
+; .text:6F2F96FE          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=196F3
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000007FF75A97AD2          cmp     [rdi+63Ch], eax
+; .text:000007FF75A97AD8          jz      loc_7FF75AA4978
+; Changed
+; .text:000007FF75A97AD2          mov     eax, 100h
+; .text:000007FF75A97AD7          mov     [rdi+638h], eax
+; .text:000007FF75A97ADD          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17AD2
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.1.7601.17514]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F2E0000
+; .text:6F2FA497          lea     eax, [ebp+VersionInformation]
+; .text:6F2FA49D          inc     ebx            <- nop
+; .text:6F2FA49E          push    eax             ; lpVersionInformation
+; .text:6F2FA49F          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F2FA4A9          mov     [esi], ebx
+; .text:6F2FA4AB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1A49D
+SingleUserCode.x86=nop
+; Imagebase: 7FF75A80000
+; .text:000007FF75A980DC          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75A980E1          mov     ebx, 1     <- 0
+; .text:000007FF75A980E6          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75A980EE          mov     [rdi], ebx
+; .text:000007FF75A980F0          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=180E2
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F2F9D53          cmp     eax, [esi+320h]
+; .text:6F2F9D59          jz      loc_6F30B25E
+; Changed
+; .text:6F2F9D53          mov     eax, 100h
+; .text:6F2F9D58          mov     [esi+320h], eax
+; .text:6F2F9D5E          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=19D53
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000007FF75A97D8A          cmp     [rdi+63Ch], eax
+; .text:000007FF75A97D90          jz      loc_7FF75AA40F4
+; Changed
+; .text:000007FF75A97D8A          mov     eax, 100h
+; .text:000007FF75A97D8F          mov     [rdi+638h], eax
+; .text:000007FF75A97D95          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17D8A
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.1.7601.18540]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F2E0000
+; .text:6F2FA4DF          lea     eax, [ebp+VersionInformation]
+; .text:6F2FA4E5          inc     ebx            <- nop
+; .text:6F2FA4E6          push    eax             ; lpVersionInformation
+; .text:6F2FA4E7          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F2FA4F1          mov     [esi], ebx
+; .text:6F2FA4F3          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1A4E5
+SingleUserCode.x86=nop
+; Imagebase: 7FF75A80000
+; .text:000007FF75A98000          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75A98005          mov     ebx, 1     <- 0
+; .text:000007FF75A9800A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75A98012          mov     [rdi], ebx
+; .text:000007FF75A98014          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=18006
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F2F9D9F          cmp     eax, [esi+320h]
+; .text:6F2F9DA5          jz      loc_6F30B2AE
+; Changed
+; .text:6F2F9D9F          mov     eax, 100h
+; .text:6F2F9DA4          mov     [esi+320h], eax
+; .text:6F2F9DAA          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=19D9F
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000007FF75A97C82          cmp     [rdi+63Ch], eax
+; .text:000007FF75A97C88          jz      loc_7FF75AA3FBD
+; Changed
+; .text:000007FF75A97C82          mov     eax, 100h
+; .text:000007FF75A97C87          mov     [rdi+638h], eax
+; .text:000007FF75A97C8D          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17C82
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.1.7601.22750]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F2E0000
+; .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
+; .text:6F2FA655          inc     ebx            <- nop
+; .text:6F2FA656          push    eax             ; lpVersionInformation
+; .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F2FA661          mov     [esi], ebx
+; .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1A655
+SingleUserCode.x86=nop
+; Imagebase: 7FF75A80000
+; .text:000007FF75A97E88          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75A97E8D          mov     ebx, 1     <- 0
+; .text:000007FF75A97E92          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75A97E9A          mov     [rdi], ebx
+; .text:000007FF75A97E9C          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=17E8E
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F2F9E21          cmp     eax, [esi+320h]
+; .text:6F2F9E27          jz      loc_6F30B6CE
+; Changed
+; .text:6F2F9E21          mov     eax, 100h
+; .text:6F2F9E26          mov     [esi+320h], eax
+; .text:6F2F9E2C          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=19E21
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000007FF75A97C92          cmp     [rdi+63Ch], eax
+; .text:000007FF75A97C98          jz      loc_7FF75AA40A2
+; Changed
+; .text:000007FF75A97C92          mov     eax, 100h
+; .text:000007FF75A97C97          mov     [rdi+638h], eax
+; .text:000007FF75A97C9D          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17C92
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.1.7601.18637]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F2E0000
+; .text:6F2FA4D7          lea     eax, [ebp+VersionInformation]
+; .text:6F2FA4DD          inc     ebx            <- nop
+; .text:6F2FA4DE          push    eax             ; lpVersionInformation
+; .text:6F2FA4DF          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F2FA4E9          mov     [esi], ebx
+; .text:6F2FA4EB          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1A4DD
+SingleUserCode.x86=nop
+; Imagebase: 7FF75A80000
+; .text:000007FF75A980F4          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75A980F9          mov     ebx, 1     <- 0
+; .text:000007FF75A980FE          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75A98106          mov     [rdi], ebx
+; .text:000007FF75A98108          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=180FA
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F2F9DBB          cmp     eax, [esi+320h]
+; .text:6F2F9DC1          jz      loc_6F30B2A6
+; Changed
+; .text:6F2F9DBB          mov     eax, 100h
+; .text:6F2F9DC0          mov     [esi+320h], eax
+; .text:6F2F9DC6          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=19DBB
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000007FF75A97DC6          cmp     [rdi+63Ch], eax
+; .text:000007FF75A97DCC          jz      loc_7FF75AA40BD
+; Changed
+; .text:000007FF75A97DC6          mov     eax, 100h
+; .text:000007FF75A97DCB          mov     [rdi+638h], eax
+; .text:000007FF75A97DD1          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17DC6
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.1.7601.22843]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; Imagebase: 6F2E0000
+; .text:6F2FA64F          lea     eax, [ebp+VersionInformation]
+; .text:6F2FA655          inc     ebx            <- nop
+; .text:6F2FA656          push    eax             ; lpVersionInformation
+; .text:6F2FA657          mov     [ebp+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:6F2FA661          mov     [esi], ebx
+; .text:6F2FA663          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1A655
+SingleUserCode.x86=nop
+; Imagebase: 7FF75A80000
+; .text:000007FF75A97F90          lea     rcx, [rsp+198h+VersionInformation] ; lpVersionInformation
+; .text:000007FF75A97F95          mov     ebx, 1     <- 0
+; .text:000007FF75A97F9A          mov     [rsp+198h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000007FF75A97FA2          mov     [rdi], ebx
+; .text:000007FF75A97FA4          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=17F96
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:6F2F9E25          cmp     eax, [esi+320h]
+; .text:6F2F9E2B          jz      loc_6F30B6D6
+; Changed
+; .text:6F2F9E25          mov     eax, 100h
+; .text:6F2F9E2A          mov     [esi+320h], eax
+; .text:6F2F9E30          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=19E25
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000007FF75A97D6E          cmp     [rdi+63Ch], eax
+; .text:000007FF75A97D74          jz      loc_7FF75AA4182
+; Changed
+; .text:000007FF75A97D6E          mov     eax, 100h
+; .text:000007FF75A97D73          mov     [rdi+638h], eax
+; .text:000007FF75A97D79          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17D6E
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.2.8102.0]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:1000F7E5          lea     eax, [esp+150h+VersionInformation]
+; .text:1000F7E9          inc     esi            <- nop
+; .text:1000F7EA          push    eax             ; lpVersionInformation
+; .text:1000F7EB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:1000F7F3          mov     [edi], esi
+; .text:1000F7F5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=F7E9
+SingleUserCode.x86=nop
+; .text:000000018000D83A          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
+; .text:000000018000D83F          mov     ebx, 1     <- 0
+; .text:000000018000D844          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000000018000D84C          mov     [rdi], ebx
+; .text:000000018000D84E          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=D840
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1000E47C          cmp     eax, [esi+320h]
+; .text:1000E482          jz      loc_1002D775
+; Changed
+; .text:1000E47C          mov     eax, 100h
+; .text:1000E481          mov     [esi+320h], eax
+; .text:1000E487          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=E47C
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000000018000D3E6          cmp     [rdi+63Ch], eax
+; .text:000000018000D3EC          jz      loc_180027792
+; Changed
+; .text:000000018000D3E6          mov     eax, 100h
+; .text:000000018000D3EB          mov     [rdi+638h], eax
+; .text:000000018000D3F1          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=D3E6
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+; Hook SLGetWindowsInformationDWORDWrapper
+SLPolicyInternal.x86=1
+SLPolicyOffset.x86=1B909
+SLPolicyFunc.x86=New_Win8SL
+SLPolicyInternal.x64=1
+SLPolicyOffset.x64=1A484
+SLPolicyFunc.x64=New_Win8SL
+
+[6.2.8250.0]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:100159C5          lea     eax, [esp+150h+VersionInformation]
+; .text:100159C9          inc     esi            <- nop
+; .text:100159CA          push    eax             ; lpVersionInformation
+; .text:100159CB          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:100159D3          mov     [edi], esi
+; .text:100159D5          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=159C9
+SingleUserCode.x86=nop
+; .text:0000000180011E6E          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
+; .text:0000000180011E73          mov     ebx, 1     <- 0
+; .text:0000000180011E78          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180011E80          mov     [rdi], ebx
+; .text:0000000180011E82          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=11E74
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:10013520          cmp     eax, [esi+320h]
+; .text:10013526          jz      loc_1002DB85
+; Changed
+; .text:10013520          mov     eax, 100h
+; .text:10013525          mov     [esi+320h], eax
+; .text:1001352B          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=13520
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000000018001187A          cmp     [rdi+63Ch], eax
+; .text:0000000180011880          jz      loc_1800273A2
+; Changed
+; .text:000000018001187A          mov     eax, 100h
+; .text:000000018001187F          mov     [rdi+638h], eax
+; .text:0000000180011885          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1187A
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+; Hook SLGetWindowsInformationDWORDWrapper
+SLPolicyInternal.x86=1
+SLPolicyOffset.x86=1A0A9
+SLPolicyFunc.x86=New_Win8SL_CP
+SLPolicyInternal.x64=1
+SLPolicyOffset.x64=18FAC
+SLPolicyFunc.x64=New_Win8SL
+
+[6.2.8400.0]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:1001547E          lea     eax, [esp+150h+VersionInformation]
+; .text:10015482          inc     esi            <- nop
+; .text:10015483          push    eax             ; lpVersionInformation
+; .text:10015484          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:1001548C          mov     [edi], esi
+; .text:1001548E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=15482
+SingleUserCode.x86=nop
+; .text:000000018002081E          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
+; .text:0000000180020823          mov     ebx, 1     <- 0
+; .text:0000000180020828          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180020830          mov     [rdi], ebx
+; .text:0000000180020832          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=20824
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:10013E48          cmp     eax, [esi+320h]
+; .text:10013E4E          jz      loc_1002E079
+; Changed
+; .text:10013E48          mov     eax, 100h
+; .text:10013E4D          mov     [esi+320h], eax
+; .text:10013E53          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=13E48
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000000018001F102          cmp     [rdi+63Ch], eax
+; .text:000000018001F108          jz      loc_18003A02E
+; Changed
+; .text:000000018001F102          mov     eax, 100h
+; .text:000000018001F107          mov     [rdi+638h], eax
+; .text:000000018001F10D          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1F102
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+; Hook SLGetWindowsInformationDWORDWrapper
+SLPolicyInternal.x86=1
+SLPolicyOffset.x86=19629
+SLPolicyFunc.x86=New_Win8SL
+SLPolicyInternal.x64=1
+SLPolicyOffset.x64=2492C
+SLPolicyFunc.x64=New_Win8SL
+
+[6.2.9200.16384]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:1001554E          lea     eax, [esp+150h+VersionInformation]
+; .text:10015552          inc     esi            <- nop
+; .text:10015553          push    eax             ; lpVersionInformation
+; .text:10015554          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:1001555C          mov     [edi], esi
+; .text:1001555E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=15552
+SingleUserCode.x86=nop
+; .text:000000018002BAA2          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
+; .text:000000018002BAA7          mov     ebx, 1     <- 0
+; .text:000000018002BAAC          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000000018002BAB4          mov     [rdi], ebx
+; .text:000000018002BAB6          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=2BAA8
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:10013F08          cmp     eax, [esi+320h]
+; .text:10013F0E          jz      loc_1002E161
+; Changed
+; .text:10013F08          mov     eax, 100h
+; .text:10013F0D          mov     [esi+320h], eax
+; .text:10013F13          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=13F08
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000000018002A31A          cmp     [rdi+63Ch], eax
+; .text:000000018002A320          jz      loc_18003A0F9
+; Changed
+; .text:000000018002A31A          mov     eax, 100h
+; .text:000000018002A31F          mov     [rdi+638h], eax
+; .text:000000018002A325          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=2A31A
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+; Hook SLGetWindowsInformationDWORDWrapper
+SLPolicyInternal.x86=1
+SLPolicyOffset.x86=19559
+SLPolicyFunc.x86=New_Win8SL
+SLPolicyInternal.x64=1
+SLPolicyOffset.x64=21FA8
+SLPolicyFunc.x64=New_Win8SL
+
+[6.2.9200.17048]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:1002058E          lea     eax, [esp+150h+VersionInformation]
+; .text:10020592          inc     esi            <- nop
+; .text:10020593          push    eax             ; lpVersionInformation
+; .text:10020594          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:1002059C          mov     [edi], esi
+; .text:1002059E          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=20592
+SingleUserCode.x86=nop
+; .text:0000000180020942          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
+; .text:0000000180020947          mov     ebx, 1     <- 0
+; .text:000000018002094C          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180020954          mov     [rdi], ebx
+; .text:0000000180020956          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=20948
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1001F408          cmp     eax, [esi+320h]
+; .text:1001F40E          jz      loc_1002E201
+; Changed
+; .text:1001F408          mov     eax, 100h
+; .text:1001F40D          mov     [esi+320h], eax
+; .text:1001F413          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=1F408
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000000018001F206          cmp     [rdi+63Ch], eax
+; .text:000000018001F20C          jz      loc_18003A1B4
+; Changed
+; .text:000000018001F206          mov     eax, 100h
+; .text:000000018001F20B          mov     [rdi+638h], eax
+; .text:000000018001F211          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1F206
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+; Hook SLGetWindowsInformationDWORDWrapper
+SLPolicyInternal.x86=1
+SLPolicyOffset.x86=17059
+SLPolicyFunc.x86=New_Win8SL
+SLPolicyInternal.x64=1
+SLPolicyOffset.x64=24570
+SLPolicyFunc.x64=New_Win8SL
+
+[6.2.9200.21166]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10015576          lea     eax, [esp+150h+VersionInformation]
+; .text:1001557A          inc     esi            <- nop
+; .text:1001557B          push    eax             ; lpVersionInformation
+; .text:1001557C          mov     [esp+154h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:10015584          mov     [edi], esi
+; .text:10015586          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1557A
+SingleUserCode.x86=nop
+; .text:000000018002BAF2          lea     rcx, [rsp+180h+VersionInformation] ; lpVersionInformation
+; .text:000000018002BAF7          mov     ebx, 1     <- 0
+; .text:000000018002BAFC          mov     [rsp+180h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000000018002BB04          mov     [rdi], ebx
+; .text:000000018002BB06          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=2BAF8
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:10013F30          cmp     eax, [esi+320h]
+; .text:10013F36          jz      loc_1002E189
+; Changed
+; .text:10013F30          mov     eax, 100h
+; .text:10013F35          mov     [esi+320h], eax
+; .text:10013F3B          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=13F30
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+; Original
+; .text:000000018002A3B6          cmp     [rdi+63Ch], eax
+; .text:000000018002A3BC          jz      loc_18003A174
+; Changed
+; .text:000000018002A3B6          mov     eax, 100h
+; .text:000000018002A3BB          mov     [rdi+638h], eax
+; .text:000000018002A3C1          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=2A3B6
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+; Hook SLGetWindowsInformationDWORDWrapper
+SLPolicyInternal.x86=1
+SLPolicyOffset.x86=19581
+SLPolicyFunc.x86=New_Win8SL
+SLPolicyInternal.x64=1
+SLPolicyOffset.x64=21FD0
+SLPolicyFunc.x64=New_Win8SL
+
+[6.3.9431.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:1008A604          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:1008A609          test    eax, eax
+; .text:1008A60B          js      short loc_1008A628
+; .text:1008A60D          cmp     [ebp+var_8], 0
+; .text:1008A611          jz      short loc_1008A628 <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=8A611
+LocalOnlyCode.x86=jmpshort
+; .text:000000018009F713          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:000000018009F718          test    eax, eax
+; .text:000000018009F71A          js      short loc_18009F73B
+; .text:000000018009F71C          cmp     [rsp+48h+arg_18], 0
+; .text:000000018009F721          jz      short loc_18009F73B <- jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=9F721
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:100306A4          lea     eax, [esp+150h+VersionInformation]
+; .text:100306A8          inc     ebx            <- nop
+; .text:100306A9          mov     [edi], ebx
+; .text:100306AB          push    eax             ; lpVersionInformation
+; .text:100306AC          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=306A8
+SingleUserCode.x86=nop
+; .text:00000001800367F3          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:00000001800367F8          mov     ebx, 1     <- 0
+; .text:00000001800367FD          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180036805          mov     [rdi], ebx
+; .text:0000000180036807          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=367F9
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1002EA25          cmp     eax, [ecx+320h]
+; .text:1002EA2B          jz      loc_100348C1
+; Changed
+; .text:1002EA25          mov     eax, 100h
+; .text:1002EA2A          mov     [ecx+320h], eax
+; .text:1002EA30          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=2EA25
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:00000001800350FD          cmp     [rcx+63Ch], eax
+; .text:0000000180035103          jz      loc_18004F6AE
+; Changed
+; .text:00000001800350FD          mov     eax, 100h
+; .text:0000000180035102          mov     [rcx+638h], eax
+; .text:0000000180035108          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=350FD
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=196B0
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=2F9C0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[6.3.9600.16384]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:100A271C          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:100A2721          test    eax, eax
+; .text:100A2723          js      short loc_100A2740
+; .text:100A2725          cmp     [ebp+var_8], 0
+; .text:100A2729          jz      short loc_100A2740 <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A2729
+LocalOnlyCode.x86=jmpshort
+; .text:000000018008181F          cmp     [rsp+48h+arg_18], 0
+; .text:0000000180081824          jz      loc_180031DEF <- nop + jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=81824
+LocalOnlyCode.x64=nopjmp
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10018024          lea     eax, [esp+150h+VersionInformation]
+; .text:10018028          inc     ebx            <- nop
+; .text:10018029          mov     [edi], ebx
+; .text:1001802B          push    eax             ; lpVersionInformation
+; .text:1001802C          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=18028
+SingleUserCode.x86=nop
+; .text:000000018002023B          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180020240          mov     ebx, 1     <- 0
+; .text:0000000180020245          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:000000018002024D          mov     [rdi], ebx
+; .text:000000018002024F          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=20241
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:10016115          cmp     eax, [ecx+320h]
+; .text:1001611B          jz      loc_10034DE1
+; Changed
+; .text:10016115          mov     eax, 100h
+; .text:1001611A          mov     [ecx+320h], eax
+; .text:10016120          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=16115
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:0000000180057829          cmp     [rcx+63Ch], eax
+; .text:000000018005782F          jz      loc_18005E850
+; Changed
+; .text:0000000180057829          mov     eax, 100h
+; .text:000000018005782E          mov     [rcx+638h], eax
+; .text:0000000180057834          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=57829
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=1CEB0
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=554C0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[6.3.9600.17095]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:100A36C4          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:100A36C9          test    eax, eax
+; .text:100A36CB          js      short loc_100A36E8
+; .text:100A36CD          cmp     [ebp+var_8], 0
+; .text:100A36D1          jz      short loc_100A36E8 <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A36D1
+LocalOnlyCode.x86=jmpshort
+; .text:00000001800B914B          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:00000001800B9150          test    eax, eax
+; .text:00000001800B9152          js      short loc_1800B9173
+; .text:00000001800B9154          cmp     [rsp+48h+arg_18], 0
+; .text:00000001800B9159          jz      short loc_1800B9173 <- jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=B9159
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10036BA5          lea     eax, [esp+150h+VersionInformation]
+; .text:10036BA9          inc     ebx            <- nop
+; .text:10036BAA          mov     [edi], ebx
+; .text:10036BAC          push    eax             ; lpVersionInformation
+; .text:10036BAD          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=36BA9
+SingleUserCode.x86=nop
+; .text:0000000180021823          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180021828          mov     ebx, 1     <- 0
+; .text:000000018002182D          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180021835          mov     [rdi], ebx
+; .text:0000000180021837          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=21829
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:10037529          cmp     eax, [ecx+320h]
+; .text:1003752F          jz      loc_10043662
+; Changed
+; .text:10037529          mov     eax, 100h
+; .text:1003752E          mov     [ecx+320h], eax
+; .text:10037534          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=37529
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:000000018001F6A1          cmp     [rcx+63Ch], eax
+; .text:000000018001F6A7          jz      loc_18007284B
+; Changed
+; .text:000000018001F6A1          mov     eax, 100h
+; .text:000000018001F6A6          mov     [rcx+638h], eax
+; .text:000000018001F6AC          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1F6A1
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=117F1
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=3B110
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[6.3.9600.17415]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:100B33EB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:100B33F0          test    eax, eax
+; .text:100B33F2          js      short loc_100B340F
+; .text:100B33F4          cmp     [ebp+var_C], 0
+; .text:100B33F8          jz      short loc_100B340F <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=B33F8
+LocalOnlyCode.x86=jmpshort
+; .text:000000018008B2D4          cmp     [rsp+58h+arg_18], 0
+; .text:000000018008B2D9          jz      loc_180025C39 <- nop + jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=8B2D9
+LocalOnlyCode.x64=nopjmp
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10037111          lea     eax, [esp+150h+VersionInformation]
+; .text:10037115          inc     ebx            <- nop
+; .text:10037116          mov     [edi], ebx
+; .text:10037118          push    eax             ; lpVersionInformation
+; .text:10037119          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=37115
+SingleUserCode.x86=nop
+; .text:0000000180033CE3          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180033CE8          mov     ebx, 1     <- 0
+; .text:0000000180033CED          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180033CF5          mov     [rdi], ebx
+; .text:0000000180033CF7          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=33CE9
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1003CFF9          cmp     eax, [ecx+320h]
+; .text:1003CFFF          jz      loc_1004A52F
+; Changed
+; .text:1003CFF9          mov     eax, 100h
+; .text:1003CFFE          mov     [ecx+320h], eax
+; .text:1003D004          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=3CFF9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:0000000180045825          cmp     [rcx+63Ch], eax
+; .text:000000018004582B          jz      loc_180067704
+; Changed
+; .text:0000000180045825          mov     eax, 100h
+; .text:000000018004582A          mov     [rcx+638h], eax
+; .text:0000000180045830          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=45825
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=18478
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=5DBC0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[6.4.9841.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:1009569B          call    sub_100B7EE5
+; .text:100956A0          test    eax, eax
+; .text:100956A2          js      short loc_100956BF
+; .text:100956A4          cmp     [ebp+var_C], 0
+; .text:100956A8          jz      short loc_100956BF <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=956A8
+LocalOnlyCode.x86=jmpshort
+; .text:0000000180081133          call    sub_1800A9048
+; .text:0000000180081138          test    eax, eax
+; .text:000000018008113A          js      short loc_18008115B
+; .text:000000018008113C          cmp     [rsp+58h+arg_18], 0
+; .text:0000000180081141          jz      short loc_18008115B <- jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=81141
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10030121          lea     eax, [esp+150h+VersionInformation]
+; .text:10030125          inc     ebx            <- nop
+; .text:10030126          mov     [edi], ebx
+; .text:10030128          push    eax             ; lpVersionInformation
+; .text:10030129          call    ds:GetVersionExW
+SingleUserPatch.x86=1
+SingleUserOffset.x86=30125
+SingleUserCode.x86=nop
+; .text:0000000180012153          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180012158          mov     ebx, 1     <- 0
+; .text:000000018001215D          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180012165          mov     [rdi], ebx
+; .text:0000000180012167          call    cs:GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=12159
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1003B989          cmp     eax, [ecx+320h]
+; .text:1003B98F          jz      loc_1005E809
+; Changed
+; .text:1003B989          mov     eax, 100h
+; .text:1003B98E          mov     [ecx+320h], eax
+; .text:1003B994          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=3B989
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:000000018000C125          cmp     [rcx+63Ch], eax
+; .text:000000018000C12B          jz      sub_18003BABC
+; Changed
+; .text:000000018000C125          mov     eax, 100h
+; .text:000000018000C12A          mov     [rcx+638h], eax
+; .text:000000018000C130          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=C125
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=46A68
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=1EA50
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[6.4.9860.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:100962BB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:100962C0          test    eax, eax
+; .text:100962C2          js      short loc_100962DF
+; .text:100962C4          cmp     [ebp+var_C], 0
+; .text:100962C8          jz      short loc_100962DF <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=962C8
+LocalOnlyCode.x86=jmpshort
+; .text:0000000180081083          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:0000000180081088          test    eax, eax
+; .text:000000018008108A          js      short loc_1800810AB
+; .text:000000018008108C          cmp     [rsp+58h+arg_18], 0
+; .text:0000000180081091          jz      short loc_1800810AB <- jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=81091
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10030841          lea     eax, [esp+150h+VersionInformation]
+; .text:10030845          inc     ebx            <- nop
+; .text:10030846          mov     [edi], ebx
+; .text:10030848          push    eax             ; lpVersionInformation
+; .text:10030849          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=30845
+SingleUserCode.x86=nop
+; .text:0000000180011AA3          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180011AA8          mov     ebx, 1     <- 0
+; .text:0000000180011AAD          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180011AB5          mov     [rdi], ebx
+; .text:0000000180011AB7          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=11AA9
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1003BEC9          cmp     eax, [ecx+320h]
+; .text:1003BECF          jz      loc_1005EE1A
+; Changed
+; .text:1003BEC9          mov     eax, 100h
+; .text:1003BECE          mov     [ecx+320h], eax
+; .text:1003BED4          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=3BEC9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:000000018000B9F5          cmp     [rcx+63Ch], eax
+; .text:000000018000B9FB          jz      sub_18003B9C8
+; Changed
+; .text:000000018000B9F5          mov     eax, 100h
+; .text:000000018000B9FA          mov     [rcx+638h], eax
+; .text:000000018000BA00          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=B9F5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=46F18
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=1EB00
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[6.4.9879.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:100A9CBB          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:100A9CC0          test    eax, eax
+; .text:100A9CC2          js      short loc_100A9CDF
+; .text:100A9CC4          cmp     [ebp+var_C], 0
+; .text:100A9CC8          jz      short loc_100A9CDF <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A9CC8
+LocalOnlyCode.x86=jmpshort
+; .text:0000000180095603          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:0000000180095608          test    eax, eax
+; .text:000000018009560A          js      short loc_18009562B
+; .text:000000018009560C          cmp     [rsp+58h+arg_18], 0
+; .text:0000000180095611          jz      short loc_18009562B <- jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=95611
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10030C51          lea     eax, [esp+150h+VersionInformation]
+; .text:10030C55          inc     ebx            <- nop
+; .text:10030C56          mov     [edi], ebx
+; .text:10030C58          push    eax             ; lpVersionInformation
+; .text:10030C59          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=30C55
+SingleUserCode.x86=nop
+; .text:0000000180016A2E          call    memset_0
+; .text:0000000180016A33          mov     ebx, 1     <- 0
+; .text:0000000180016A38          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180016A40          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180016A45          mov     [rdi], ebx
+; .text:0000000180016A47          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=16A34
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1002DAB9          cmp     eax, [ecx+320h]
+; .text:1002DABF          jz      loc_1006C38A
+; Changed
+; .text:1002DAB9          mov     eax, 100h
+; .text:1002DABE          mov     [ecx+320h], eax
+; .text:1002DAC4          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=2DAB9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:000000018001BDC5          cmp     [rcx+63Ch], eax
+; .text:000000018001BDCB          jz      sub_180045540
+; Changed
+; .text:000000018001BDC5          mov     eax, 100h
+; .text:000000018001BDCA          mov     [rcx+638h], eax
+; .text:000000018001BDD0          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1BDC5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=41132
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=24750
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[10.0.9926.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A8C28
+LocalOnlyCode.x86=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=31725
+SingleUserCode.x86=nop
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=3CF99
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=3F140
+SLInitFunc.x86=New_CSLQuery_Initialize
+; x64 contributed by v-yadli
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x64=1
+;;;OFFSET = 0x61
+;;;BASE   = 0x95F90
+LocalOnlyOffset.x64=95FF1
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x64=1
+;;;OFFSET   = 0x43
+;;;BASE     = 0x12F90
+;;;;instruction = 0xBB 0x01 0x00 0x00 0x00
+;;;                   ^^^ +1 offset
+SingleUserOffset.x64=12A34
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x64=1
+;;;
+;;;BASE     = 0xBDF0
+;;;OFFSET   = 0x15
+DefPolicyOffset.x64=BE05
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=24EC0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[10.0.10041.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+; .text:100A9D7B          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:100A9D80          test    eax, eax
+; .text:100A9D82          js      short loc_100A9D9F
+; .text:100A9D84          cmp     [ebp+var_C], 0
+; .text:100A9D88          jz      short loc_100A9D9F <- jmp
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A9D88
+LocalOnlyCode.x86=jmpshort
+; .text:0000000180097133          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SAJAEAU_GUID@@PEAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
+; .text:0000000180097138          test    eax, eax
+; .text:000000018009713A          js      short loc_18009715B
+; .text:000000018009713C          cmp     [rsp+58h+arg_18], 0
+; .text:0000000180097141          jz      short loc_18009715B <- jmp
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=97141
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; .text:10032211          lea     eax, [esp+150h+VersionInformation]
+; .text:10032215          inc     ebx            <- nop
+; .text:10032216          mov     [edi], ebx
+; .text:10032218          push    eax             ; lpVersionInformation
+; .text:10032219          call    ds:__imp__GetVersionExW@4 ; GetVersionExW(x)
+SingleUserPatch.x86=1
+SingleUserOffset.x86=32215
+SingleUserCode.x86=nop
+; .text:0000000180015C5E          call    memset_0
+; .text:0000000180015C63          mov     ebx, 1     <- 0
+; .text:0000000180015C68          mov     [rsp+190h+VersionInformation.dwOSVersionInfoSize], 11Ch
+; .text:0000000180015C70          lea     rcx, [rsp+190h+VersionInformation] ; lpVersionInformation
+; .text:0000000180015C75          mov     [rdi], ebx
+; .text:0000000180015C77          call    cs:__imp_GetVersionExW
+SingleUserPatch.x64=1
+SingleUserOffset.x64=15C64
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+; Original
+; .text:1002DFC9          cmp     eax, [ecx+320h]
+; .text:1002DFCF          jz      loc_10056550
+; Changed
+; .text:1002DFC9          mov     eax, 100h
+; .text:1002DFCE          mov     [ecx+320h], eax
+; .text:1002DFD4          nop
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=2DFC9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+; Original
+; .text:000000018000B795          cmp     [rcx+63Ch], eax
+; .text:000000018000B79B          jz      sub_18003A79A
+; Changed
+; .text:000000018000B795          mov     eax, 100h
+; .text:000000018000B79A          mov     [rcx+638h], eax
+; .text:000000018000B7A0          nop
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=B795
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=46960
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=22E40
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[SLInit]
+; Is server
+bServerSku=1
+; Enable listener - allow remote connections
+bRemoteConnAllowed=1
+; Allow fast user switching
+bFUSEnabled=1
+; Allow RemoteApp server
+bAppServerAllowed=1
+; Allow multi monitor
+bMultimonAllowed=1
+; Maximum user sessions (0 - unlimited)
+lMaxUserSessions=0
+; Maximum debug/glass sessions (0 - unlimited)
+ulMaxDebugSessions=0
+; SLInit function is succeeded
+bInitialized=1
+
+[6.3.9431.0-SLInit]
+bFUSEnabled.x86       =A22A8
+lMaxUserSessions.x86  =A22AC
+bAppServerAllowed.x86 =A22B0
+bInitialized.x86      =A22B4
+bMultimonAllowed.x86  =A22B8
+bServerSku.x86        =A22BC
+ulMaxDebugSessions.x86=A22C0
+bRemoteConnAllowed.x86=A22C4
+
+bFUSEnabled.x64       =C4490
+lMaxUserSessions.x64  =C4494
+bAppServerAllowed.x64 =C4498
+bInitialized.x64      =C449C
+bMultimonAllowed.x64  =C44A0
+bServerSku.x64        =C44A4
+ulMaxDebugSessions.x64=C44A8
+bRemoteConnAllowed.x64=C44AC
+
+[6.3.9600.16384-SLInit]
+bFUSEnabled.x86       =C02A8
+lMaxUserSessions.x86  =C02AC
+bAppServerAllowed.x86 =C02B0
+bInitialized.x86      =C02B4
+bMultimonAllowed.x86  =C02B8
+bServerSku.x86        =C02BC
+ulMaxDebugSessions.x86=C02C0
+bRemoteConnAllowed.x86=C02C4
+
+bServerSku.x64        =E6494
+ulMaxDebugSessions.x64=E6498
+bRemoteConnAllowed.x64=E649C
+bFUSEnabled.x64       =E64A0
+lMaxUserSessions.x64  =E64A4
+bAppServerAllowed.x64 =E64A8
+bInitialized.x64      =E64AC
+bMultimonAllowed.x64  =E64B0
+
+[6.3.9600.17095-SLInit]
+bFUSEnabled.x86       =C12A8
+lMaxUserSessions.x86  =C12AC
+bAppServerAllowed.x86 =C12B0
+bInitialized.x86      =C12B4
+bMultimonAllowed.x86  =C12B8
+bServerSku.x86        =C12BC
+ulMaxDebugSessions.x86=C12C0
+bRemoteConnAllowed.x86=C12C4
+
+bServerSku.x64        =E4494
+ulMaxDebugSessions.x64=E4498
+bRemoteConnAllowed.x64=E449C
+bFUSEnabled.x64       =E44A0
+lMaxUserSessions.x64  =E44A4
+bAppServerAllowed.x64 =E44A8
+bInitialized.x64      =E44AC
+bMultimonAllowed.x64  =E44B0
+
+[6.3.9600.17415-SLInit]
+bFUSEnabled.x86       =D3068
+lMaxUserSessions.x86  =D306C
+bAppServerAllowed.x86 =D3070
+bInitialized.x86      =D3074
+bMultimonAllowed.x86  =D3078
+bServerSku.x86        =D307C
+ulMaxDebugSessions.x86=D3080
+bRemoteConnAllowed.x86=D3084
+
+bFUSEnabled.x64       =F9054
+lMaxUserSessions.x64  =F9058
+bAppServerAllowed.x64 =F905C
+bInitialized.x64      =F9060
+bMultimonAllowed.x64  =F9064
+bServerSku.x64        =F9068
+ulMaxDebugSessions.x64=F906C
+bRemoteConnAllowed.x64=F9070
+
+[6.4.9841.0-SLInit]
+bFUSEnabled.x86       =BF9F0
+lMaxUserSessions.x86  =BF9F4
+bAppServerAllowed.x86 =BF9F8
+bInitialized.x86      =BF9FC
+bMultimonAllowed.x86  =BFA00
+bServerSku.x86        =BFA04
+ulMaxDebugSessions.x86=BFA08
+bRemoteConnAllowed.x86=BFA0C
+
+bFUSEnabled.x64       =ECFF8
+lMaxUserSessions.x64  =ECFFC
+bAppServerAllowed.x64 =ED000
+bInitialized.x64      =ED004
+bMultimonAllowed.x64  =ED008
+bServerSku.x64        =ED00C
+ulMaxDebugSessions.x64=ED010
+bRemoteConnAllowed.x64=ED014
+
+[6.4.9860.0-SLInit]
+bFUSEnabled.x86       =BF7E0
+lMaxUserSessions.x86  =BF7E4
+bAppServerAllowed.x86 =BF7E8
+bInitialized.x86      =BF7EC
+bMultimonAllowed.x86  =BF7F0
+bServerSku.x86        =BF7F4
+ulMaxDebugSessions.x86=BF7F8
+bRemoteConnAllowed.x86=BF7FC
+
+bFUSEnabled.x64       =ECBD8
+lMaxUserSessions.x64  =ECBDC
+bAppServerAllowed.x64 =ECBE0
+bInitialized.x64      =ECBE4
+bMultimonAllowed.x64  =ECBE8
+bServerSku.x64        =ECBEC
+ulMaxDebugSessions.x64=ECBF0
+bRemoteConnAllowed.x64=ECBF4
+
+[6.4.9879.0-SLInit]
+bFUSEnabled.x86       =C27D8
+lMaxUserSessions.x86  =C27DC
+bAppServerAllowed.x86 =C27E0
+bInitialized.x86      =C27E4
+bMultimonAllowed.x86  =C27E8
+bServerSku.x86        =C27EC
+ulMaxDebugSessions.x86=C27F0
+bRemoteConnAllowed.x86=C27F4
+
+bFUSEnabled.x64       =EDBF0
+lMaxUserSessions.x64  =EDBF4
+bAppServerAllowed.x64 =EDBF8
+bInitialized.x64      =EDBFC
+bMultimonAllowed.x64  =EDC00
+bServerSku.x64        =EDC04
+ulMaxDebugSessions.x64=EDC08
+bRemoteConnAllowed.x64=EDC0C
+
+[10.0.9926.0-SLInit]
+bFUSEnabled.x86       =C17D8
+lMaxUserSessions.x86  =C17DC
+bAppServerAllowed.x86 =C17E0
+bInitialized.x86      =C17E4
+bMultimonAllowed.x86  =C17E8
+bServerSku.x86        =C17EC
+ulMaxDebugSessions.x86=C17F0
+bRemoteConnAllowed.x86=C17F4
+; x64 contributed by v-yadli
+bFUSEnabled.x64       =EEBF0
+lMaxUserSessions.x64  =EEBF4
+bAppServerAllowed.x64 =EEBF8
+bInitialized.x64      =EEBFC
+bMultimonAllowed.x64  =EEC00
+bServerSku.x64        =EEC04
+ulMaxDebugSessions.x64=EEC08
+bRemoteConnAllowed.x64=EEC0C
+
+[10.0.10041.0-SLInit]
+bFUSEnabled.x86       =C5F60
+lMaxUserSessions.x86  =C5F64
+bAppServerAllowed.x86 =C5F68
+bInitialized.x86      =C5F6C
+bMultimonAllowed.x86  =C5F70
+bServerSku.x86        =C5F74
+ulMaxDebugSessions.x86=C5F78
+bRemoteConnAllowed.x86=C5F7C
+
+bFUSEnabled.x64       =F3448
+lMaxUserSessions.x64  =F344C
+bAppServerAllowed.x64 =F3450
+bInitialized.x64      =F3454
+bMultimonAllowed.x64  =F3458
+bServerSku.x64        =F345C
+ulMaxDebugSessions.x64=F3460
+bRemoteConnAllowed.x64=F3464
