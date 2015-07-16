@@ -132,7 +132,7 @@ begin
     $1707: ErrStr := 'Delegation of credentials to the target server is not allowed unless mutual authentication has been achieved.';
     $2207: ErrStr := 'The smart card is blocked.';
     $1C07: ErrStr := 'An incorrect PIN was presented to the smart card.';
-    $B09: ErrStr := 'Network Level Authentication is required.';
+    $B09: ErrStr := 'Network Level Authentication is required, run RDPCheck as administrator.';
     $708: ErrStr := 'RDP is working, but the client doesn''t allow loopback connections. Try to connect to your PC from another device in the network.';
     else ErrStr := 'Unknown code 0x'+IntToHex(discReason, 1);
   end;
