@@ -54,6 +54,11 @@ CDefPolicy_Query_eax_ecx=B80001000089812003000090
 CDefPolicy_Query_eax_rcx=B80001000089813806000090
 
 [6.0.6000.16386]
+; HOW TO search CSessionArbitrationHelper::IsSingleSessionPerUserEnabled function in IDA Pro:
+; 1. Search text: CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+; 2. All xrefs will point to this function (in x64 version xref points to subroutine, so you need to go one level up)
+; 3. Go to first graph block and find memset, VersionInformation, call GetVersionExW, and so on
+
 ; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
 ; Imagebase: 6F320000
 ; .text:6F3360B9          lea     eax, [ebp+VersionInformation]
@@ -74,6 +79,11 @@ SingleUserCode.x86=nop
 SingleUserPatch.x64=1
 SingleUserOffset.x64=65E3E
 SingleUserCode.x64=Zero
+; HOW TO search CDefPolicy::Query function in IDA Pro:
+; 1. Search text: CDefPolicy::Query
+; 2. All xrefs will point to this function (in x64 version xref sometimes points to subroutine, so you need to go one level up)
+; 3. Go to first graph block and find cmp/jz instructions on the bottom of block
+
 ; Patch CDefPolicy::Query
 ; Original
 ; .text:6F335CD8          cmp     edx, [ecx+320h]
@@ -835,6 +845,12 @@ SLPolicyOffset.x64=21FD0
 SLPolicyFunc.x64=New_Win8SL
 
 [6.3.9431.0]
+; HOW TO search CEnforcementCore::GetInstanceOfTSLicense function in IDA Pro:
+; 1. Search text: CSLQuery::IsLicenseTypeLocalOnly
+; 2. All xrefs will point to this function
+; 3. Go to function beginning and check ; CODE XREF string, it will point to GetInstanceOfTSLicense function
+; 4. Follow CODE XREF, switch to graph view, the next block below is to patch
+
 ; Patch CEnforcementCore::GetInstanceOfTSLicense
 ; .text:1008A604          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
 ; .text:1008A609          test    eax, eax
@@ -890,6 +906,10 @@ DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
 DefPolicyPatch.x64=1
 DefPolicyOffset.x64=350FD
 DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; HOW TO search CSLQuery::Initialize function in IDA Pro:
+; 1. Search text: CSLQuery::Initialize - SLGetWindowsInformationDWORD failed
+; 2. All xrefs will point to this function
+
 ; Hook CSLQuery::Initialize
 SLInitHook.x86=1
 SLInitOffset.x86=196B0
@@ -1386,6 +1406,36 @@ SLInitHook.x64=1
 SLInitOffset.x64=22E40
 SLInitFunc.x64=New_CSLQuery_Initialize
 
+[10.0.10240.16384]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A7D96
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=96901
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=32A95
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=18F74
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=2F5B9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=22865
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=46581
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=250F0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
 [SLInit]
 ; Is server
 bServerSku=1
@@ -1405,6 +1455,13 @@ ulMaxDebugSessions=0
 bInitialized=1
 
 [6.3.9431.0-SLInit]
+; HOW TO search SLInit global variables in IDA Pro:
+; 1. Search text: The SL policy for ',27h,'Allow Multiple Sessions',27h,' is not defined
+; 2. Xref will point to CSLQuery::Initialize function
+; 3. Follow xref, look for cmp instruction nearby
+; 4. It will be comparsion with CSLQuery::bServerSku constant
+; 5. Now it's easy to find other constants
+
 bFUSEnabled.x86       =A22A8
 lMaxUserSessions.x86  =A22AC
 bAppServerAllowed.x86 =A22B0
@@ -1574,3 +1631,22 @@ bMultimonAllowed.x64  =F3458
 bServerSku.x64        =F345C
 ulMaxDebugSessions.x64=F3460
 bRemoteConnAllowed.x64=F3464
+
+[10.0.10240.16384-SLInit]
+bFUSEnabled.x86       =C3F60
+lMaxUserSessions.x86  =C3F64
+bAppServerAllowed.x86 =C3F68
+bInitialized.x86      =C3F6C
+bMultimonAllowed.x86  =C3F70
+bServerSku.x86        =C3F74
+ulMaxDebugSessions.x86=C3F78
+bRemoteConnAllowed.x86=C3F7C
+
+lMaxUserSessions.x64  =F23B0
+bAppServerAllowed.x64 =F23B4
+bServerSku.x64        =F23B8
+bFUSEnabled.x64       =F3460
+bInitialized.x64      =F3464
+bMultimonAllowed.x64  =F3468
+ulMaxDebugSessions.x64=F346C
+bRemoteConnAllowed.x64=F3470
