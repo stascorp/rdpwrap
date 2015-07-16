@@ -3,7 +3,7 @@ object MainForm: TMainForm
   Top = 0
   BorderStyle = bsDialog
   Caption = 'RDP Wrapper Configuration'
-  ClientHeight = 326
+  ClientHeight = 352
   ClientWidth = 351
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -27,7 +27,7 @@ object MainForm: TMainForm
   end
   object bOK: TButton
     Left = 10
-    Top = 293
+    Top = 319
     Width = 75
     Height = 25
     Caption = 'OK'
@@ -37,7 +37,7 @@ object MainForm: TMainForm
   end
   object bCancel: TButton
     Left = 91
-    Top = 293
+    Top = 319
     Width = 75
     Height = 25
     Caption = 'Cancel'
@@ -47,7 +47,7 @@ object MainForm: TMainForm
   end
   object bApply: TButton
     Left = 172
-    Top = 293
+    Top = 319
     Width = 75
     Height = 25
     Caption = 'Apply'
@@ -66,7 +66,7 @@ object MainForm: TMainForm
   end
   object rgNLA: TRadioGroup
     Left = 8
-    Top = 135
+    Top = 132
     Width = 335
     Height = 73
     Caption = 'Security Mode'
@@ -88,14 +88,16 @@ object MainForm: TMainForm
   end
   object rgShadow: TRadioGroup
     Left = 8
-    Top = 214
+    Top = 208
     Width = 335
-    Height = 73
+    Height = 105
     Caption = 'Session Shadowing Mode'
     Items.Strings = (
       'Disable Shadowing'
-      'Shadowing will request user'#39's permission'
-      'Shadow sessions immediately')
+      'Full access with user'#39's permission'
+      'Full access without permission'
+      'View only with user'#39's permission'
+      'View only without permission')
     TabOrder = 6
     OnClick = cbAllowTSConnectionsClick
   end
@@ -112,7 +114,7 @@ object MainForm: TMainForm
   end
   object bLicense: TButton
     Left = 253
-    Top = 293
+    Top = 319
     Width = 87
     Height = 25
     Caption = 'View license...'

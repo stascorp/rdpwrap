@@ -1,5 +1,5 @@
 {
-  Copyright 2014 Stas'M Corp.
+  Copyright 2015 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -431,6 +431,15 @@ begin
 
     end;
   end;
+  if rgShadow.ItemIndex >= 0 then begin
+    try
+      Reg.WriteInteger('Shadow', rgShadow.ItemIndex);
+    except
+
+    end;
+  end;
+  Reg.CloseKey;
+  Reg.OpenKey('\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services', True);
   if rgShadow.ItemIndex >= 0 then begin
     try
       Reg.WriteInteger('Shadow', rgShadow.ItemIndex);

@@ -1,5 +1,5 @@
 {
-  Copyright 2014 Stas'M Corp.
+  Copyright 2015 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -282,32 +282,45 @@ var
   hSvc: THandle;
   Code: DWORD;
   pch: PWideChar;
+  procedure ExitError(Func: String; ErrorCode: DWORD);
+  begin
+    if hSC > 0 then
+      CloseServiceHandle(hSC);
+    if hSvc > 0 then
+      CloseServiceHandle(hSvc);
+    Writeln('[-] ', Func, ' error (code ', ErrorCode, ').');
+  end;
 begin
+  hSC := 0;
+  hSvc := 0;
   Writeln('[*] Starting ', SvcName, '...');
   hSC := OpenSCManager(nil, SERVICES_ACTIVE_DATABASE, SC_MANAGER_CONNECT);
   if hSC = 0 then
   begin
-    Code := GetLastError;
-    Writeln('[-] OpenSCManager error (code ', Code, ').');
+    ExitError('OpenSCManager', GetLastError);
     Exit;
   end;
 
   hSvc := OpenService(hSC, PWideChar(SvcName), SERVICE_START);
   if hSvc = 0 then
   begin
-    CloseServiceHandle(hSC);
-    Code := GetLastError;
-    Writeln('[-] OpenService error (code ', Code, ').');
+    ExitError('OpenService', GetLastError);
     Exit;
   end;
 
   pch := nil;
   if not StartService(hSvc, 0, pch) then begin
-    CloseServiceHandle(hSvc);
-    CloseServiceHandle(hSC);
     Code := GetLastError;
-    Writeln('[-] StartService error (code ', Code, ').');
-    Exit;
+    if Code = 1056 then begin // Service already started
+      Sleep(2000);            // or SCM hasn't registered killed process
+      if not StartService(hSvc, 0, pch) then begin
+        ExitError('StartService', Code);
+        Exit;
+      end;
+    end else begin
+      ExitError('StartService', Code);
+      Exit;
+    end;
   end;
   CloseServiceHandle(hSvc);
   CloseServiceHandle(hSC);

@@ -1,5 +1,5 @@
 {
-  Copyright 2014 Stas'M Corp.
+  Copyright 2015 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -50,7 +50,7 @@ begin
   RDP.ConnectingText := 'Connecting...';
   RDP.ConnectedStatusText := 'Connected.';
   RDP.UserName := '';
-  RDP.Server := '127.0.0.1';
+  RDP.Server := '127.0.0.2';
   Reg := TRegistry.Create;
   Reg.RootKey := HKEY_LOCAL_MACHINE;
 
@@ -133,7 +133,7 @@ begin
     $2207: ErrStr := 'The smart card is blocked.';
     $1C07: ErrStr := 'An incorrect PIN was presented to the smart card.';
     $B09: ErrStr := 'Network Level Authentication is required.';
-    $708: ErrStr := 'The RDP seems to work, but your client doesn''t support loopback connections. Try to connect to your PC from another device in the network.';
+    $708: ErrStr := 'RDP is working, but the client doesn''t allow loopback connections. Try to connect to your PC from another device in the network.';
     else ErrStr := 'Unknown code 0x'+IntToHex(discReason, 1);
   end;
   if (discReason > 2) then
