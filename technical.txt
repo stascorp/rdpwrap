@@ -57,12 +57,16 @@ Terminal Services supported versions
 6.4.9879.0       (Windows 10 Technical Preview UP2)      [init hook + extended patch]
 10.0.9926.0      (Windows 10 Pro Technical Preview)      [init hook + extended patch]
 10.0.10041.0     (Windows 10 Pro Technical Preview UP1)  [init hook + extended patch]
-10.0.10240.16384 (Windows 10 Pro RTM)                    [!todo]
+10.0.10061.0     (Windows 10 Pro Technical Preview UP2)  [todo]
+10.0.10240.16384 (Windows 10 Pro RTM)                    [init hook + extended patch]
 
 Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 Source code changelog (rdpwrap library):
+
+2015.07.17 :
+- added support for termsrv.dll 10.0.10240.16384
 
 2015.07.16 :
 - obtained files from build 10.0.10240.16384
