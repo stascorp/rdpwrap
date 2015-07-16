@@ -67,8 +67,15 @@ Source code changelog (rdpwrap library):
 
 2015.07.17 :
 - added support for termsrv.dll 10.0.10240.16384
+- added HOW TO hints to KB (so other reverse engineers can do this hard work more easier)
 
 2015.07.16 :
+- moved all comments from INI file to Knowledge Base text file
+- now INI file have smaller size
+- updated RDP checker: changed IP Address to 127.0.0.2 (sometimes client doesn't want to connect .1), updated text message
+- updated RDP config: list all possible shadowing modes, also write group policy
+- updated installer: added workaround for 1056 error
+- updated copyright years in source code
 - obtained files from build 10.0.10240.16384
 - researching Windows 10 Pro RTM
 
