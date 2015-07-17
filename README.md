@@ -17,6 +17,8 @@ Screenshots:<br>
 <a href="http://stascorp.com/images/rdpwrap/Win81P.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin81P.jpg"></a>&nbsp;
 <a href="http://stascorp.com/images/rdpwrap/Win81.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin81.jpg"></a>&nbsp;
 <a href="http://stascorp.com/images/rdpwrap/Win10TP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10TP.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win10PTP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10PTP.jpg"></a>&nbsp;
+<a href="http://stascorp.com/images/rdpwrap/Win10.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10.jpg"></a>&nbsp;
 </div><br>
 This solution was inspired by <a href="http://forums.mydigitallife.info/threads/39411-Windows-Product-Policy-Editor" target="_blank">Windows Product Policy Editor</a>, big thanks to <b>kost</b> :)<br>
 - binarymaster<br>
@@ -163,6 +165,7 @@ Change log:<br>
 • <u>6.4.9879.0</u> (Windows 10 Technical Preview Update 2)<br>
 • <u>10.0.9926.0</u> (Windows 10 Pro Technical Preview)<br>
 • <u>10.0.10041.0</u> (Windows 10 Pro Technical Preview Update 1)<br>
+• <u>10.0.10240.16384</u> (Windows 10 RTM)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
@@ -193,6 +196,7 @@ Change log:<br>
 • Windows 8.1 Enterprise<br>
 • Windows 10 Technical Preview<br>
 • Windows 10 Pro Technical Preview<br>
+• Windows 10 Enterprise<br>
 <br>
 <b>Known issues:</b><br>
 • RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
