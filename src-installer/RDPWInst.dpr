@@ -159,7 +159,8 @@ begin
   end;
   TermServiceHost := Reg.ReadString('ImagePath');
   Reg.CloseKey;
-  if Pos('svchost.exe', LowerCase(TermServiceHost)) = 0 then
+  if (Pos('svchost.exe', LowerCase(TermServiceHost)) = 0)
+  and (Pos('svchost -k', LowerCase(TermServiceHost)) = 0) then
   begin
     Reg.Free;
     Writeln('[-] TermService is hosted in a custom application (BeTwin, etc.) - unsupported.');
@@ -896,7 +897,7 @@ var
 begin
   Writeln('RDP Wrapper Library v1.5');
   Writeln('Installer v2.2');
-  Writeln('Copyright (C) Stas''M Corp. 2014');
+  Writeln('Copyright (C) Stas''M Corp. 2015');
   Writeln('');
 
   if (ParamCount < 1)
