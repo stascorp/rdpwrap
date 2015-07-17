@@ -53,6 +53,10 @@ Building the binaries:<br>
 • Adding «Remote Desktop Users» group:<br>
 <a href="http://superuser.com/questions/680572/" target="_blank">http://superuser.com/questions/680572/</a><br>
 <br>
+<b>Tutorial videos:</b><br>
+• <a href="http://www.youtube.com/watch?v=W9BpbEt1yJw" target="_blank">Updating RDP Wrapper INI file manually</a><br>
+• <a href="http://www.youtube.com/watch?v=FiD86tmRBtk" target="_blank">How to find offsets for new termsrv.dll versions</a><br>
+<br>
 Files description:<br>
 <br>
 <table style="border-collapse: collapse; width: 100%; border: 1px solid black;" width="" align="">
@@ -196,6 +200,7 @@ Change log:<br>
 • Windows 8.1 Enterprise<br>
 • Windows 10 Technical Preview<br>
 • Windows 10 Pro Technical Preview<br>
+• Windows 10 Pro<br>
 • Windows 10 Enterprise<br>
 <br>
 <b>Known issues:</b><br>
