@@ -173,11 +173,11 @@ Change log:<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
-• Windows Vista Home Basic (x86 - Service Pack 1 and higher)<br>
-• Windows Vista Home Premium (x86 - Service Pack 1 and higher)<br>
-• Windows Vista Business (x86 - Service Pack 1 and higher)<br>
-• Windows Vista Enterprise (x86 - Service Pack 1 and higher)<br>
-• Windows Vista Ultimate (x86 - Service Pack 1 and higher)<br>
+• Windows Vista Home Basic<br>
+• Windows Vista Home Premium<br>
+• Windows Vista Business<br>
+• Windows Vista Enterprise<br>
+• Windows Vista Ultimate<br>
 • Windows 7 Starter<br>
 • Windows 7 Home Basic<br>
 • Windows 7 Home Premium<br>
