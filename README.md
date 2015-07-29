@@ -200,6 +200,7 @@ Change log:<br>
 • Windows 8.1 Enterprise<br>
 • Windows 10 Technical Preview<br>
 • Windows 10 Pro Technical Preview<br>
+• Windows 10 Home<br>
 • Windows 10 Pro<br>
 • Windows 10 Enterprise<br>
 <br>

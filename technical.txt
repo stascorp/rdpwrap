@@ -66,6 +66,9 @@ Known failures
 
 Source code changelog (rdpwrap library):
 
+2015.07.30 :
+- fixed issue with Windows 10 Home x86 (wrong LocalOnly offset was specified in INI file)
+
 2015.07.17 :
 - added support for termsrv.dll 10.0.10240.16384
 - added HOW TO hints to KB (so other reverse engineers can do this hard work more easier)
