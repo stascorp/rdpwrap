@@ -25,7 +25,8 @@ uses
   Windows,
   Classes,
   WinSvc,
-  Registry;
+  Registry,
+  WinInet;
 
 function EnumServicesStatusEx(
   hSCManager: SC_HANDLE;
@@ -892,6 +893,128 @@ begin
     ExecWait('netsh advfirewall firewall delete rule name="Remote Desktop"');
 end;
 
+function CheckINIDate(Filename, Content: String; var Date: Integer): Boolean;
+var
+  Str: TStringList;
+  I: Integer;
+begin
+  Result := False;
+  Str := TStringList.Create;
+  if Filename <> '' then begin
+    try
+      Str.LoadFromFile(Filename);
+    except
+      Writeln('[-] Failed to read INI file.');
+      Exit;
+    end;
+  end else
+    Str.Text := Content;
+  for I := 0 to Str.Count - 1 do
+    if Pos('Updated=', Str[I]) = 1 then
+      Break;
+  if I >= Str.Count then begin
+    Writeln('[-] Failed to check INI date.');
+    Exit;
+  end;
+  Content := StringReplace(Str[I], 'Updated=', '', []);
+  Content := StringReplace(Content, '-', '', [rfReplaceAll]);
+  Str.Free;
+  try
+    Date := StrToInt(Content);
+  except
+    Writeln('[-] Wrong INI date format.');
+    Exit;
+  end;
+  Result := True;
+end;
+
+function GitINIFile(var Content: String): Boolean;
+const
+  URL = 'https://raw.githubusercontent.com/binarymaster/rdpwrap/master/res/rdpwrap.ini';
+var
+  NetHandle: HINTERNET;
+  UrlHandle: HINTERNET;
+  Str: String;
+  Buf: Array[0..1023] of Byte;
+  BytesRead: DWORD;
+begin
+  Result := False;
+  Content := '';
+  NetHandle := InternetOpen('RDP Wrapper Update', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
+  if not Assigned(NetHandle) then
+    Exit;
+  UrlHandle := InternetOpenUrl(NetHandle, PChar(URL), nil, 0, INTERNET_FLAG_RELOAD, 0);
+  if not Assigned(UrlHandle) then
+  begin
+    InternetCloseHandle(NetHandle);
+    Exit;
+  end;
+  repeat
+    InternetReadFile(UrlHandle, @Buf[0], SizeOf(Buf), BytesRead);
+    SetString(Str, PAnsiChar(@Buf[0]), BytesRead);
+    Content := Content + Str;
+  until BytesRead = 0;
+  InternetCloseHandle(UrlHandle);
+  InternetCloseHandle(NetHandle);
+  Result := True;
+end;
+
+procedure CheckUpdate;
+var
+  INIPath, S: String;
+  Str: TStringList;
+  I, OldDate, NewDate: Integer;
+begin
+  INIPath := ExtractFilePath(ExpandPath(TermServicePath)) + 'rdpwrap.ini';
+  if not CheckINIDate(INIPath, '', OldDate) then
+    Halt(ERROR_ACCESS_DENIED);
+  Writeln('[*] Current update date: ',
+    Format('%d.%.2d.%.2d', [OldDate div 10000, OldDate div 100 mod 100, OldDate mod 100]));
+
+  if not GitINIFile(S) then begin
+    Writeln('[-] Failed to download latest INI from GitHub.');
+    Halt(ERROR_ACCESS_DENIED);
+  end;
+  if not CheckINIDate('', S, NewDate) then
+    Halt(ERROR_ACCESS_DENIED);
+  Writeln('[*] Latest update date:  ',
+    Format('%d.%.2d.%.2d', [NewDate div 10000, NewDate div 100 mod 100, NewDate mod 100]));
+
+  if NewDate = OldDate then
+    Writeln('[*] Everything is up to date.')
+  else
+    if NewDate > OldDate then begin
+      Writeln('[+] New update is available, updating...');
+
+      CheckTermsrvProcess;
+
+      Writeln('[*] Terminating service...');
+      AddPrivilege('SeDebugPrivilege');
+      KillProcess(TermServicePID);
+      Sleep(1000);
+
+      if Length(ShareSvc) > 0 then
+        for I := 0 to Length(ShareSvc) - 1 do
+          SvcStart(ShareSvc[I]);
+      Sleep(500);
+
+      Str := TStringList.Create;
+      Str.Text := S;
+      try
+        Str.SaveToFile(INIPath);
+      except
+        Writeln('[-] Failed to write INI file.');
+        Halt(ERROR_ACCESS_DENIED);
+      end;
+      Str.Free;
+
+      SvcStart(TermService);
+
+      Writeln('[+] Update completed.');
+    end else
+      Writeln('[*] Your INI file is newer than public file. Are you a developer? :)');
+end;
+
 var
   I: Integer;
 begin
@@ -904,6 +1027,7 @@ begin
   or (
     (ParamStr(1) <> '-l')
     and (ParamStr(1) <> '-i')
+    and (ParamStr(1) <> '-w')
     and (ParamStr(1) <> '-u')
     and (ParamStr(1) <> '-r')
   ) then
@@ -914,6 +1038,7 @@ begin
     Writeln('-l          display the license agreement');
     Writeln('-i          install wrapper to Program Files folder (default)');
     Writeln('-i -s       install wrapper to System32 folder');
+    Writeln('-w          get latest update for INI file');
     Writeln('-u          uninstall wrapper');
     Writeln('-r          force restart Terminal Services');
     Exit;
@@ -1032,6 +1157,18 @@ begin
 
     Writeln('[+] Successfully uninstalled.');
   end;
+
+  if ParamStr(1) = '-w' then
+  begin
+    if not Installed then
+    begin
+      Writeln('[*] RDP Wrapper Library is not installed.');
+      Halt(ERROR_INVALID_FUNCTION);
+    end;
+    Writeln('[*] Checking for updates...');
+    CheckUpdate;
+  end;
+
   if ParamStr(1) = '-r' then
   begin
     Writeln('[*] Restarting...');
