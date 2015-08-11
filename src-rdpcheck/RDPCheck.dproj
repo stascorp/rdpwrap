@@ -20,8 +20,9 @@
 			<Base>true</Base>
 		</PropertyGroup>
 		<PropertyGroup Condition="'$(Base)'!=''">
+			<DCC_ExeOutput>..\bin\</DCC_ExeOutput>
 			<DCC_UnitAlias>WinTypes=Windows;WinProcs=Windows;DbiTypes=BDE;DbiProcs=BDE;DbiErrs=BDE;$(DCC_UnitAlias)</DCC_UnitAlias>
-			<DCC_DependencyCheckOutputName>RDPCheck.exe</DCC_DependencyCheckOutputName>
+			<DCC_DependencyCheckOutputName>..\bin\RDPCheck.exe</DCC_DependencyCheckOutputName>
 			<DCC_ImageBase>00400000</DCC_ImageBase>
 			<DCC_Platform>x86</DCC_Platform>
 		</PropertyGroup>
@@ -44,12 +45,12 @@
 			<BuildConfiguration Include="Base">
 				<Key>Base</Key>
 			</BuildConfiguration>
-			<BuildConfiguration Include="Debug">
-				<Key>Cfg_2</Key>
-				<CfgParent>Base</CfgParent>
-			</BuildConfiguration>
 			<BuildConfiguration Include="Release">
 				<Key>Cfg_1</Key>
+				<CfgParent>Base</CfgParent>
+			</BuildConfiguration>
+			<BuildConfiguration Include="Debug">
+				<Key>Cfg_2</Key>
 				<CfgParent>Base</CfgParent>
 			</BuildConfiguration>
 		</ItemGroup>
@@ -68,7 +69,7 @@
 						<VersionInfo Name="IncludeVerInfo">True</VersionInfo>
 						<VersionInfo Name="AutoIncBuild">False</VersionInfo>
 						<VersionInfo Name="MajorVer">2</VersionInfo>
-						<VersionInfo Name="MinorVer">1</VersionInfo>
+						<VersionInfo Name="MinorVer">2</VersionInfo>
 						<VersionInfo Name="Release">0</VersionInfo>
 						<VersionInfo Name="Build">0</VersionInfo>
 						<VersionInfo Name="Debug">False</VersionInfo>
@@ -82,13 +83,13 @@
 					<VersionInfoKeys>
 						<VersionInfoKeys Name="CompanyName">Stas&apos;M Corp.</VersionInfoKeys>
 						<VersionInfoKeys Name="FileDescription">Local RDP Checker</VersionInfoKeys>
-						<VersionInfoKeys Name="FileVersion">2.1.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="FileVersion">2.2.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="InternalName">RDPCheck</VersionInfoKeys>
-						<VersionInfoKeys Name="LegalCopyright">Copyright © Stas&apos;M Corp. 2014</VersionInfoKeys>
+						<VersionInfoKeys Name="LegalCopyright">Copyright © Stas&apos;M Corp. 2015</VersionInfoKeys>
 						<VersionInfoKeys Name="LegalTrademarks">Stas&apos;M Corp.</VersionInfoKeys>
 						<VersionInfoKeys Name="OriginalFilename">RDPCheck.exe</VersionInfoKeys>
 						<VersionInfoKeys Name="ProductName">RDP Host Support</VersionInfoKeys>
-						<VersionInfoKeys Name="ProductVersion">1.3.0.0</VersionInfoKeys>
+						<VersionInfoKeys Name="ProductVersion">1.6.0.0</VersionInfoKeys>
 						<VersionInfoKeys Name="Comments">http://stascorp.com</VersionInfoKeys>
 					</VersionInfoKeys>
 					<Excluded_Packages>

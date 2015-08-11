@@ -606,6 +606,8 @@ begin
 end;
 
 procedure ExtractFiles;
+var
+  RDPClipRes: String;
 begin
   if not DirectoryExists(ExtractFilePath(ExpandPath(WrapPath))) then
     if ForceDirectories(ExtractFilePath(ExpandPath(WrapPath))) then
@@ -616,18 +618,26 @@ begin
       Halt(0);
     end;
   ExtractRes('config', ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini');
+  RDPClipRes := '';
   case Arch of
     32: begin
       ExtractRes('rdpw32', ExpandPath(WrapPath));
-      if not FileExists(ExpandPath('%SystemRoot%\System32\rdpclip.exe')) then
-        ExtractRes('rdpclip32', ExpandPath('%SystemRoot%\System32\rdpclip.exe'));
+      if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 0) then
+        RDPClipRes := 'rdpclip6032';
+      if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then
+        RDPClipRes := 'rdpclip6132';
     end;
     64: begin
       ExtractRes('rdpw64', ExpandPath(WrapPath));
-      if not FileExists(ExpandPath('%SystemRoot%\System32\rdpclip.exe')) then
-        ExtractRes('rdpclip64', ExpandPath('%SystemRoot%\System32\rdpclip.exe'));
+      if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 0) then
+        RDPClipRes := 'rdpclip6064';
+      if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then
+        RDPClipRes := 'rdpclip6164';
     end;
   end;
+  if RDPClipRes <> '' then
+    if not FileExists(ExpandPath('%SystemRoot%\System32\rdpclip.exe')) then
+      ExtractRes(RDPClipRes, ExpandPath('%SystemRoot%\System32\rdpclip.exe'));
 end;
 
 procedure DeleteFiles;

@@ -44,7 +44,6 @@ implementation
 procedure TFrm.FormCreate(Sender: TObject);
 var
   Reg: TRegistry;
-  Port: Integer;
 begin
   RDP.DisconnectedText := 'Disconnected.';
   RDP.ConnectingText := 'Connecting...';
