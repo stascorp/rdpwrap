@@ -54,7 +54,7 @@ Building the binaries:<br>
 <a href="http://superuser.com/questions/680572/" target="_blank">http://superuser.com/questions/680572/</a><br>
 <br>
 <b>Tutorial videos:</b><br>
-• <a href="http://www.youtube.com/watch?v=W9BpbEt1yJw" target="_blank">Updating RDP Wrapper INI file manually</a><br>
+• <s><a href="http://www.youtube.com/watch?v=W9BpbEt1yJw" target="_blank">Updating RDP Wrapper INI file manually</a></s> (now use installer to update INI file)<br>
 • <a href="http://www.youtube.com/watch?v=FiD86tmRBtk" target="_blank">How to find offsets for new termsrv.dll versions</a><br>
 <br>
 Files description:<br>
