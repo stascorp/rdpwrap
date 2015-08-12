@@ -229,13 +229,13 @@ Change log:<br>
 <br>
 <u>Installation instructions:</u><br>
 1. Download latest release binaries and unpack files<br>
-2. Run <b>Command Prompt (cmd)</b> as administrator<br>
-3. Change directory to where you extracted the files<br>
-4. Type <b>install.bat</b> and press Enter<br>
-5. See command output for details<br>
+2. Right-click on <b>install.bat</b> and select Run as Administrator<br>
+3. See command output for details<br>
 <br>
 <u>To uninstall:</u><br>
-1. Run <b>Command Prompt</b> as administrator<br>
-2. Change directory to where you extracted the files<br>
-3. Type <b>uninstall.bat</b> and press Enter<br>
-4. See command output for details<br>
+1. Go to the directory where you extracted the files<br>
+2. Right-click on <b>uninstall.bat</b> and select Run as Administrator<br>
+3. See command output for details<br>
+<u>To update INI file:</u><br>
+1. Right-click on <b>update.bat</b> and select Run as Administrator<br>
+2. See command output for details<br>
