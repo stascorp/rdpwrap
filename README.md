@@ -221,7 +221,8 @@ Change log:<br>
 • Windows 10 Enterprise<br>
 <br>
 <b>Known issues:</b><br>
-• Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system)<br>
+• Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system) - <a href="https://github.com/binarymaster/rdpwrap/issues/37" target="_blank">more info</a><br>
+• Beginning with Windows 10 you can accidentally lock yourself from PC - <a href="https://github.com/binarymaster/rdpwrap/issues/50" target="_blank">more info</a><br>
 • RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
 • If Terminal Services hangs at startup, try to add <b>rdpwrap.dll</b> to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:<br>
 <tt>sc config TermService type= own</tt><br>
@@ -236,6 +237,7 @@ Change log:<br>
 1. Go to the directory where you extracted the files<br>
 2. Right-click on <b>uninstall.bat</b> and select Run as Administrator<br>
 3. See command output for details<br>
+<br>
 <u>To update INI file:</u><br>
 1. Right-click on <b>update.bat</b> and select Run as Administrator<br>
 2. See command output for details<br>
