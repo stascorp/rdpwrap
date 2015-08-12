@@ -66,6 +66,13 @@ Known failures
 
 Source code changelog (rdpwrap library):
 
+2015.08.11 :
+- embed new rdpclip versions in the installer (for NT 6.0 and 6.1)
+- preparing the release
+
+2015.08.07 :
+- added INI update feature to installer
+
 2015.07.30 :
 - fixed issue with Windows 10 Home x86 (wrong LocalOnly offset was specified in INI file)
 

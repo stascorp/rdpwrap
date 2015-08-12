@@ -66,9 +66,25 @@ Files description:<br>
 <tr><td style="border: 1px solid black;"><b>RDPConf.exe</b></td><td style="border: 1px solid black;">RDP Wrapper Configuration</td></tr>
 <tr><td style="border: 1px solid black;"><b>install.bat</b></td><td style="border: 1px solid black;">Quick install batch file</td></tr>
 <tr><td style="border: 1px solid black;"><b>uninstall.bat</b></td><td style="border: 1px solid black;">Quick uninstall batch file</td></tr>
+<tr><td style="border: 1px solid black;"><b>update.bat</b></td><td style="border: 1px solid black;">Quick update batch file</td></tr>
 </tbody>
 </table><br>
 Change log:<br>
+<br>
+<b><u>2015.08.12</u></b><br>
+• Version 1.6<br>
+• Added support for Windows 10<br>
+• INI file has smaller size now - all comments are moved to KB file<br>
+• Installer updated<br>
+• Added workaround for 1056 error (although it isn't an error)<br>
+• Added update support to installer<br>
+• Newest RDPClip versions are included with installer<br>
+• RDP Checker updated<br>
+• Changed connect IP to 127.0.0.2<br>
+• Updated some text messages<br>
+• RDP Config updated<br>
+• Added all possible shadowing modes<br>
+• Also it will write settings to the group policy<br>
 <br>
 <b><u>2014.12.11</u></b><br>
 • Version 1.5<br>
@@ -205,6 +221,7 @@ Change log:<br>
 • Windows 10 Enterprise<br>
 <br>
 <b>Known issues:</b><br>
+• Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system)<br>
 • RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
 • If Terminal Services hangs at startup, try to add <b>rdpwrap.dll</b> to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:<br>
 <tt>sc config TermService type= own</tt><br>
