@@ -60,6 +60,10 @@ Terminal Services supported versions
 10.0.10049.0     (Windows 10 Pro Technical Preview UP2)  [todo]
 10.0.10061.0     (Windows 10 Pro Technical Preview UP3)  [todo]
 10.0.10240.16384 (Windows 10 RTM)                        [init hook + extended patch]
+10.0.10525.0     (Windows 10 th2_release.150812-1658)    [todo]
+10.0.10532.0     (Windows 10 th2_release.150822-1406)    [todo]
+10.0.10547.0     (Windows 10 th2_release.150913-1511)    [todo]
+10.0.10586.0     (Windows 10 th2_release.151029-1700)    [!todo]
 
 Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)

@@ -194,12 +194,14 @@ Change log:<br>
 • Windows Vista Business<br>
 • Windows Vista Enterprise<br>
 • Windows Vista Ultimate<br>
+• Windows Server 2008<br>
 • Windows 7 Starter<br>
 • Windows 7 Home Basic<br>
 • Windows 7 Home Premium<br>
 • Windows 7 Professional<br>
 • Windows 7 Enterprise<br>
 • Windows 7 Ultimate<br>
+• Windows Server 2008 R2<br>
 • Windows 8 Developer Preview<br>
 • Windows 8 Consumer Preview<br>
 • Windows 8 Release Preview<br>
@@ -207,6 +209,7 @@ Change log:<br>
 • Windows 8 Single Language<br>
 • Windows 8 Pro<br>
 • Windows 8 Enterprise<br>
+• Windows Server 2012<br>
 • Windows 8.1 Preview<br>
 • Windows 8.1<br>
 • Windows 8.1 Connected (with Bing)<br>
@@ -214,9 +217,11 @@ Change log:<br>
 • Windows 8.1 Connected Single Language (with Bing)<br>
 • Windows 8.1 Pro<br>
 • Windows 8.1 Enterprise<br>
+• Windows Server 2012 R2<br>
 • Windows 10 Technical Preview<br>
 • Windows 10 Pro Technical Preview<br>
 • Windows 10 Home<br>
+• Windows 10 Home Single Language<br>
 • Windows 10 Pro<br>
 • Windows 10 Enterprise<br>
 <br>
