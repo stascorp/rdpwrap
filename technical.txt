@@ -63,12 +63,15 @@ Terminal Services supported versions
 10.0.10525.0     (Windows 10 th2_release.150812-1658)    [todo]
 10.0.10532.0     (Windows 10 th2_release.150822-1406)    [todo]
 10.0.10547.0     (Windows 10 th2_release.150913-1511)    [todo]
-10.0.10586.0     (Windows 10 th2_release.151029-1700)    [!todo]
+10.0.10586.0     (Windows 10 th2_release.151029-1700)    [init hook + extended patch]
 
 Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 Source code changelog (rdpwrap library):
+
+2015.11.14 :
+- added support for termsrv.dll 10.0.10586.0
 
 2015.08.11 :
 - embed new rdpclip versions in the installer (for NT 6.0 and 6.1)
