@@ -349,6 +349,8 @@ begin
     Halt(Code);
   end;
 
+  dwResumeHandle:=0;
+
   SetLength(Svc, 1489);
   FillChar(Svc[0], sizeof(Svc[0])*Length(Svc), 0);
   if not EnumServicesStatusEx(hSC, SC_ENUM_PROCESS_INFO, SERVICE_WIN32, SERVICE_STATE_ALL,
