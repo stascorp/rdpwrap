@@ -349,7 +349,7 @@ begin
     Halt(Code);
   end;
 
-  dwResumeHandle:=0;
+  dwResumeHandle := 0;
 
   SetLength(Svc, 1489);
   FillChar(Svc[0], sizeof(Svc[0])*Length(Svc), 0);
@@ -725,6 +725,12 @@ procedure CheckTermsrvVersion;
 var
   SuppLvl: Byte;
   VerTxt: String;
+
+  procedure UpdateMsg;
+  begin
+    Writeln('Try running "update.bat" or "RDPWInst -w" to download latest INI file.');
+    Writeln('If it doesn''t help, send your termsrv.dll to project developer for support.');
+  end;
 begin
   GetFileVersion(ExpandPath(TermServicePath), FV);
   VerTxt := Format('%d.%d.%d.%d',
@@ -766,12 +772,12 @@ begin
   case SuppLvl of
     0: begin
       Writeln('[-] This version of Terminal Services is not supported.');
-      Writeln('Send your termsrv.dll to project developer for support.');
+      UpdateMsg;
     end;
     1: begin
       Writeln('[!] This version of Terminal Services is supported partially.');
       Writeln('It means you may have some limitations such as only 2 concurrent sessions.');
-      Writeln('Send your termsrv.dll to project developer for adding full support.');
+      UpdateMsg;
     end;
     2: begin
       Writeln('[+] This version of Terminal Services is fully supported.');
@@ -1045,7 +1051,7 @@ begin
   ) then
   begin
     Writeln('USAGE:');
-    Writeln('RDPWInst.exe [-l|-i[-s]|-u|-r]');
+    Writeln('RDPWInst.exe [-l|-i[-s]|-w|-u|-r]');
     Writeln('');
     Writeln('-l          display the license agreement');
     Writeln('-i          install wrapper to Program Files folder (default)');
