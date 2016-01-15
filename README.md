@@ -187,6 +187,7 @@ Change log:<br>
 • <u>10.0.10041.0</u> (Windows 10 Pro Technical Preview Update 1)<br>
 • <u>10.0.10240.16384</u> (Windows 10 RTM)<br>
 • <u>10.0.10586.0</u> (Windows 10 TH2 Release 151029-1700)<br>
+• <u>10.0.11082.1000</u> (Windows 10 RS1 Release 151210-2021)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
@@ -239,11 +240,11 @@ Change log:<br>
 2. Right-click on <b>install.bat</b> and select Run as Administrator<br>
 3. See command output for details<br>
 <br>
+<u>To update INI file:</u><br>
+1. Right-click on <b>update.bat</b> and select Run as Administrator<br>
+2. See command output for details<br>
+<br>
 <u>To uninstall:</u><br>
 1. Go to the directory where you extracted the files<br>
 2. Right-click on <b>uninstall.bat</b> and select Run as Administrator<br>
 3. See command output for details<br>
-<br>
-<u>To update INI file:</u><br>
-1. Right-click on <b>update.bat</b> and select Run as Administrator<br>
-2. See command output for details<br>
