@@ -1,0 +1,6 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Plain text (Windows)
+*.txt    diff=astextplain eol=crlf
+*.ini    diff=astextplain eol=crlf
