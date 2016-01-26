@@ -188,6 +188,7 @@ Change log:<br>
 • <u>10.0.10240.16384</u> (Windows 10 RTM)<br>
 • <u>10.0.10586.0</u> (Windows 10 TH2 Release 151029-1700)<br>
 • <u>10.0.11082.1000</u> (Windows 10 RS1 Release 151210-2021)<br>
+• <u>10.0.11102.1000</u> (Windows 10 RS1 Release 160113-1800)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
