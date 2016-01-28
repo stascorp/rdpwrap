@@ -66,11 +66,15 @@ Terminal Services supported versions
 10.0.10586.0     (Windows 10 th2_release.151029-1700)    [init hook + extended patch]
 10.0.11082.1000  (Windows 10 rs1_release.151210-2021)    [init hook + extended patch]
 10.0.11102.1000  (Windows 10 rs1_release.160113-1800)    [init hook + extended patch]
+10.0.14251.1000  (Windows 10 rs1_release.160124-1059)    [init hook + extended patch]
 
 Known failures
 6.0.6000.16386 (Windows Vista RTM x86, crashes on logon attempt)
 
 Source code changelog (rdpwrap library):
+
+2016.01.28 :
+- added support for termsrv.dll 10.0.14251.1000
 
 2016.01.26 :
 - added support for termsrv.dll 10.0.11102.1000

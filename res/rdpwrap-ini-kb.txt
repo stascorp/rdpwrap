@@ -1,6 +1,6 @@
 [Main]
 ; Last updated date
-Updated=2016-01-26
+Updated=2016-01-28
 ; Address to log file (RDP Wrapper will write it, if exists)
 LogFile=\rdpwrap.txt
 ; Hook SLPolicy API on Windows NT 6.0
@@ -850,6 +850,10 @@ SLPolicyFunc.x64=New_Win8SL
 ; 2. All xrefs will point to this function
 ; 3. Go to function beginning and check ; CODE XREF string, it will point to GetInstanceOfTSLicense function
 ; 4. Follow CODE XREF, switch to graph view, the next block below is to patch
+; Another way:
+; 1. Search text: CEnforcementCore::GetInstanceOfTSLicense FAILED - License type me
+; 2. All xrefs will point to GetInstanceOfTSLicense
+; 3. Follow xref, the previous block above is to patch
 
 ; Patch CEnforcementCore::GetInstanceOfTSLicense
 ; .text:1008A604          call    ?IsLicenseTypeLocalOnly@CSLQuery@@SGJAAU_GUID@@PAH@Z ; CSLQuery::IsLicenseTypeLocalOnly(_GUID &,int *)
@@ -1526,6 +1530,36 @@ SLInitHook.x64=1
 SLInitOffset.x64=D160
 SLInitFunc.x64=New_CSLQuery_Initialize
 
+[10.0.14251.1000]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A5D58
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=95CD1
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=35A85
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=2A9C4
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=30159
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1B5D5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=44FD2
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=D160
+SLInitFunc.x64=New_CSLQuery_Initialize
+
 [SLInit]
 ; Is server
 bServerSku=1
@@ -1780,6 +1814,25 @@ ulMaxDebugSessions.x64=F346C
 bRemoteConnAllowed.x64=F3470
 
 [10.0.11102.1000-SLInit]
+bInitialized.x86      =C1F5C
+bServerSku.x86        =C1F60
+lMaxUserSessions.x86  =C1F64
+bAppServerAllowed.x86 =C1F68
+bRemoteConnAllowed.x86=C1F6C
+bMultimonAllowed.x86  =C1F70
+ulMaxDebugSessions.x86=C1F74
+bFUSEnabled.x86       =C1F78
+
+bInitialized.x64      =F2430
+bRemoteConnAllowed.x64=F2434
+bMultimonAllowed.x64  =F2438
+ulMaxDebugSessions.x64=F243C
+bFUSEnabled.x64       =F2440
+bServerSku.x64        =F244C
+lMaxUserSessions.x64  =F2450
+bAppServerAllowed.x64 =F2454
+
+[10.0.14251.1000-SLInit]
 bInitialized.x86      =C1F5C
 bServerSku.x86        =C1F60
 lMaxUserSessions.x86  =C1F64
