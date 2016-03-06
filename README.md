@@ -43,7 +43,7 @@ Building the binaries:<br>
 <br>
 <b>Links:</b><br>
 • Official GitHub repository:<br>
-<a href="https://github.com/binarymaster/rdpwrap/" target="_blank">https://github.com/binarymaster/rdpwrap/</a><br>
+<a href="https://github.com/stascorp/rdpwrap/" target="_blank">https://github.com/stascorp/rdpwrap/</a><br>
 • Active discussion in the comments here:<br>
 <a href="http://andrewblock.net/2013/07/19/enable-remote-desktop-on-windows-8-core/" target="_blank" title="Enable remote desktop on Windows 8 core / basic">Enable remote desktop on Windows 8 core / basic - Andrew Block .net</a><br>
 • MDL Projects and Applications thread here:<br>
@@ -231,8 +231,8 @@ Change log:<br>
 • Windows 10 Enterprise<br>
 <br>
 <b>Known issues:</b><br>
-• Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system) - <a href="https://github.com/binarymaster/rdpwrap/issues/37" target="_blank">more info</a><br>
-• Beginning with Windows 10 you can accidentally lock yourself from PC - <a href="https://github.com/binarymaster/rdpwrap/issues/50" target="_blank">more info</a><br>
+• Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system) - <a href="https://github.com/stascorp/rdpwrap/issues/37" target="_blank">more info</a><br>
+• Beginning with Windows 10 you can accidentally lock yourself from PC - <a href="https://github.com/stascorp/rdpwrap/issues/50" target="_blank">more info</a><br>
 • RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
 • If Terminal Services hangs at startup, try to add <b>rdpwrap.dll</b> to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:<br>
 <tt>sc config TermService type= own</tt><br>
