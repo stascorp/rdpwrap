@@ -193,7 +193,10 @@ Change log:<br>
 • <u>10.0.14271.1000</u> (Windows 10 RS1 Release 160218-2310)<br>
 • <u>10.0.14279.1000</u> (Windows 10 RS1 Release 160229-1700)<br>
 • <u>10.0.14295.1000</u> (Windows 10 RS1 Release 160318-1628)<br>
+• <u>10.0.14300.1000</u> (Windows Server 2016 Technical Preview 5)<br>
 • <u>10.0.14316.1000</u> (Windows 10 RS1 Release 160402-2227)<br>
+• <u>10.0.14328.1000</u> (Windows 10 RS1 Release 160418-1609)<br>
+• <u>10.0.14332.1001</u> (Windows 10 RS1 Release 160422-1940)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
