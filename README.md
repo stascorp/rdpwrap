@@ -197,6 +197,7 @@ Change log:<br>
 • <u>10.0.14316.1000</u> (Windows 10 RS1 Release 160402-2227)<br>
 • <u>10.0.14328.1000</u> (Windows 10 RS1 Release 160418-1609)<br>
 • <u>10.0.14332.1001</u> (Windows 10 RS1 Release 160422-1940)<br>
+• <u>10.0.14342.1000</u> (Windows 10 RS1 Release 160506-1708)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
@@ -235,6 +236,7 @@ Change log:<br>
 • Windows 10 Home Single Language<br>
 • Windows 10 Pro<br>
 • Windows 10 Enterprise<br>
+• Windows Server 2016 Technical Preview<br>
 <br>
 <b>Known issues:</b><br>
 • Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system) - <a href="https://github.com/stascorp/rdpwrap/issues/37" target="_blank">more info</a><br>
