@@ -1819,6 +1819,66 @@ SLInitHook.x64=1
 SLInitOffset.x64=CDB0
 SLInitFunc.x64=New_CSLQuery_Initialize
 
+[10.0.14366.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A9088
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=8FB01
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=34F65
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=21DE4
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=316E9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1A855
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=4793E
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=CCE0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[10.0.14367.0]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A9088
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=8FB01
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=34F65
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=21DE4
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=316E9
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1A855
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=4793E
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=CCE0
+SLInitFunc.x64=New_CSLQuery_Initialize
+
 [SLInit]
 ; Is server
 bServerSku=1
@@ -1844,6 +1904,14 @@ bInitialized=1
 ; 3. Follow xref, look for cmp instruction nearby
 ; 4. It will be comparsion with CSLQuery::bServerSku constant
 ; 5. Now it's easy to find other constants
+
+; Strings to find other values:
+; CSLQuery::GetMaxUserSessions
+; CSLQuery::IsAppServerInstalled failed: 
+; CSLQuery::AreRemoteConnectionsAllowed f
+; CSLQuery::IsMultimonAllowed
+; CSLQuery::GetMaxDebugSessions
+; CSLQuery::IsFUSEnabled
 
 bFUSEnabled.x86       =A22A8
 lMaxUserSessions.x86  =A22AC
@@ -2272,3 +2340,41 @@ bRemoteConnAllowed.x64=E8464
 bMultimonAllowed.x64  =E8468
 ulMaxDebugSessions.x64=E846C
 bFUSEnabled.x64       =E8470
+
+[10.0.14366.0-SLInit]
+bInitialized.x86      =C4F68
+bServerSku.x86        =C4F6C
+lMaxUserSessions.x86  =C4F70
+bAppServerAllowed.x86 =C4F74
+bRemoteConnAllowed.x86=C4F78
+bMultimonAllowed.x86  =C4F7C
+ulMaxDebugSessions.x86=C4F80
+bFUSEnabled.x86       =C4F84
+
+bServerSku.x64        =E93E0
+lMaxUserSessions.x64  =E93E4
+bAppServerAllowed.x64 =E93E8
+bInitialized.x64      =EA480
+bRemoteConnAllowed.x64=EA484
+bMultimonAllowed.x64  =EA488
+ulMaxDebugSessions.x64=EA48C
+bFUSEnabled.x64       =EA490
+
+[10.0.14367.0-SLInit]
+bInitialized.x86      =C4F68
+bServerSku.x86        =C4F6C
+lMaxUserSessions.x86  =C4F70
+bAppServerAllowed.x86 =C4F74
+bRemoteConnAllowed.x86=C4F78
+bMultimonAllowed.x86  =C4F7C
+ulMaxDebugSessions.x86=C4F80
+bFUSEnabled.x86       =C4F84
+
+bServerSku.x64        =E93E0
+lMaxUserSessions.x64  =E93E4
+bAppServerAllowed.x64 =E93E8
+bInitialized.x64      =EA480
+bRemoteConnAllowed.x64=EA484
+bMultimonAllowed.x64  =EA488
+ulMaxDebugSessions.x64=EA48C
+bFUSEnabled.x64       =EA490

@@ -199,6 +199,8 @@ Change log:<br>
 • <u>10.0.14332.1001</u> (Windows 10 RS1 Release 160422-1940)<br>
 • <u>10.0.14342.1000</u> (Windows 10 RS1 Release 160506-1708)<br>
 • <u>10.0.14352.1002</u> (Windows 10 RS1 Release 160522-1930)<br>
+• <u>10.0.14366.0</u> (Windows 10 RS1 Release 160610-1700)<br>
+• <u>10.0.14367.0</u> (Windows 10 RS1 Release 160613-1700)<br>
 <br>
 <b>Confirmed working on:</b><br>
 • Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
