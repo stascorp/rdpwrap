@@ -1,6 +1,6 @@
 [Main]
 ; Last updated date
-Updated=2016-05-30
+Updated=2016-06-17
 ; Address to log file (RDP Wrapper will write it, if exists)
 LogFile=\rdpwrap.txt
 ; Hook SLPolicy API on Windows NT 6.0
@@ -1792,10 +1792,10 @@ SLInitFunc.x64=New_CSLQuery_Initialize
 [10.0.14352.1002]
 ; Patch CEnforcementCore::GetInstanceOfTSLicense
 LocalOnlyPatch.x86=1
-LocalOnlyOffset.x86=A4474
+LocalOnlyOffset.x86=A4478
 LocalOnlyCode.x86=jmpshort
 LocalOnlyPatch.x64=1
-LocalOnlyOffset.x64=8D90C
+LocalOnlyOffset.x64=8D911
 LocalOnlyCode.x64=jmpshort
 ; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
 SingleUserPatch.x86=1
