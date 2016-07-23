@@ -1,7 +1,6 @@
 @echo off
 if not exist "%~dp0RDPWInst.exe" goto :error
-"%~dp0RDPWInst" -i
-"%~dp0RDPWInst" -w
+"%~dp0RDPWInst" -i -o
 echo ______________________________________________________________
 echo.
 echo You can check RDP functionality with RDPCheck program.

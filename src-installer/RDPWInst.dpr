@@ -1,5 +1,5 @@
 {
-  Copyright 2015 Stas'M Corp.
+  Copyright 2016 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -76,6 +76,7 @@ const
   TermService = 'TermService';
 var
   Installed: Boolean;
+  Online: Boolean;
   WrapPath: String;
   Arch: Byte;
   OldWow64RedirectionValue: LongBool;
@@ -607,9 +608,41 @@ begin
   Str.Free;
 end;
 
+function GitINIFile(var Content: String): Boolean;
+const
+  URL = 'https://raw.githubusercontent.com/stascorp/rdpwrap/master/res/rdpwrap.ini';
+var
+  NetHandle: HINTERNET;
+  UrlHandle: HINTERNET;
+  Str: String;
+  Buf: Array[0..1023] of Byte;
+  BytesRead: DWORD;
+begin
+  Result := False;
+  Content := '';
+  NetHandle := InternetOpen('RDP Wrapper Update', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
+  if not Assigned(NetHandle) then
+    Exit;
+  UrlHandle := InternetOpenUrl(NetHandle, PChar(URL), nil, 0, INTERNET_FLAG_RELOAD, 0);
+  if not Assigned(UrlHandle) then
+  begin
+    InternetCloseHandle(NetHandle);
+    Exit;
+  end;
+  repeat
+    InternetReadFile(UrlHandle, @Buf[0], SizeOf(Buf), BytesRead);
+    SetString(Str, PAnsiChar(@Buf[0]), BytesRead);
+    Content := Content + Str;
+  until BytesRead = 0;
+  InternetCloseHandle(UrlHandle);
+  InternetCloseHandle(NetHandle);
+  Result := True;
+end;
+
 procedure ExtractFiles;
 var
-  RDPClipRes: String;
+  RDPClipRes, S: String;
+  OnlineINI: TStringList;
 begin
   if not DirectoryExists(ExtractFilePath(ExpandPath(WrapPath))) then
     if ForceDirectories(ExtractFilePath(ExpandPath(WrapPath))) then
@@ -619,7 +652,26 @@ begin
       Writeln('[*] Path: ', ExtractFilePath(ExpandPath(WrapPath)));
       Halt(0);
     end;
-  ExtractRes('config', ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini');
+  if Online then
+  begin
+    Writeln('[*] Downloading latest INI file...');
+    OnlineINI := TStringList.Create;
+    if GitINIFile(S) then begin
+      OnlineINI.Text := S;
+      S := ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini';
+      OnlineINI.SaveToFile(S);
+      Writeln('[+] Latest INI file -> ', S);
+    end
+    else
+    begin
+      Writeln('[-] Failed to get online INI file, using built-in.');
+      Online := False;
+    end;
+    OnlineINI.Free;
+  end;
+  if not Online then
+    ExtractRes('config', ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini');
+
   RDPClipRes := '';
   case Arch of
     32: begin
@@ -946,37 +998,6 @@ begin
   Result := True;
 end;
 
-function GitINIFile(var Content: String): Boolean;
-const
-  URL = 'https://raw.githubusercontent.com/stascorp/rdpwrap/master/res/rdpwrap.ini';
-var
-  NetHandle: HINTERNET;
-  UrlHandle: HINTERNET;
-  Str: String;
-  Buf: Array[0..1023] of Byte;
-  BytesRead: DWORD;
-begin
-  Result := False;
-  Content := '';
-  NetHandle := InternetOpen('RDP Wrapper Update', INTERNET_OPEN_TYPE_PRECONFIG, nil, nil, 0);
-  if not Assigned(NetHandle) then
-    Exit;
-  UrlHandle := InternetOpenUrl(NetHandle, PChar(URL), nil, 0, INTERNET_FLAG_RELOAD, 0);
-  if not Assigned(UrlHandle) then
-  begin
-    InternetCloseHandle(NetHandle);
-    Exit;
-  end;
-  repeat
-    InternetReadFile(UrlHandle, @Buf[0], SizeOf(Buf), BytesRead);
-    SetString(Str, PAnsiChar(@Buf[0]), BytesRead);
-    Content := Content + Str;
-  until BytesRead = 0;
-  InternetCloseHandle(UrlHandle);
-  InternetCloseHandle(NetHandle);
-  Result := True;
-end;
-
 procedure CheckUpdate;
 var
   INIPath, S: String;
@@ -1038,7 +1059,7 @@ var
 begin
   Writeln('RDP Wrapper Library v1.6');
   Writeln('Installer v2.3');
-  Writeln('Copyright (C) Stas''M Corp. 2015');
+  Writeln('Copyright (C) Stas''M Corp. 2016');
   Writeln('');
 
   if (ParamCount < 1)
@@ -1051,11 +1072,12 @@ begin
   ) then
   begin
     Writeln('USAGE:');
-    Writeln('RDPWInst.exe [-l|-i[-s]|-w|-u|-r]');
+    Writeln('RDPWInst.exe [-l|-i[-s][-o]|-w|-u|-r]');
     Writeln('');
     Writeln('-l          display the license agreement');
     Writeln('-i          install wrapper to Program Files folder (default)');
     Writeln('-i -s       install wrapper to System32 folder');
+    Writeln('-i -o       online install mode (loads latest INI file)');
     Writeln('-w          get latest update for INI file');
     Writeln('-u          uninstall wrapper');
     Writeln('-r          force restart Terminal Services');
@@ -1103,6 +1125,7 @@ begin
     CheckTermsrvProcess;
 
     Writeln('[*] Extracting files...');
+    Online := (ParamStr(2) = '-o') or (ParamStr(3) = '-o');
     ExtractFiles;
 
     Writeln('[*] Configuring service library...');
