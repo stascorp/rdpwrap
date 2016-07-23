@@ -1,269 +1,299 @@
-<b>RDP Wrapper Library by Stas'M</b><br>
-<br>
-The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.<br>
-<br>
-RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.<br>
-<br>
-Screenshots:<br>
-<div style="padding-top: 4px; width: 534px; white-space: nowrap; overflow: auto; overflow-y: hidden">
-<a href="http://stascorp.com/images/rdpwrap/VistaST.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pVistaST.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/VistaHB.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pVistaHB.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win7ST.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin7ST.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win7HB.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin7HB.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win8DP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8DP.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win8CP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8CP.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win8RP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8RP.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win8.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin8.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win81P.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin81P.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win81.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin81.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win10TP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10TP.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win10PTP.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10PTP.jpg"></a>&nbsp;
-<a href="http://stascorp.com/images/rdpwrap/Win10.png" target="_blank"><img src="http://stascorp.com/images/rdpwrap/pWin10.jpg"></a>&nbsp;
-</div><br>
-This solution was inspired by <a href="http://forums.mydigitallife.info/threads/39411-Windows-Product-Policy-Editor" target="_blank">Windows Product Policy Editor</a>, big thanks to <b>kost</b> :)<br>
-- binarymaster<br>
-<br>
-Attention:<br>
-It's recommended to have original termsrv.dll file with the RDP Wrapper installation. If you have modified it before with other patchers, it may become unstable and crash in any moment.<br>
-<br>
-Information:<br>
-• Source code is available, so you can build it on your own<br>
-• RDP Wrapper does not patch termsrv.dll, it loads termsrv with different parameters<br>
-• RDPWInst and RDPChecker can be redistributed without development folder and batch files<br>
-• RDPWInst can be used for unattended installation / deployment<br>
-• Windows 2000, XP and Server 2003 will not be supported<br>
-<br>
-Porting to other platforms:<br>
-• <b>ARM</b> for Windows RT (see links below)<br>
-• <b>IA-64</b> for Itanium-based Windows Server? <i>Well, I have no idea</i> :)<br>
-<br>
-Building the binaries:<br>
-• <b>x86 Delphi version</b> can be built with <i>Embarcadero RAD Studio 2010</i><br>
-• <b>x86/x64 C++ version</b> can be built with <i>Microsoft Visual Studio 2013</i><br>
-<br>
-<b>Links:</b><br>
-• Official GitHub repository:<br>
-<a href="https://github.com/stascorp/rdpwrap/" target="_blank">https://github.com/stascorp/rdpwrap/</a><br>
-• Active discussion in the comments here:<br>
-<a href="http://andrewblock.net/2013/07/19/enable-remote-desktop-on-windows-8-core/" target="_blank" title="Enable remote desktop on Windows 8 core / basic">Enable remote desktop on Windows 8 core / basic - Andrew Block .net</a><br>
-• MDL Projects and Applications thread here:<br>
-<a href="http://forums.mydigitallife.info/threads/55935-RDP-Wrapper-Library-(works-with-Windows-8-1-Basic)" target="_blank" title="Enable remote desktop on Windows 8 core / basic">RDP Wrapper Library (works with Windows 8.1 Basic)</a><br>
-• Some ideas about porting to ARM for Windows RT (post #23):<br>
-<a href="http://forum.xda-developers.com/showthread.php?t=2093525&page=3" target="_blank" title="Enable remote desktop on Windows 8 core / basic">[Q] Mod Windows RT to enable Remote Desktop</a><br>
-• Adding «Remote Desktop Users» group:<br>
-<a href="http://superuser.com/questions/680572/" target="_blank">http://superuser.com/questions/680572/</a><br>
-<br>
-<b>Tutorial videos:</b><br>
-• <s><a href="http://www.youtube.com/watch?v=W9BpbEt1yJw" target="_blank">Updating RDP Wrapper INI file manually</a></s> (now use installer to update INI file)<br>
-• <a href="http://www.youtube.com/watch?v=FiD86tmRBtk" target="_blank">How to find offsets for new termsrv.dll versions</a><br>
-<br>
-Files description:<br>
-<br>
-<table style="border-collapse: collapse; width: 100%; border: 1px solid black;" width="" align="">
-<tbody>
-<tr><td style="border: 1px solid black;"><b>RDPWInst.exe</b></td><td style="border: 1px solid black;">RDP Wrapper Library installer/uninstaller</td></tr>
-<tr><td style="border: 1px solid black;"><b>RDPCheck.exe</b></td><td style="border: 1px solid black;">Local RDP Checker (you can check the RDP is working)</td></tr>
-<tr><td style="border: 1px solid black;"><b>RDPConf.exe</b></td><td style="border: 1px solid black;">RDP Wrapper Configuration</td></tr>
-<tr><td style="border: 1px solid black;"><b>install.bat</b></td><td style="border: 1px solid black;">Quick install batch file</td></tr>
-<tr><td style="border: 1px solid black;"><b>uninstall.bat</b></td><td style="border: 1px solid black;">Quick uninstall batch file</td></tr>
-<tr><td style="border: 1px solid black;"><b>update.bat</b></td><td style="border: 1px solid black;">Quick update batch file</td></tr>
-</tbody>
-</table><br>
-Change log:<br>
-<br>
-<b><u>2015.08.12</u></b><br>
-• Version 1.6<br>
-• Added support for Windows 10<br>
-• INI file has smaller size now - all comments are moved to KB file<br>
-• Installer updated<br>
-• Added workaround for 1056 error (although it isn't an error)<br>
-• Added update support to installer<br>
-• Newest RDPClip versions are included with installer<br>
-• RDP Checker updated<br>
-• Changed connect IP to 127.0.0.2<br>
-• Updated some text messages<br>
-• RDP Config updated<br>
-• Added all possible shadowing modes<br>
-• Also it will write settings to the group policy<br>
-<br>
-<b><u>2014.12.11</u></b><br>
-• Version 1.5<br>
-• Added INI config support<br>
-• Configuration is stored in INI file now<br>
-• We can extend version support without building new binaries<br>
-• Added support for Windows 8.1 with KB3000850<br>
-• Added support for Windows 10 Technical Preview Update 2<br>
-• Installer updated<br>
-• RDP Config updated<br>
-• Diagnostics feature added to RDP Config<br>
-<br>
-<b><u>2014.11.14</u></b><br>
-• Version 1.4<br>
-• Added support for Windows 10 Technical Preview Update 1<br>
-• Added support for Windows Vista SP2 with KB3003743<br>
-• Added support for Windows 7 SP1 with KB3003743<br>
-• Added new RDP Configuration Program<br>
-<br>
-<b><u>2014.10.21</u></b><br>
-• Installer updated<br>
-• Added feature to install RDP Wrapper to System32 directory<br>
-• Fixed issue in the installer - NLA setting now remains unchanged<br>
-• Local RDP Checker updated<br>
-• SecurityLayer and UserAuthentification values changed on check start<br>
-• RDP Checker restores values on exit<br>
-<br>
-<b><u>2014.10.20</u></b><br>
-• Version 1.3<br>
-• Added support for Windows 10 Technical Preview<br>
-• Added support for Windows 7 with KB2984972<br>
-• Added support for Windows 8 with KB2973501<br>
-• Added extended support for Windows Vista (SP0, SP1 and SP2)<br>
-• Added extended support for Windows 7 (SP0 and SP1)<br>
-• Some improvements in the source code<br>
-• Installer updated to v2.2<br>
-• Fixed installation bug in Vista x64 (wrong expand path)<br>
-• Local RDP Checker updated<br>
-• Added description to error 0x708<br>
-<br>
-<b><u>2014.07.26</u></b><br>
-• Version 1.2<br>
-• Added support for Windows 8 Developer Preview<br>
-• Added support for Windows 8 Consumer Preview<br>
-• Added support for Windows 8 Release Preview<br>
-• Added support for Windows 8.1 Preview<br>
-• Added support for Windows 8.1<br>
-• More details you will see in the source code<br>
-• Installer updated to v2.1<br>
-<br>
-<b><u>2013.12.09</u></b><br>
-• C++ port of RDP Wrapper was made by <b>Fusix</b><br>
-• x64 architecture is supported now<br>
-• Added new command line installer v2.0<br>
-• Added local RDP checker<br>
-• Source code (C++ port, installer 2.0, local RDP checker) is also included<br>
-<br>
-<b><u>2013.10.25</u></b><br>
-• Version 1.1 source code is available<br>
-<br>
-<b><u>2013.10.22</u></b><br>
-• Version 1.1<br>
-• Stable release<br>
-• Improved wrapper (now it can wrap internal unexported termsrv.dll SL Policy function)<br>
-• Added support for Windows 8 Single Language (tested on Acer Tablet PC with Intel Atom Z2760)<br>
-<br>
-<b><u>2013.10.19</u></b><br>
-• Version 1.0<br>
-• First [beta] version<br>
-• Basic SL Policy wrapper<br>
-<br>
-<b>Supported Terminal Services versions:</b><br>
-• <u>6.0.X.X</u> (Windows Vista / Server 2008)<br>
-• <u>6.0.6000.16386</u> (Windows Vista)<br>
-• <u>6.0.6001.18000</u> (Windows Vista SP1)<br>
-• <u>6.0.6002.18005</u> (Windows Vista SP2)<br>
-• <u>6.0.6002.19214</u> (Windows Vista SP2 with KB3003743 GDR)<br>
-• <u>6.0.6002.23521</u> (Windows Vista SP2 with KB3003743 LDR)<br>
-• <u>6.1.X.X</u> (Windows 7 / Server 2008 R2)<br>
-• <u>6.1.7600.16385</u> (Windows 7)<br>
-• <u>6.1.7601.17514</u> (Windows 7 SP1)<br>
-• <u>6.1.7601.18540</u> (Windows 7 SP1 with KB2984972 GDR)<br>
-• <u>6.1.7601.22750</u> (Windows 7 SP1 with KB2984972 LDR)<br>
-• <u>6.1.7601.18637</u> (Windows 7 SP1 with KB3003743 GDR)<br>
-• <u>6.1.7601.22843</u> (Windows 7 SP1 with KB3003743 LDR)<br>
-• <u>6.2.8102.0</u> (Windows 8 Developer Preview)<br>
-• <u>6.2.8250.0</u> (Windows 8 Consumer Preview)<br>
-• <u>6.2.8400.0</u> (Windows 8 Release Preview)<br>
-• <u>6.2.9200.16384</u> (Windows 8 / Server 2012)<br>
-• <u>6.2.9200.17048</u> (Windows 8 with KB2973501 GDR)<br>
-• <u>6.2.9200.21166</u> (Windows 8 with KB2973501 LDR)<br>
-• <u>6.3.9431.0</u> (Windows 8.1 Preview)<br>
-• <u>6.3.9600.16384</u> (Windows 8.1 / Server 2012 R2)<br>
-• <u>6.3.9600.17095</u> (Windows 8.1 with KB2959626)<br>
-• <u>6.3.9600.17415</u> (Windows 8.1 with KB3000850)<br>
-• <u>6.4.9841.0</u> (Windows 10 Technical Preview)<br>
-• <u>6.4.9860.0</u> (Windows 10 Technical Preview Update 1)<br>
-• <u>6.4.9879.0</u> (Windows 10 Technical Preview Update 2)<br>
-• <u>10.0.9926.0</u> (Windows 10 Pro Technical Preview)<br>
-• <u>10.0.10041.0</u> (Windows 10 Pro Technical Preview Update 1)<br>
-• <u>10.0.10240.16384</u> (Windows 10 RTM)<br>
-• <u>10.0.10586.0</u> (Windows 10 TH2 Release 151029-1700)<br>
-• <u>10.0.11082.1000</u> (Windows 10 RS1 Release 151210-2021)<br>
-• <u>10.0.11102.1000</u> (Windows 10 RS1 Release 160113-1800)<br>
-• <u>10.0.14251.1000</u> (Windows 10 RS1 Release 160124-1059)<br>
-• <u>10.0.14271.1000</u> (Windows 10 RS1 Release 160218-2310)<br>
-• <u>10.0.14279.1000</u> (Windows 10 RS1 Release 160229-1700)<br>
-• <u>10.0.14295.1000</u> (Windows 10 RS1 Release 160318-1628)<br>
-• <u>10.0.14300.1000</u> (Windows Server 2016 Technical Preview 5)<br>
-• <u>10.0.14316.1000</u> (Windows 10 RS1 Release 160402-2227)<br>
-• <u>10.0.14328.1000</u> (Windows 10 RS1 Release 160418-1609)<br>
-• <u>10.0.14332.1001</u> (Windows 10 RS1 Release 160422-1940)<br>
-• <u>10.0.14342.1000</u> (Windows 10 RS1 Release 160506-1708)<br>
-• <u>10.0.14352.1002</u> (Windows 10 RS1 Release 160522-1930)<br>
-• <u>10.0.14366.0</u> (Windows 10 RS1 Release 160610-1700)<br>
-• <u>10.0.14367.0</u> (Windows 10 RS1 Release 160613-1700)<br>
-• <u>10.0.14372.0</u> (Windows 10 RS1 Release 160620-2342)<br>
-• <u>10.0.14379.0</u> (Windows 10 RS1 Release 160627-1607)<br>
-• <u>10.0.14383.0</u> (Windows 10 RS1 Release 160701-1839)<br>
-• <u>10.0.14388.0</u> (Windows 10 RS1 Release 160709-1635)<br>
-• <u>10.0.14393.0</u> (Windows 10 RS1 Release 160715-1616)<br>
-<br>
-<b>Confirmed working on:</b><br>
-• Windows Vista Starter (x86 - Service Pack 1 and higher)<br>
-• Windows Vista Home Basic<br>
-• Windows Vista Home Premium<br>
-• Windows Vista Business<br>
-• Windows Vista Enterprise<br>
-• Windows Vista Ultimate<br>
-• Windows Server 2008<br>
-• Windows 7 Starter<br>
-• Windows 7 Home Basic<br>
-• Windows 7 Home Premium<br>
-• Windows 7 Professional<br>
-• Windows 7 Enterprise<br>
-• Windows 7 Ultimate<br>
-• Windows Server 2008 R2<br>
-• Windows 8 Developer Preview<br>
-• Windows 8 Consumer Preview<br>
-• Windows 8 Release Preview<br>
-• Windows 8<br>
-• Windows 8 Single Language<br>
-• Windows 8 Pro<br>
-• Windows 8 Enterprise<br>
-• Windows Server 2012<br>
-• Windows 8.1 Preview<br>
-• Windows 8.1<br>
-• Windows 8.1 Connected (with Bing)<br>
-• Windows 8.1 Single Language<br>
-• Windows 8.1 Connected Single Language (with Bing)<br>
-• Windows 8.1 Pro<br>
-• Windows 8.1 Enterprise<br>
-• Windows Server 2012 R2<br>
-• Windows 10 Technical Preview<br>
-• Windows 10 Pro Technical Preview<br>
-• Windows 10 Home<br>
-• Windows 10 Home Single Language<br>
-• Windows 10 Pro<br>
-• Windows 10 Enterprise<br>
-• Windows Server 2016 Technical Preview<br>
-<br>
-<b>Known issues:</b><br>
-• Beginning with Windows 8 (non-server editions) you can't connect to existing sessions (they will be logged out by system) - <a href="https://github.com/stascorp/rdpwrap/issues/37" target="_blank">more info</a><br>
-• Beginning with Windows 10 you can accidentally lock yourself from PC - <a href="https://github.com/stascorp/rdpwrap/issues/50" target="_blank">more info</a><br>
-• RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)<br>
-• If Terminal Services hangs at startup, try to add <b>rdpwrap.dll</b> to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:<br>
-<tt>sc config TermService type= own</tt><br>
-• RDP Wrapper Installer can be removed by AVG Free Antivirus after reboot - add it to exclusions.<br>
-<br>
-<u>Installation instructions:</u><br>
-1. Download latest release binaries and unpack files<br>
-2. Right-click on <b>install.bat</b> and select Run as Administrator<br>
-3. See command output for details<br>
-<br>
-<u>To update INI file:</u><br>
-1. Right-click on <b>update.bat</b> and select Run as Administrator<br>
-2. See command output for details<br>
-<br>
-<u>To uninstall:</u><br>
-1. Go to the directory where you extracted the files<br>
-2. Right-click on <b>uninstall.bat</b> and select Run as Administrator<br>
-3. See command output for details<br>
+# RDP Wrapper Library by Stas'M
+
+The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.
+
+RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
+
+Screenshots:
+
+[pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
+[pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
+[pWin7ST]:   http://stascorp.com/images/rdpwrap/pWin7ST.jpg
+[pWin7HB]:   http://stascorp.com/images/rdpwrap/pWin7HB.jpg
+[pWin8DP]:   http://stascorp.com/images/rdpwrap/pWin8DP.jpg
+[pWin8CP]:   http://stascorp.com/images/rdpwrap/pWin8CP.jpg
+[pWin8RP]:   http://stascorp.com/images/rdpwrap/pWin8RP.jpg
+[pWin8]:     http://stascorp.com/images/rdpwrap/pWin8.jpg
+[pWin81P]:   http://stascorp.com/images/rdpwrap/pWin81P.jpg
+[pWin81]:    http://stascorp.com/images/rdpwrap/pWin81.jpg
+[pWin10TP]:  http://stascorp.com/images/rdpwrap/pWin10TP.jpg
+[pWin10PTP]: http://stascorp.com/images/rdpwrap/pWin10PTP.jpg
+[pWin10]:    http://stascorp.com/images/rdpwrap/pWin10.jpg
+
+[fVistaST]:  http://stascorp.com/images/rdpwrap/VistaST.png
+[fVistaHB]:  http://stascorp.com/images/rdpwrap/VistaHB.png
+[fWin7ST]:   http://stascorp.com/images/rdpwrap/Win7ST.png
+[fWin7HB]:   http://stascorp.com/images/rdpwrap/Win7HB.png
+[fWin8DP]:   http://stascorp.com/images/rdpwrap/Win8DP.png
+[fWin8CP]:   http://stascorp.com/images/rdpwrap/Win8CP.png
+[fWin8RP]:   http://stascorp.com/images/rdpwrap/Win8RP.png
+[fWin8]:     http://stascorp.com/images/rdpwrap/Win8.png
+[fWin81P]:   http://stascorp.com/images/rdpwrap/Win81P.png
+[fWin81]:    http://stascorp.com/images/rdpwrap/Win81.png
+[fWin10TP]:  http://stascorp.com/images/rdpwrap/Win10TP.png
+[fWin10PTP]: http://stascorp.com/images/rdpwrap/Win10PTP.png
+[fWin10]:    http://stascorp.com/images/rdpwrap/Win10.png
+
+| NT Version    | Screenshots |
+| ------------- | ----------- |
+| Windows Vista | [![Windows Vista Starter][pVistaST]][fVistaST] [![Windows Vista Home Basic][pVistaHB]][fVistaHB] |
+| Windows 7     | [![Windows 7 Starter][pWin7ST]][fWin7ST] [![Windows 7 Home Basic][pWin7HB]][fWin7HB] |
+| Windows 8     | [![Windows 8 Developer Preview][pWin8DP]][fWin8DP] [![Windows 8 Consumer Preview][pWin8CP]][fWin8CP] [![Windows 8 Release Preview][pWin8RP]][fWin8RP] [![Windows 8][pWin8]][fWin8] |
+| Windows 8.1   | [![Windows 8.1 Preview][pWin81P]][fWin81P] [![Windows 8.1][pWin81]][fWin81] |
+| Windows 10    | [![Windows 10 Technical Preview][pWin10TP]][fWin10TP] [![Windows 10 Pro Technical Preview][pWin10PTP]][fWin10PTP] [![Windows 10][pWin10]][fWin10] |
+---
+[WinPPE]: http://forums.mydigitallife.info/threads/39411-Windows-Product-Policy-Editor
+
+This solution was inspired by [Windows Product Policy Editor][WinPPE], big thanks to **kost** :)
+
+— binarymaster
+
+### Attention:
+It's recommended to have original termsrv.dll file with the RDP Wrapper installation. If you have modified it before with other patchers, it may become unstable and crash in any moment.
+
+### Information:
+- Source code is available, so you can build it on your own
+- RDP Wrapper does not patch termsrv.dll, it loads termsrv with different parameters
+- RDPWInst and RDPChecker can be redistributed without development folder and batch files
+- RDPWInst can be used for unattended installation / deployment
+- Windows 2000, XP and Server 2003 will not be supported
+
+### Porting to other platforms:
+- **ARM** for Windows RT (see links below)
+- **IA-64** for Itanium-based Windows Server? *Well, I have no idea* :)
+
+### Building the binaries:
+- **x86 Delphi version** can be built with *Embarcadero RAD Studio 2010*
+- **x86/x64 C++ version** can be built with *Microsoft Visual Studio 2013*
+
+[andrewblock]:   http://andrewblock.net/2013/07/19/enable-remote-desktop-on-windows-8-core/
+[mydigitallife]: http://forums.mydigitallife.info/threads/55935-RDP-Wrapper-Library-(works-with-Windows-8-1-Basic)
+[xda-dev]:       http://forum.xda-developers.com/showthread.php?t=2093525&page=3
+[yt-updating]:   http://www.youtube.com/watch?v=W9BpbEt1yJw
+[yt-offsets]:    http://www.youtube.com/watch?v=FiD86tmRBtk
+
+### Links:
+- Official GitHub repository:
+https://github.com/stascorp/rdpwrap/
+- Active discussion in the comments here:
+[Enable remote desktop on Windows 8 core / basic - Andrew Block .net][andrewblock]
+- MDL Projects and Applications thread here:
+[RDP Wrapper Library (works with Windows 8.1 Basic)][mydigitallife]
+- Some ideas about porting to ARM for Windows RT (post #23):
+[\[Q\] Mod Windows RT to enable Remote Desktop][xda-dev]
+- Adding «Remote Desktop Users» group:
+http://superuser.com/questions/680572/
+
+### Tutorial videos:
+- [~~Updating RDP Wrapper INI file manually~~][yt-updating] (now use installer to update INI file)
+- [How to find offsets for new termsrv.dll versions][yt-offsets]
+
+Files in release package:
+
+| File name | Description |
+| --------- | ----------- |
+| `RDPWInst.exe`  | RDP Wrapper Library installer/uninstaller |
+| `RDPCheck.exe`  | Local RDP Checker (you can check the RDP is working) |
+| `RDPConf.exe`   | RDP Wrapper Configuration |
+| `install.bat`   | Quick install batch file |
+| `uninstall.bat` | Quick uninstall batch file |
+| `update.bat`    | Quick update batch file |
+
+Change log:
+
+#### 2015.08.12
+- Version 1.6
+- Added support for Windows 10
+- INI file has smaller size now - all comments are moved to KB file
+- Installer updated
+- Added workaround for 1056 error (although it isn't an error)
+- Added update support to installer
+- Newest RDPClip versions are included with installer
+- RDP Checker updated
+- Changed connect IP to 127.0.0.2
+- Updated some text messages
+- RDP Config updated
+- Added all possible shadowing modes
+- Also it will write settings to the group policy
+
+#### 2014.12.11
+- Version 1.5
+- Added INI config support
+- Configuration is stored in INI file now
+- We can extend version support without building new binaries
+- Added support for Windows 8.1 with KB3000850
+- Added support for Windows 10 Technical Preview Update 2
+- Installer updated
+- RDP Config updated
+- Diagnostics feature added to RDP Config
+
+#### 2014.11.14
+- Version 1.4
+- Added support for Windows 10 Technical Preview Update 1
+- Added support for Windows Vista SP2 with KB3003743
+- Added support for Windows 7 SP1 with KB3003743
+- Added new RDP Configuration Program
+
+#### 2014.10.21
+- Installer updated
+- Added feature to install RDP Wrapper to System32 directory
+- Fixed issue in the installer - NLA setting now remains unchanged
+- Local RDP Checker updated
+- SecurityLayer and UserAuthentification values changed on check start
+- RDP Checker restores values on exit
+
+#### 2014.10.20
+- Version 1.3
+- Added support for Windows 10 Technical Preview
+- Added support for Windows 7 with KB2984972
+- Added support for Windows 8 with KB2973501
+- Added extended support for Windows Vista (SP0, SP1 and SP2)
+- Added extended support for Windows 7 (SP0 and SP1)
+- Some improvements in the source code
+- Installer updated to v2.2
+- Fixed installation bug in Vista x64 (wrong expand path)
+- Local RDP Checker updated
+- Added description to error 0x708
+
+#### 2014.07.26
+- Version 1.2
+- Added support for Windows 8 Developer Preview
+- Added support for Windows 8 Consumer Preview
+- Added support for Windows 8 Release Preview
+- Added support for Windows 8.1 Preview
+- Added support for Windows 8.1
+- More details you will see in the source code
+- Installer updated to v2.1
+
+#### 2013.12.09
+- C++ port of RDP Wrapper was made by Fusix
+- x64 architecture is supported now
+- Added new command line installer v2.0
+- Added local RDP checker
+- Source code (C++ port, installer 2.0, local RDP checker) is also included
+
+#### 2013.10.25
+- Version 1.1 source code is available
+
+#### 2013.10.22
+- Version 1.1
+- Stable release
+- Improved wrapper (now it can wrap internal unexported termsrv.dll SL Policy function)
+- Added support for Windows 8 Single Language (tested on Acer Tablet PC with Intel Atom Z2760)
+
+#### 2013.10.19
+- Version 1.0
+- First [beta] version
+- Basic SL Policy wrapper
+
+### Supported Terminal Services versions:
+- 6.0.X.X (Windows Vista / Server 2008)
+- 6.0.6000.16386 (Windows Vista)
+- 6.0.6001.18000 (Windows Vista SP1)
+- 6.0.6002.18005 (Windows Vista SP2)
+- 6.0.6002.19214 (Windows Vista SP2 with KB3003743 GDR)
+- 6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)
+- 6.1.X.X (Windows 7 / Server 2008 R2)
+- 6.1.7600.16385 (Windows 7)
+- 6.1.7601.17514 (Windows 7 SP1)
+- 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)
+- 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)
+- 6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)
+- 6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)
+- 6.2.8102.0 (Windows 8 Developer Preview)
+- 6.2.8250.0 (Windows 8 Consumer Preview)
+- 6.2.8400.0 (Windows 8 Release Preview)
+- 6.2.9200.16384 (Windows 8 / Server 2012)
+- 6.2.9200.17048 (Windows 8 with KB2973501 GDR)
+- 6.2.9200.21166 (Windows 8 with KB2973501 LDR)
+- 6.3.9431.0 (Windows 8.1 Preview)
+- 6.3.9600.16384 (Windows 8.1 / Server 2012 R2)
+- 6.3.9600.17095 (Windows 8.1 with KB2959626)
+- 6.3.9600.17415 (Windows 8.1 with KB3000850)
+- 6.4.9841.0 (Windows 10 Technical Preview)
+- 6.4.9860.0 (Windows 10 Technical Preview Update 1)
+- 6.4.9879.0 (Windows 10 Technical Preview Update 2)
+- 10.0.9926.0 (Windows 10 Pro Technical Preview)
+- 10.0.10041.0 (Windows 10 Pro Technical Preview Update 1)
+- 10.0.10240.16384 (Windows 10 RTM)
+- 10.0.10586.0 (Windows 10 TH2 Release 151029-1700)
+- 10.0.11082.1000 (Windows 10 RS1 Release 151210-2021)
+- 10.0.11102.1000 (Windows 10 RS1 Release 160113-1800)
+- 10.0.14251.1000 (Windows 10 RS1 Release 160124-1059)
+- 10.0.14271.1000 (Windows 10 RS1 Release 160218-2310)
+- 10.0.14279.1000 (Windows 10 RS1 Release 160229-1700)
+- 10.0.14295.1000 (Windows 10 RS1 Release 160318-1628)
+- 10.0.14300.1000 (Windows Server 2016 Technical Preview 5)
+- 10.0.14316.1000 (Windows 10 RS1 Release 160402-2227)
+- 10.0.14328.1000 (Windows 10 RS1 Release 160418-1609)
+- 10.0.14332.1001 (Windows 10 RS1 Release 160422-1940)
+- 10.0.14342.1000 (Windows 10 RS1 Release 160506-1708)
+- 10.0.14352.1002 (Windows 10 RS1 Release 160522-1930)
+- 10.0.14366.0 (Windows 10 RS1 Release 160610-1700)
+- 10.0.14367.0 (Windows 10 RS1 Release 160613-1700)
+- 10.0.14372.0 (Windows 10 RS1 Release 160620-2342)
+- 10.0.14379.0 (Windows 10 RS1 Release 160627-1607)
+- 10.0.14383.0 (Windows 10 RS1 Release 160701-1839)
+- 10.0.14388.0 (Windows 10 RS1 Release 160709-1635)
+- 10.0.14393.0 (Windows 10 RS1 Release 160715-1616)
+
+### Confirmed working on:
+- Windows Vista Starter (x86 - Service Pack 1 and higher)
+- Windows Vista Home Basic
+- Windows Vista Home Premium
+- Windows Vista Business
+- Windows Vista Enterprise
+- Windows Vista Ultimate
+- Windows Server 2008
+- Windows 7 Starter
+- Windows 7 Home Basic
+- Windows 7 Home Premium
+- Windows 7 Professional
+- Windows 7 Enterprise
+- Windows 7 Ultimate
+- Windows Server 2008 R2
+- Windows 8 Developer Preview
+- Windows 8 Consumer Preview
+- Windows 8 Release Preview
+- Windows 8
+- Windows 8 Single Language
+- Windows 8 Pro
+- Windows 8 Enterprise
+- Windows Server 2012
+- Windows 8.1 Preview
+- Windows 8.1
+- Windows 8.1 Connected (with Bing)
+- Windows 8.1 Single Language
+- Windows 8.1 Connected Single Language (with Bing)
+- Windows 8.1 Pro
+- Windows 8.1 Enterprise
+- Windows Server 2012 R2
+- Windows 10 Technical Preview
+- Windows 10 Pro Technical Preview
+- Windows 10 Home
+- Windows 10 Home Single Language
+- Windows 10 Pro
+- Windows 10 Enterprise
+- Windows Server 2016 Technical Preview
+
+### Known issues:
+- Beginning with Windows 8 **on tablet PCs** inactive sessions will be logged out by system - [more info](https://github.com/stascorp/rdpwrap/issues/37)
+- Beginning with Windows 10 you can accidentally lock yourself from PC - [more info](https://github.com/stascorp/rdpwrap/issues/50)
+- RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)
+- If Terminal Services hangs at startup, try to add **`rdpwrap.dll`** to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:
+`sc config TermService type= own`
+- RDP Wrapper Installer can be removed by AVG Free Antivirus after reboot - add it to exclusions.
+
+Installation instructions:
+- Download latest release binaries and unpack files
+- Right-click on **`install.bat`** and select Run as Administrator
+- See command output for details
+
+To update INI file:
+- Right-click on **`update.bat`** and select Run as Administrator
+- See command output for details
+
+To uninstall:
+- Go to the directory where you extracted the files
+- Right-click on **`uninstall.bat`** and select Run as Administrator
+- See command output for details
