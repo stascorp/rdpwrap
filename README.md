@@ -4,8 +4,6 @@ The goal of this project is to enable Remote Desktop Host support and concurrent
 
 RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
 
-Screenshots:
-
 [pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
 [pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
 [pWin7ST]:   http://stascorp.com/images/rdpwrap/pWin7ST.jpg
@@ -74,15 +72,15 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 
 ### Links:
 - Official GitHub repository:
-https://github.com/stascorp/rdpwrap/
+<br>https://github.com/stascorp/rdpwrap/
 - Active discussion in the comments here:
-[Enable remote desktop on Windows 8 core / basic - Andrew Block .net][andrewblock]
+<br>[Enable remote desktop on Windows 8 core / basic - Andrew Block .net][andrewblock]
 - MDL Projects and Applications thread here:
-[RDP Wrapper Library (works with Windows 8.1 Basic)][mydigitallife]
+<br>[RDP Wrapper Library (works with Windows 8.1 Basic)][mydigitallife]
 - Some ideas about porting to ARM for Windows RT (post #23):
-[\[Q\] Mod Windows RT to enable Remote Desktop][xda-dev]
+<br>[\[Q\] Mod Windows RT to enable Remote Desktop][xda-dev]
 - Adding «Remote Desktop Users» group:
-http://superuser.com/questions/680572/
+<br>http://superuser.com/questions/680572/
 
 ### Tutorial videos:
 - [~~Updating RDP Wrapper INI file manually~~][yt-updating] (now use installer to update INI file)
@@ -186,7 +184,9 @@ Change log:
 - First [beta] version
 - Basic SL Policy wrapper
 
-### Supported Terminal Services versions:
+---
+
+#### Supported Terminal Services versions:
 - 6.0.X.X (Windows Vista / Server 2008)
 - 6.0.6000.16386 (Windows Vista)
 - 6.0.6001.18000 (Windows Vista SP1)
@@ -237,7 +237,7 @@ Change log:
 - 10.0.14388.0 (Windows 10 RS1 Release 160709-1635)
 - 10.0.14393.0 (Windows 10 RS1 Release 160715-1616)
 
-### Confirmed working on:
+#### Confirmed working on:
 - Windows Vista Starter (x86 - Service Pack 1 and higher)
 - Windows Vista Home Basic
 - Windows Vista Home Premium
@@ -276,12 +276,12 @@ Change log:
 - Windows 10 Enterprise
 - Windows Server 2016 Technical Preview
 
-### Known issues:
+#### Known issues:
 - Beginning with Windows 8 **on tablet PCs** inactive sessions will be logged out by system - [more info](https://github.com/stascorp/rdpwrap/issues/37)
 - Beginning with Windows 10 you can accidentally lock yourself from PC - [more info](https://github.com/stascorp/rdpwrap/issues/50)
-- RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll 6.0.6000.16386)
+- RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll `6.0.6000.16386`)
 - If Terminal Services hangs at startup, try to add **`rdpwrap.dll`** to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:
-`sc config TermService type= own`
+<br>`sc config TermService type= own`
 - RDP Wrapper Installer can be removed by AVG Free Antivirus after reboot - add it to exclusions.
 
 Installation instructions:
