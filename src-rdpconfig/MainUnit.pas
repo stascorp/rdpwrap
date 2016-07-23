@@ -1,5 +1,5 @@
 {
-  Copyright 2015 Stas'M Corp.
+  Copyright 2016 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -61,6 +61,7 @@ type
     { Private declarations }
   public
     { Public declarations }
+    function ExecWait(Cmdline: String): Boolean;
     procedure ReadSettings;
     procedure WriteSettings;
   end;
@@ -89,6 +90,7 @@ var
   Ready: Boolean = False;
   Arch: Byte;
   OldWow64RedirectionValue: LongBool;
+  OldPort: Word;
   INI: String;
 
 function WinStationEnumerateW(hServer: THandle;
@@ -329,6 +331,29 @@ begin
   Str.Free;
 end;
 
+function TMainForm.ExecWait(Cmdline: String): Boolean;
+var
+  si: STARTUPINFO;
+  pi: PROCESS_INFORMATION;
+begin
+  Result := False;
+  ZeroMemory(@si, sizeof(si));
+  si.cb := sizeof(si);
+  si.dwFlags := STARTF_USESHOWWINDOW;
+  si.wShowWindow := SW_HIDE;
+  UniqueString(Cmdline);
+  if not CreateProcess(nil, PWideChar(Cmdline), nil, nil, True, 0, nil, nil, si, pi) then begin
+    MessageBox(Handle,
+      PWideChar('CreateProcess error (code: ' + IntToStr(GetLastError) + ').'),
+      'Error', MB_ICONERROR or MB_OK);
+    Exit;
+  end;
+  CloseHandle(pi.hThread);
+  WaitForSingleObject(pi.hProcess, INFINITE);
+  CloseHandle(pi.hProcess);
+  Result := True;
+end;
+
 procedure TMainForm.ReadSettings;
 var
   Reg: TRegistry;
@@ -356,6 +381,7 @@ begin
   except
 
   end;
+  OldPort := seRDPPort.Value;
   SecurityLayer := 0;
   UserAuthentication := 0;
   try
@@ -404,6 +430,11 @@ begin
     Reg.WriteInteger('PortNumber', seRDPPort.Value);
   except
 
+  end;
+  if OldPort <> seRDPPort.Value then
+  begin
+    OldPort := seRDPPort.Value;
+    ExecWait('netsh advfirewall firewall set rule name="Remote Desktop" new localport=' + IntToStr(OldPort));
   end;
   case rgNLA.ItemIndex of
     0: begin
