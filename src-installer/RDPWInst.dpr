@@ -1072,7 +1072,7 @@ begin
   ) then
   begin
     Writeln('USAGE:');
-    Writeln('RDPWInst.exe [-l|-i[-s][-o]|-w|-u|-r]');
+    Writeln('RDPWInst.exe [-l|-i[-s][-o]|-w|-u[-k]|-r]');
     Writeln('');
     Writeln('-l          display the license agreement');
     Writeln('-i          install wrapper to Program Files folder (default)');
@@ -1080,6 +1080,7 @@ begin
     Writeln('-i -o       online install mode (loads latest INI file)');
     Writeln('-w          get latest update for INI file');
     Writeln('-u          uninstall wrapper');
+    Writeln('-u -k       uninstall wrapper and keep settings');
     Writeln('-r          force restart Terminal Services');
     Exit;
   end;
@@ -1188,10 +1189,13 @@ begin
     SvcStart(TermService);
     Sleep(500);
 
-    Writeln('[*] Configuring registry...');
-    TSConfigRegistry(False);
-    Writeln('[*] Configuring firewall...');
-    TSConfigFirewall(False);
+    if ParamStr(2) <> '-k' then
+    begin
+      Writeln('[*] Configuring registry...');
+      TSConfigRegistry(False);
+      Writeln('[*] Configuring firewall...');
+      TSConfigFirewall(False);
+    end;
 
     if Arch = 64 then
       RevertWowRedirection;
