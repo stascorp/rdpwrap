@@ -3,8 +3,8 @@ object MainForm: TMainForm
   Top = 0
   BorderStyle = bsDialog
   Caption = 'RDP Wrapper Configuration'
-  ClientHeight = 352
-  ClientWidth = 351
+  ClientHeight = 314
+  ClientWidth = 404
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -18,78 +18,53 @@ object MainForm: TMainForm
   OnDestroy = FormDestroy
   PixelsPerInch = 96
   TextHeight = 13
-  object lRDPPort: TLabel
-    Left = 225
-    Top = 103
-    Width = 47
-    Height = 13
-    Caption = 'RDP Port:'
-  end
   object bOK: TButton
-    Left = 10
-    Top = 319
+    Left = 40
+    Top = 281
     Width = 75
     Height = 25
     Caption = 'OK'
     ModalResult = 1
-    TabOrder = 0
+    TabOrder = 4
     OnClick = bOKClick
   end
   object bCancel: TButton
-    Left = 91
-    Top = 319
+    Left = 121
+    Top = 281
     Width = 75
     Height = 25
     Caption = 'Cancel'
     ModalResult = 2
-    TabOrder = 1
+    TabOrder = 5
     OnClick = bCancelClick
   end
   object bApply: TButton
-    Left = 172
-    Top = 319
+    Left = 202
+    Top = 281
     Width = 75
     Height = 25
     Caption = 'Apply'
     Enabled = False
-    TabOrder = 2
+    TabOrder = 6
     OnClick = bApplyClick
   end
-  object cbSingleSessionPerUser: TCheckBox
-    Left = 8
-    Top = 112
-    Width = 130
-    Height = 17
-    Caption = 'Single Session Per User'
-    TabOrder = 3
-    OnClick = cbAllowTSConnectionsClick
-  end
   object rgNLA: TRadioGroup
-    Left = 8
-    Top = 132
-    Width = 335
-    Height = 73
-    Caption = 'Security Mode'
-    Items.Strings = (
-      'Disable Security (not recommended)'
-      'Default Authentication (compatibility with older clients)'
-      'Network Level Authentication (best)')
-    TabOrder = 4
-    OnClick = cbAllowTSConnectionsClick
-  end
-  object cbAllowTSConnections: TCheckBox
-    Left = 8
+    Left = 202
     Top = 89
-    Width = 174
-    Height = 17
-    Caption = 'Enable Remote Desktop Protocol'
-    TabOrder = 5
+    Width = 194
+    Height = 73
+    Caption = 'Authentication Mode'
+    Items.Strings = (
+      'GUI Authentication Only'
+      'Default RDP Authentication'
+      'Network Level Authentication')
+    TabOrder = 2
     OnClick = cbAllowTSConnectionsClick
   end
   object rgShadow: TRadioGroup
-    Left = 8
-    Top = 208
-    Width = 335
+    Left = 202
+    Top = 168
+    Width = 194
     Height = 105
     Caption = 'Session Shadowing Mode'
     Items.Strings = (
@@ -98,36 +73,25 @@ object MainForm: TMainForm
       'Full access without permission'
       'View only with user'#39's permission'
       'View only without permission')
-    TabOrder = 6
+    TabOrder = 3
     OnClick = cbAllowTSConnectionsClick
   end
-  object seRDPPort: TSpinEdit
-    Left = 278
-    Top = 100
-    Width = 62
-    Height = 22
-    MaxValue = 65535
-    MinValue = 0
-    TabOrder = 7
-    Value = 0
-    OnChange = seRDPPortChange
-  end
   object bLicense: TButton
-    Left = 253
-    Top = 319
+    Left = 283
+    Top = 281
     Width = 87
     Height = 25
     Caption = 'View license...'
-    TabOrder = 8
+    TabOrder = 7
     OnClick = bLicenseClick
   end
   object gbDiag: TGroupBox
     Left = 8
     Top = 6
-    Width = 335
+    Width = 388
     Height = 77
     Caption = 'Diagnostics'
-    TabOrder = 9
+    TabOrder = 0
     object lListener: TLabel
       Left = 11
       Top = 55
@@ -157,7 +121,7 @@ object MainForm: TMainForm
       Caption = 'Unknown'
     end
     object lsTSVer: TLabel
-      Left = 206
+      Left = 226
       Top = 36
       Width = 44
       Height = 13
@@ -171,14 +135,14 @@ object MainForm: TMainForm
       Caption = 'Unknown'
     end
     object lsWrapVer: TLabel
-      Left = 206
+      Left = 226
       Top = 17
       Width = 44
       Height = 13
       Caption = 'Unknown'
     end
     object lTSVer: TLabel
-      Left = 182
+      Left = 202
       Top = 36
       Width = 20
       Height = 13
@@ -192,24 +156,77 @@ object MainForm: TMainForm
       Caption = 'Wrapper state:'
     end
     object lWrapVer: TLabel
-      Left = 182
+      Left = 202
       Top = 17
       Width = 20
       Height = 13
       Caption = 'ver.'
     end
     object lsSuppVer: TLabel
-      Left = 182
+      Left = 202
       Top = 55
       Width = 70
       Height = 13
       Caption = '[support level]'
     end
   end
+  object gbGeneral: TGroupBox
+    Left = 8
+    Top = 89
+    Width = 188
+    Height = 184
+    Caption = 'General Settings'
+    TabOrder = 1
+    object lRDPPort: TLabel
+      Left = 8
+      Top = 44
+      Width = 47
+      Height = 13
+      Caption = 'RDP port:'
+    end
+    object cbAllowTSConnections: TCheckBox
+      Left = 8
+      Top = 18
+      Width = 132
+      Height = 17
+      Caption = 'Enable Remote Desktop'
+      TabOrder = 0
+      OnClick = cbAllowTSConnectionsClick
+    end
+    object cbSingleSessionPerUser: TCheckBox
+      Left = 8
+      Top = 69
+      Width = 129
+      Height = 17
+      Caption = 'Single session per user'
+      TabOrder = 2
+      OnClick = cbAllowTSConnectionsClick
+    end
+    object cbHideUsers: TCheckBox
+      Left = 8
+      Top = 92
+      Width = 149
+      Height = 17
+      Caption = 'Hide users on logon screen'
+      TabOrder = 3
+      OnClick = cbAllowTSConnectionsClick
+    end
+    object seRDPPort: TSpinEdit
+      Left = 61
+      Top = 41
+      Width = 62
+      Height = 22
+      MaxValue = 65535
+      MinValue = 0
+      TabOrder = 1
+      Value = 0
+      OnChange = seRDPPortChange
+    end
+  end
   object Timer: TTimer
     Interval = 250
     OnTimer = TimerTimer
-    Left = 280
-    Top = 19
+    Left = 352
+    Top = 27
   end
 end

@@ -47,6 +47,8 @@ type
     bLicense: TButton;
     gbDiag: TGroupBox;
     lsSuppVer: TLabel;
+    cbHideUsers: TCheckBox;
+    gbGeneral: TGroupBox;
     procedure FormCreate(Sender: TObject);
     procedure cbAllowTSConnectionsClick(Sender: TObject);
     procedure seRDPPortChange(Sender: TObject);
@@ -402,6 +404,13 @@ begin
 
   end;
   Reg.CloseKey;
+  Reg.OpenKeyReadOnly('\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System');
+  try
+    cbHideUsers.Checked := Reg.ReadBool('dontdisplaylastusername');
+  except
+
+  end;
+  Reg.CloseKey;
   Reg.Free;
 end;
 
@@ -477,6 +486,13 @@ begin
     except
 
     end;
+  end;
+  Reg.CloseKey;
+  Reg.OpenKey('\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System', True);
+  try
+    Reg.WriteBool('dontdisplaylastusername', cbHideUsers.Checked);
+  except
+
   end;
   Reg.CloseKey;
   Reg.Free;
