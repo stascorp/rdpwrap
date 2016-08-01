@@ -86,6 +86,15 @@ Terminal Services supported versions
 
 Source code changelog (rdpwrap library):
 
+2016.08.01 :
+- preparing the release
+
+2016.07.23 :
+- added online install mode to installer
+- added feature to keep settings on uninstall
+- fixed update firewall rule on port change in config tool
+- added feature to hide users on logon
+
 2016.07.22 :
 - added support for termsrv.dll 10.0.14393.0
 

@@ -97,7 +97,43 @@ Files in release package:
 | `uninstall.bat` | Quick uninstall batch file |
 | `update.bat`    | Quick update batch file |
 
+### Frequently Asked Questions
+
+> Where can I download the installer or binaries?
+
+In the [GitHub Releases](https://github.com/stascorp/rdpwrap/releases) section.
+
+> Is it legal to use this application?
+
+There is no definitive answer, see [this discussion](https://github.com/stascorp/rdpwrap/issues/26).
+
+> The installer tries to access the Internet, is it normal behaviour?
+
+Yes, it works in online mode by default. You may disable it by removing `-o` flag in the `install.bat` file.
+
+> Config Tool reports version 1.5, but I installed higher version. What's the matter?
+
+Beginning with version 1.5 the `rdpwrap.dll` is not updated anymore, since all settings are stored in INI file. Deal with it.
+
+> Config Tool shows `[not supported]` and RDP doesn't work. What can I do?
+
+Make sure you're connected to the Internet and run `update.bat`.
+
+> Update doesn't help, it still shows `[not supported]`.
+
+Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check whether your `termsrv.dll` build is listed here. If you can't find such issue, create a new — specify your build version for adding to support.
+
 Change log:
+
+#### 2016.08.01
+- Version 1.6.1
+- Include updated INI file for latest Windows builds
+- Installer updated
+- Added online install mode
+- Added feature to keep settings on uninstall
+- RDP Config updated
+- Fixed update firewall rule on RDP port change
+- Added feature to hide users on logon
 
 #### 2015.08.12
 - Version 1.6
