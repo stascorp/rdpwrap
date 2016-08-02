@@ -82,11 +82,11 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 - Adding «Remote Desktop Users» group:
 <br>http://superuser.com/questions/680572/
 
-### Tutorial videos:
+#### Tutorial videos:
 - [~~Updating RDP Wrapper INI file manually~~][yt-updating] (now use installer to update INI file)
 - [How to find offsets for new termsrv.dll versions][yt-offsets]
 
-Files in release package:
+### Files in release package:
 
 | File name | Description |
 | --------- | ----------- |
@@ -111,6 +111,14 @@ There is no definitive answer, see [this discussion](https://github.com/stascorp
 
 Yes, it works in online mode by default. You may disable it by removing `-o` flag in the `install.bat` file.
 
+> What is online install mode?
+
+Online install mode introduced in version 1.6.1. When you installing RDP Wrapper first time using this mode, it will download [latest INI file](https://github.com/stascorp/rdpwrap/blob/master/res/rdpwrap.ini) from GitHub. See [this discussion](https://github.com/stascorp/rdpwrap/issues/132).
+
+> What is INI file and why we need it?
+
+INI file was introduced in version 1.5. It stores system configuration for RDP Wrapper — general wrapping settings, binary patch codes, and per build specific data. When new `termsrv.dll` build comes out, developer adds support for it by updating INI file in repository.
+
 > Config Tool reports version 1.5, but I installed higher version. What's the matter?
 
 Beginning with version 1.5 the `rdpwrap.dll` is not updated anymore, since all settings are stored in INI file. Deal with it.
@@ -123,7 +131,9 @@ Make sure you're connected to the Internet and run `update.bat`.
 
 Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check whether your `termsrv.dll` build is listed here. If you can't find such issue, create a new — specify your build version for adding to support.
 
-Change log:
+---
+
+### Change log:
 
 #### 2016.08.01
 - Version 1.6.1
