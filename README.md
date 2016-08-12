@@ -280,6 +280,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.14372.0 (Windows 10 RS1 Release 160620-2342)
 - 10.0.14379.0 (Windows 10 RS1 Release 160627-1607)
 - 10.0.14383.0 (Windows 10 RS1 Release 160701-1839)
+- 10.0.14385.0 (Windows 10 RS1 Release 160706-1700)
 - 10.0.14388.0 (Windows 10 RS1 Release 160709-1635)
 - 10.0.14393.0 (Windows 10 RS1 Release 160715-1616)
 
