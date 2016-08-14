@@ -131,6 +131,10 @@ Make sure you're connected to the Internet and run `update.bat`.
 
 Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check whether your `termsrv.dll` build is listed here. If you can't find such issue, create a new — specify your build version for adding to support.
 
+> Why `RDPCheck` doesn't allow to change resolution and other settings?
+
+`RDPCheck` is a very simple application and only for testing purposes. You need to use Microsoft Remote Desktop Client (`mstsc.exe`) if you want to customize the settings. You can use `127.0.0.1` or `127.0.0.2` address for loopback connection.
+
 ---
 
 ### Change log:
