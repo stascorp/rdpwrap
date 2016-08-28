@@ -1,6 +1,6 @@
 [Main]
 ; Last updated date
-Updated=2016-08-12
+Updated=2016-08-28
 ; Address to log file (RDP Wrapper will write it, if exists)
 LogFile=\rdpwrap.txt
 ; Hook SLPolicy API on Windows NT 6.0
@@ -554,6 +554,22 @@ DefPolicyCode.x86=CDefPolicy_Query_eax_esi
 ; .text:000007FF75A97D79          nop
 DefPolicyPatch.x64=1
 DefPolicyOffset.x64=17D6E
+DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
+
+[6.1.7601.23403]
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=1A65D
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=17F62
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=19E29
+DefPolicyCode.x86=CDefPolicy_Query_eax_esi
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=17CE2
 DefPolicyCode.x64=CDefPolicy_Query_eax_rdi
 
 [6.2.8102.0]
