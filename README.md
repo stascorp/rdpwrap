@@ -288,6 +288,8 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.14385.0 (Windows 10 RS1 Release 160706-1700)
 - 10.0.14388.0 (Windows 10 RS1 Release 160709-1635)
 - 10.0.14393.0 (Windows 10 RS1 Release 160715-1616)
+- 10.0.14901.1000 (Windows 10 RS Pre-Release 160805-1700)
+- 10.0.14905.1000 (Windows 10 RS Pre-Release 160811-1739)
 
 #### Confirmed working on:
 - Windows Vista Starter (x86 - Service Pack 1 and higher)
