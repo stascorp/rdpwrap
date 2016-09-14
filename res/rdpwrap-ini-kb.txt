@@ -1,6 +1,6 @@
 [Main]
 ; Last updated date
-Updated=2016-09-03
+Updated=2016-09-14
 ; Address to log file (RDP Wrapper will write it, if exists)
 LogFile=\rdpwrap.txt
 ; Hook SLPolicy API on Windows NT 6.0
@@ -1486,6 +1486,36 @@ SLInitHook.x64=1
 SLInitOffset.x64=25220
 SLInitFunc.x64=New_CSLQuery_Initialize
 
+[10.0.10586.589]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=A7BE8
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=96A51
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=353B5
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=190D4
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=30B69
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=229A5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=469DE
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=25220
+SLInitFunc.x64=New_CSLQuery_Initialize
+
 [10.0.11082.1000]
 ; Patch CEnforcementCore::GetInstanceOfTSLicense
 LocalOnlyPatch.x86=1
@@ -2390,6 +2420,25 @@ ulMaxDebugSessions.x64=F346C
 bRemoteConnAllowed.x64=F3470
 
 [10.0.10586.0-SLInit]
+bFUSEnabled.x86       =C3F60
+lMaxUserSessions.x86  =C3F64
+bAppServerAllowed.x86 =C3F68
+bInitialized.x86      =C3F6C
+bMultimonAllowed.x86  =C3F70
+bServerSku.x86        =C3F74
+ulMaxDebugSessions.x86=C3F78
+bRemoteConnAllowed.x86=C3F7C
+
+lMaxUserSessions.x64  =F23B0
+bAppServerAllowed.x64 =F23B4
+bServerSku.x64        =F23B8
+bFUSEnabled.x64       =F3460
+bInitialized.x64      =F3464
+bMultimonAllowed.x64  =F3468
+ulMaxDebugSessions.x64=F346C
+bRemoteConnAllowed.x64=F3470
+
+[10.0.10586.589-SLInit]
 bFUSEnabled.x86       =C3F60
 lMaxUserSessions.x86  =C3F64
 bAppServerAllowed.x86 =C3F68

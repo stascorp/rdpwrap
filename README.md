@@ -268,6 +268,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.10041.0 (Windows 10 Pro Technical Preview Update 1)
 - 10.0.10240.16384 (Windows 10 RTM)
 - 10.0.10586.0 (Windows 10 TH2 Release 151029-1700)
+- 10.0.10586.589 (Windows 10 TH2 Release 160906-1759 with KB3185614)
 - 10.0.11082.1000 (Windows 10 RS1 Release 151210-2021)
 - 10.0.11102.1000 (Windows 10 RS1 Release 160113-1800)
 - 10.0.14251.1000 (Windows 10 RS1 Release 160124-1059)
