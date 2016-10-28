@@ -95,8 +95,12 @@ Terminal Services supported versions
 10.0.14942.1000  (Windows 10 rs_prerelease.161003-1929)         [init hook + extended patch]
 10.0.14946.1000  (Windows 10 rs_prerelease.161007-1700)         [init hook + extended patch]
 10.0.14951.1000  (Windows 10 rs_prerelease.161014-1700)         [init hook + extended patch]
+10.0.14955.1000  (Windows 10 rs_prerelease.161020-1700)         [init hook + extended patch]
 
 Source code changelog (rdpwrap library):
+
+2016.10.28 :
+- added support for termsrv.dll 10.0.14955.1000
 
 2016.10.21 :
 - added support for termsrv.dll 10.0.14951.1000
