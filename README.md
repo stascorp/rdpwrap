@@ -356,7 +356,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - RDP works, but termsrv.dll crashes on logon attempt - Windows Vista Starter RTM x86 (termsrv.dll `6.0.6000.16386`)
 - If Terminal Services hangs at startup, try to add **`rdpwrap.dll`** to antivirus exclusions. Also try to isolate RDP Wrapper from other shared services by the command:
 <br>`sc config TermService type= own`
-- RDP Wrapper Installer can be removed by AVG Free Antivirus after reboot - add it to exclusions.
+- RDP Wrapper can be removed by AVG Free Antivirus and [Norton Antivirus](https://github.com/stascorp/rdpwrap/issues/191) - first make sure you downloaded [official release](https://github.com/stascorp/rdpwrap/releases) from GitHub, then add it to exclusions.
 
 Installation instructions:
 - Download latest release binaries and unpack files
