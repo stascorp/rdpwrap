@@ -66,7 +66,7 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 - RDP host server on any Windows edition beginning from Vista
 - Console and remote sessions at the same time
 - Using the same user simultaneously for local and remote logon (see configuration app)
-- Up to 15 concurrent sessions (the actual limitation depends on your hardware and OS version)
+- Up to [15 concurrent sessions](https://github.com/stascorp/rdpwrap/issues/192) (the actual limitation depends on your hardware and OS version)
 - Console and RDP session shadowing (using [Task Manager in Windows 7](http://cdn.freshdesk.com/data/helpdesk/attachments/production/1009641577/original/remote_control.png?1413476051) and lower, and [Remote Desktop Connection in Windows 8](http://woshub.com/rds-shadow-how-to-connect-to-a-user-session-in-windows-server-2012-r2/) and higher)
 - Full [multi-monitor support](https://github.com/stascorp/rdpwrap/issues/163) for RDP host
 - ...and if you find a new feature not listed here, [tell us](https://github.com/stascorp/rdpwrap/issues/new) ;)
