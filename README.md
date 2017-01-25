@@ -79,7 +79,7 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 - **x86 Delphi version** can be built with *Embarcadero RAD Studio 2010*
 - **x86/x64 C++ version** can be built with *Microsoft Visual Studio 2013*
 
-[andrewblock]:   http://andrewblock.net/2013/07/19/enable-remote-desktop-on-windows-8-core/
+[andrewblock]:   http://web.archive.org/web/20150810054558/http://andrewblock.net/enable-remote-desktop-on-windows-8-core/
 [mydigitallife]: http://forums.mydigitallife.info/threads/55935-RDP-Wrapper-Library-(works-with-Windows-8-1-Basic)
 [xda-dev]:       http://forum.xda-developers.com/showthread.php?t=2093525&page=3
 [yt-updating]:   http://www.youtube.com/watch?v=W9BpbEt1yJw
