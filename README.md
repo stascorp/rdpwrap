@@ -1,6 +1,6 @@
 # RDP Wrapper Library by Stas'M
 
-![Environment](https://img.shields.io/badge/Windows-Vista, 7, 8, 10-brightgreen.svg)
+![Environment](https://img.shields.io/badge/Windows-Vista,%207,%208,%2010-brightgreen.svg)
 [![Release](https://img.shields.io/github/release/stascorp/rdpwrap.svg)](https://github.com/stascorp/rdpwrap/releases)
 ![License](https://img.shields.io/github/license/stascorp/rdpwrap.svg)
 ![Downloads](https://img.shields.io/github/downloads/stascorp/rdpwrap/latest/total.svg)
