@@ -1,6 +1,6 @@
 [Main]
 ; Last updated date
-Updated=2017-03-22
+Updated=2017-05-03
 ; Address to log file (RDP Wrapper will write it, if exists)
 LogFile=\rdpwrap.txt
 ; Hook SLPolicy API on Windows NT 6.0
@@ -2905,6 +2905,66 @@ SLInitHook.x64=1
 SLInitOffset.x64=D1EC
 SLInitFunc.x64=New_CSLQuery_Initialize
 
+[10.0.16179.1000]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=AA568
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=8C141
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=34425
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=16F84
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=31219
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1E7F5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=45F30
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=21700
+SLInitFunc.x64=New_CSLQuery_Initialize
+
+[10.0.16184.1001]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=AA568
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=8C141
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=34425
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=16F84
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=31219
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1E7F5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=45F30
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=21700
+SLInitFunc.x64=New_CSLQuery_Initialize
+
 [SLInit]
 ; Is server
 bServerSku=1
@@ -4041,3 +4101,41 @@ bFUSEnabled.x64       =E9478
 bServerSku.x64        =E9484
 lMaxUserSessions.x64  =E9488
 bAppServerAllowed.x64 =E948C
+
+[10.0.16179.1000-SLInit]
+bInitialized.x86      =C7F6C
+bServerSku.x86        =C7F70
+lMaxUserSessions.x86  =C7F74
+bAppServerAllowed.x86 =C7F78
+bRemoteConnAllowed.x86=C7F7C
+bMultimonAllowed.x86  =C7F80
+ulMaxDebugSessions.x86=C7F84
+bFUSEnabled.x86       =C7F88
+
+bServerSku.x64        =E83D8
+lMaxUserSessions.x64  =E83DC
+bAppServerAllowed.x64 =E83E0
+bInitialized.x64      =E9490
+bRemoteConnAllowed.x64=E9494
+bMultimonAllowed.x64  =E9498
+ulMaxDebugSessions.x64=E949C
+bFUSEnabled.x64       =E94A0
+
+[10.0.16184.1001-SLInit]
+bInitialized.x86      =C7F6C
+bServerSku.x86        =C7F70
+lMaxUserSessions.x86  =C7F74
+bAppServerAllowed.x86 =C7F78
+bRemoteConnAllowed.x86=C7F7C
+bMultimonAllowed.x86  =C7F80
+ulMaxDebugSessions.x86=C7F84
+bFUSEnabled.x86       =C7F88
+
+bServerSku.x64        =E83D8
+lMaxUserSessions.x64  =E83DC
+bAppServerAllowed.x64 =E83E0
+bInitialized.x64      =E9490
+bRemoteConnAllowed.x64=E9494
+bMultimonAllowed.x64  =E9498
+ulMaxDebugSessions.x64=E949C
+bFUSEnabled.x64       =E94A0
