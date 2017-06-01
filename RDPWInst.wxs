@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define ProductName="RDP Wrapper Library" ?>
+  <?define ProductVersion="1.6.1" ?>
+  <?define ProductCode="37ea5771-3352-4a52-9fac-9297331daebd"?>
+  <?define UpgradeCode="6623f60c-e84f-41e7-a55b-f421165deeb5"?>
+  <?define Manufacturer="Stas'M Corp. and contributors"?>
+
+  <Product Id="$(var.ProductCode)" Name="$(var.ProductName)" Language="1033" Version="$(var.ProductVersion)" Manufacturer="$(var.Manufacturer)" UpgradeCode="$(var.UpgradeCode)">
+    <Package InstallerVersion="200" Compressed="yes"/>
+    <Property Id="MSIFASTINSTALL" Value="1" />
+    <Property Id="DISABLEROLLBACK" Value="1" />
+    <MajorUpgrade AllowDowngrades="yes"/>
+
+    <Media Id="1" Cabinet="media1.cab" EmbedCab="yes"/>
+
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="CommonAppDataFolder">
+        <Directory Id="PACKAGECACHE" Name="Package Cache">
+          <Directory Id="INSTALLLOCATION" Name="{$(var.ProductCode)}">
+            <Component Id="ProductComponent" Guid="affd77d1-b35c-46f3-a97f-1686dc57b8b8">
+              <File Id='RDPWInst' DiskId='1' Source='RDPWInst.exe'/>
+            </Component>
+          </Directory>
+        </Directory>
+      </Directory>
+    </Directory>
+
+    <Feature Id="ProductFeature" Title="SetupProject1" Level="1">
+      <ComponentRef Id="ProductComponent" />
+    </Feature>
+
+    <CustomAction Id='InstallAction' FileKey='RDPWInst' ExeCommand='-i -o' Execute='immediate' Return='check'/>
+    <CustomAction Id='UninstallAction' FileKey='RDPWInst' ExeCommand='-u' Execute='immediate' Return='check'/>
+    <CustomAction Id='UpdateAction' FileKey='RDPWInst' ExeCommand='-w' Execute='immediate' Return='check'/>
+<!--     <CustomAction Id='ChangeAction' Directory='ProgramFilesFolder' ExeCommand='RDP Wrapper\RDPConf' Execute='immediate' Return='check'/>
+    <CustomAction Id='RepairAction' Directory='ProgramFilesFolder' ExeCommand='RDP Wrapper\RDPCheck' Execute='immediate' Return='check'/> -->
+
+    <InstallExecuteSequence>
+      <Custom Action='InstallAction' After='InstallFinalize'>NOT Installed AND NOT WIX_UPGRADE_DETECTED</Custom>
+      <Custom Action='UninstallAction' Before="RemoveFiles">REMOVE AND NOT UPGRADINGPRODUCTCODE</Custom>
+      <Custom Action='UpdateAction' Before="RemoveFiles">UPGRADINGPRODUCTCODE</Custom>
+<!--       <Custom Action='ChangeAction' After='InstallFinalize'>Installed AND NOT REINSTALL AND NOT UPGRADINGPRODUCTCODE AND NOT REMOVE</Custom>
+      <Custom Action='RepairAction' After='InstallFinalize'>REINSTALL</Custom> -->
+    </InstallExecuteSequence>
+
+  </Product>
+</Wix>
