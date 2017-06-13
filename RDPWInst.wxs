@@ -19,7 +19,7 @@
       <Directory Id="CommonAppDataFolder">
         <Directory Id="PACKAGECACHE" Name="Package Cache">
           <Directory Id="INSTALLLOCATION" Name="{$(var.ProductCode)}">
-            <Component Id="ProductComponent" Guid="affd77d1-b35c-46f3-a97f-1686dc57b8b8">
+            <Component Id="RDPWrap" Guid="affd77d1-b35c-46f3-a97f-1686dc57b8b8">
               <File Id='RDPWInst' DiskId='1' Source='RDPWInst.exe'/>
             </Component>
           </Directory>
@@ -27,8 +27,8 @@
       </Directory>
     </Directory>
 
-    <Feature Id="ProductFeature" Title="SetupProject1" Level="1">
-      <ComponentRef Id="ProductComponent" />
+    <Feature Id="RDPWrapInstall" Title="RDPWrapSetup" Level="1">
+      <ComponentRef Id="RDPWrap" />
     </Feature>
 
     <CustomAction Id='InstallAction' FileKey='RDPWInst' ExeCommand='-i -o' Execute='immediate' Return='check'/>
