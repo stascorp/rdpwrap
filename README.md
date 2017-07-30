@@ -287,6 +287,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 6.3.9600.17095 (Windows 8.1 with KB2959626)
 - 6.3.9600.17415 (Windows 8.1 with KB3000850)
 - 6.3.9600.18692 (Windows 8.1 with KB4022720)
+- 6.3.9600.18708 (Windows 8.1 with KB4025335)
 - 6.4.9841.0 (Windows 10 Technical Preview)
 - 6.4.9860.0 (Windows 10 Technical Preview Update 1)
 - 6.4.9879.0 (Windows 10 Technical Preview Update 2)
