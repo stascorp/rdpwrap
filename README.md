@@ -350,6 +350,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.16184.1001 (Windows 10 Build 160101.0800)
 - 10.0.16199.1000 (Windows 10 Build 160101.0800)
 - 10.0.16215.1000 (Windows 10 Build 160101.0800)
+- 10.0.16251.0 (Windows 10 Build 160101.0800)
 
 #### Confirmed working on:
 - Windows Vista Starter (x86 - Service Pack 1 and higher)
