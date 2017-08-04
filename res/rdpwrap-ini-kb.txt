@@ -3331,6 +3331,36 @@ SLInitHook.x64=1
 SLInitOffset.x64=2495C
 SLInitFunc.x64=New_CSLQuery_Initialize
 
+[10.0.16257.1000]
+; Patch CEnforcementCore::GetInstanceOfTSLicense
+LocalOnlyPatch.x86=1
+LocalOnlyOffset.x86=AB718
+LocalOnlyCode.x86=jmpshort
+LocalOnlyPatch.x64=1
+LocalOnlyOffset.x64=8E841
+LocalOnlyCode.x64=jmpshort
+; Patch CSessionArbitrationHelper::IsSingleSessionPerUserEnabled
+SingleUserPatch.x86=1
+SingleUserOffset.x86=33925
+SingleUserCode.x86=nop
+SingleUserPatch.x64=1
+SingleUserOffset.x64=11364
+SingleUserCode.x64=Zero
+; Patch CDefPolicy::Query
+DefPolicyPatch.x86=1
+DefPolicyOffset.x86=3C409
+DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
+DefPolicyPatch.x64=1
+DefPolicyOffset.x64=1EFD5
+DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+; Hook CSLQuery::Initialize
+SLInitHook.x86=1
+SLInitOffset.x86=4504D
+SLInitFunc.x86=New_CSLQuery_Initialize
+SLInitHook.x64=1
+SLInitOffset.x64=2495C
+SLInitFunc.x64=New_CSLQuery_Initialize
+
 [SLInit]
 ; Is server
 bServerSku=1
@@ -4717,6 +4747,25 @@ ulMaxDebugSessions.x64=EC4AC
 bFUSEnabled.x64       =EC4B0
 
 [10.0.16257.1-SLInit]
+bInitialized.x86      =C9F7C
+bServerSku.x86        =C9F80
+lMaxUserSessions.x86  =C9F84
+bAppServerAllowed.x86 =C9F88
+bRemoteConnAllowed.x86=C9F8C
+bMultimonAllowed.x86  =C9F90
+ulMaxDebugSessions.x86=C9F94
+bFUSEnabled.x86       =C9F98
+
+bServerSku.x64        =EB3F0
+lMaxUserSessions.x64  =EB3F4
+bAppServerAllowed.x64 =EB3F8
+bInitialized.x64      =EC4A0
+bRemoteConnAllowed.x64=EC4A4
+bMultimonAllowed.x64  =EC4A8
+ulMaxDebugSessions.x64=EC4AC
+bFUSEnabled.x64       =EC4B0
+
+[10.0.16257.1000-SLInit]
 bInitialized.x86      =C9F7C
 bServerSku.x86        =C9F80
 lMaxUserSessions.x86  =C9F84
