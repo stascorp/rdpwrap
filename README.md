@@ -318,6 +318,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.14388.0 (Windows 10 RS1 Release 160709-1635)
 - 10.0.14393.0 (Windows 10 RS1 Release 160715-1616)
 - 10.0.14393.1198 (Windows 10 RS1 Release Sec 170427-1353 with KB4019472)
+- 10.0.14393.1737 (Windows 10 RS1 Release Inmarket 170914-1249 with KB4041691)
 - 10.0.14901.1000 (Windows 10 RS Pre-Release 160805-1700)
 - 10.0.14905.1000 (Windows 10 RS Pre-Release 160811-1739)
 - 10.0.14915.1000 (Windows 10 RS Pre-Release 160826-1902)
@@ -366,8 +367,11 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.16291.0 (Windows 10 Build 160101.0800)
 - 10.0.16294.1 (Windows 10 Build 160101.0800)
 - 10.0.16296.0 (Windows 10 Build 160101.0800)
+- 10.0.16299.0 (Windows 10 Build 160101.0800)
+- 10.0.16299.15 (Windows 10 Build 160101.0800)
 - 10.0.16353.1000 (Windows 10 Build 160101.0800)
 - 10.0.16362.1000 (Windows 10 Build 160101.0800)
+- 10.0.17004.1000 (Windows 10 Build 160101.0800)
 
 #### Confirmed working on:
 - Windows Vista Starter (x86 - Service Pack 1 and higher)
