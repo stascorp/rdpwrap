@@ -165,6 +165,17 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 
 ### Change log:
 
+#### 2017.12.27
+- Version 1.6.2
+- Installer updated
+- Include updated INI file for latest Windows builds
+- Added check for supported Windows versions ([#155](https://github.com/stascorp/rdpwrap/issues/155))
+- Added feature to take INI file from current directory ([#300](https://github.com/stascorp/rdpwrap/issues/300))
+- Added feature to restore rfxvmt.dll (missing in Windows 10 Home [#194](https://github.com/stascorp/rdpwrap/issues/194))
+- RDP Config updated
+- Added feature to allow custom start programs ([#13 (comment)](https://github.com/stascorp/rdpwrap/issues/13#issuecomment-77651843))
+- MSI installation package added ([#14](https://github.com/stascorp/rdpwrap/issues/14))
+
 #### 2016.08.01
 - Version 1.6.1
 - Include updated INI file for latest Windows builds
