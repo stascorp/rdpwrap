@@ -10,3 +10,8 @@ __history/
 *.dcu
 *.exe
 *.dll
+*.msi
+
+# MSI local stuff
+*.wixobj
+*.wixpdb

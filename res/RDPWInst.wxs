@@ -2,7 +2,7 @@
 
 <Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
   <?define ProductName="RDP Wrapper Library" ?>
-  <?define ProductVersion="1.6.1" ?>
+  <?define ProductVersion="1.6.2" ?>
   <?define ProductCode="37ea5771-3352-4a52-9fac-9297331daebd"?>
   <?define UpgradeCode="6623f60c-e84f-41e7-a55b-f421165deeb5"?>
   <?define Manufacturer="Stas'M Corp. and contributors"?>
