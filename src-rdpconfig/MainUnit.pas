@@ -1,5 +1,5 @@
 {
-  Copyright 2016 Stas'M Corp.
+  Copyright 2017 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -49,6 +49,7 @@ type
     lsSuppVer: TLabel;
     cbHideUsers: TCheckBox;
     gbGeneral: TGroupBox;
+    cbCustomPrg: TCheckBox;
     procedure FormCreate(Sender: TObject);
     procedure cbAllowTSConnectionsClick(Sender: TObject);
     procedure seRDPPortChange(Sender: TObject);
@@ -374,6 +375,11 @@ begin
   except
 
   end;
+  try
+    cbCustomPrg.Checked := Reg.ReadBool('HonorLegacySettings');
+  except
+
+  end;
   Reg.CloseKey;
 
   Reg.OpenKeyReadOnly('\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp');
@@ -429,6 +435,11 @@ begin
   end;
   try
     Reg.WriteBool('fSingleSessionPerUser', cbSingleSessionPerUser.Checked);
+  except
+
+  end;
+  try
+    Reg.WriteBool('HonorLegacySettings', cbCustomPrg.Checked);
   except
 
   end;

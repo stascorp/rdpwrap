@@ -222,6 +222,15 @@ object MainForm: TMainForm
       Value = 0
       OnChange = seRDPPortChange
     end
+    object cbCustomPrg: TCheckBox
+      Left = 8
+      Top = 115
+      Width = 169
+      Height = 17
+      Caption = 'Allow to start custom programs'
+      TabOrder = 4
+      OnClick = cbAllowTSConnectionsClick
+    end
   end
   object Timer: TTimer
     Interval = 250
