@@ -641,7 +641,7 @@ end;
 
 procedure ExtractFiles;
 var
-  RDPClipRes, S: String;
+  RDPClipRes, RfxvmtRes, S: String;
   OnlineINI: TStringList;
 begin
   if not DirectoryExists(ExtractFilePath(ExpandPath(WrapPath))) then
@@ -685,6 +685,7 @@ begin
   end;
 
   RDPClipRes := '';
+  RfxvmtRes := '';
   case Arch of
     32: begin
       ExtractRes('rdpw32', ExpandPath(WrapPath));
@@ -692,6 +693,8 @@ begin
         RDPClipRes := 'rdpclip6032';
       if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then
         RDPClipRes := 'rdpclip6132';
+      if (FV.Version.w.Major = 10) and (FV.Version.w.Minor = 0) then
+        RfxvmtRes := 'rfxvmt32';
     end;
     64: begin
       ExtractRes('rdpw64', ExpandPath(WrapPath));
@@ -699,11 +702,16 @@ begin
         RDPClipRes := 'rdpclip6064';
       if (FV.Version.w.Major = 6) and (FV.Version.w.Minor = 1) then
         RDPClipRes := 'rdpclip6164';
+      if (FV.Version.w.Major = 10) and (FV.Version.w.Minor = 0) then
+        RfxvmtRes := 'rfxvmt64';
     end;
   end;
   if RDPClipRes <> '' then
     if not FileExists(ExpandPath('%SystemRoot%\System32\rdpclip.exe')) then
       ExtractRes(RDPClipRes, ExpandPath('%SystemRoot%\System32\rdpclip.exe'));
+  if RfxvmtRes <> '' then
+    if not FileExists(ExpandPath('%SystemRoot%\System32\rfxvmt.dll')) then
+      ExtractRes(RfxvmtRes, ExpandPath('%SystemRoot%\System32\rfxvmt.dll'));
 end;
 
 procedure DeleteFiles;
