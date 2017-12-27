@@ -1,5 +1,5 @@
 {
-  Copyright 2016 Stas'M Corp.
+  Copyright 2017 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -670,7 +670,19 @@ begin
     OnlineINI.Free;
   end;
   if not Online then
-    ExtractRes('config', ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini');
+  begin
+    S := ExtractFilePath(ParamStr(0)) + 'rdpwrap.ini';
+    if FileExists(S) then
+    begin
+      OnlineINI := TStringList.Create;
+      OnlineINI.LoadFromFile(S);
+      S := ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini';
+      OnlineINI.SaveToFile(S);
+      Writeln('[+] Current INI file -> ', S);
+      OnlineINI.Free;
+    end else
+      ExtractRes('config', ExtractFilePath(ExpandPath(WrapPath)) + 'rdpwrap.ini');
+  end;
 
   RDPClipRes := '';
   case Arch of
