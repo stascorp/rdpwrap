@@ -978,8 +978,10 @@ end;
 procedure TSConfigFirewall(Enable: Boolean);
 begin
   if Enable then
-    ExecWait('netsh advfirewall firewall add rule name="Remote Desktop" dir=in protocol=tcp localport=3389 profile=any action=allow')
-  else
+  begin
+    ExecWait('netsh advfirewall firewall add rule name="Remote Desktop" dir=in protocol=tcp localport=3389 profile=any action=allow');
+    ExecWait('netsh advfirewall firewall add rule name="Remote Desktop" dir=in protocol=udp localport=3389 profile=any action=allow');
+  end else
     ExecWait('netsh advfirewall firewall delete rule name="Remote Desktop"');
 end;
 
