@@ -50,6 +50,7 @@ if not !errorlevel!==0 (
 echo [*] Setting firewall configuration...
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\Terminal Server" /v fDenyTSConnections /t REG_DWORD /d 0 /f
 netsh advfirewall firewall add rule name="Remote Desktop" dir=in protocol=tcp localport=3389 profile=any action=allow
+netsh advfirewall firewall add rule name="Remote Desktop" dir=in protocol=udp localport=3389 profile=any action=allow
 echo [*] Looking for TermService PID...
 tasklist /SVC /FI "SERVICES eq TermService" | find "PID" /V
 echo.
