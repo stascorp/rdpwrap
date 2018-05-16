@@ -120,6 +120,7 @@ Terminal Services supported versions
 10.0.15061.0     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.15063.0     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.15063.296   (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
+10.0.15063.994   (Windows 10 WinBuild.160101.0800)              [todo]
 10.0.16179.1000  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.16184.1001  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.16199.1000  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
@@ -150,8 +151,19 @@ Terminal Services supported versions
 10.0.17040.1000  (Windows 10 WinBuild.160101.0800)              [todo]
 10.0.17046.1000  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.17063.1000  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
+10.0.17074.1002  (Windows 10 WinBuild.160101.0800)              [todo]
+10.0.17083.1000  (Windows 10 WinBuild.160101.0800)              [todo]
+10.0.17115.1     (Windows 10 WinBuild.160101.0800)              [todo]
+10.0.17128.1     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
+10.0.17133.1     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
+10.0.17134.1     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 
 Source code changelog (rdpwrap library):
+
+2018.05.16 :
+- added support for termsrv.dll 10.0.17128.1
+- added support for termsrv.dll 10.0.17133.1
+- added support for termsrv.dll 10.0.17134.1
 
 2018.03.26 :
 - added support for termsrv.dll 6.3.9600.18928 by 1nd1g0
