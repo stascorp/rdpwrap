@@ -53,6 +53,7 @@ CDefPolicy_Query_eax_rdi=B80001000089873806000090
 CDefPolicy_Query_eax_ecx=B80001000089812003000090
 CDefPolicy_Query_eax_ecx_jmp=B800010000898120030000EB0E
 CDefPolicy_Query_eax_rcx=B80001000089813806000090
+CDefPolicy_Query_edi_rcx=BF0001000089B938060000909090
 
 [6.0.6000.16386]
 ; HOW TO search CSessionArbitrationHelper::IsSingleSessionPerUserEnabled function in IDA Pro:
@@ -3981,8 +3982,8 @@ DefPolicyPatch.x86=1
 DefPolicyOffset.x86=33569
 DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
 DefPolicyPatch.x64=1
-DefPolicyOffset.x64=10E7E
-DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+DefPolicyOffset.x64=10E78
+DefPolicyCode.x64=CDefPolicy_Query_edi_rcx
 ; Hook CSLQuery::Initialize
 SLInitHook.x86=1
 SLInitOffset.x86=474AD
@@ -4011,8 +4012,8 @@ DefPolicyPatch.x86=1
 DefPolicyOffset.x86=33569
 DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
 DefPolicyPatch.x64=1
-DefPolicyOffset.x64=10E7E
-DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+DefPolicyOffset.x64=10E78
+DefPolicyCode.x64=CDefPolicy_Query_edi_rcx
 ; Hook CSLQuery::Initialize
 SLInitHook.x86=1
 SLInitOffset.x86=474AD
@@ -4041,8 +4042,8 @@ DefPolicyPatch.x86=1
 DefPolicyOffset.x86=33569
 DefPolicyCode.x86=CDefPolicy_Query_eax_ecx
 DefPolicyPatch.x64=1
-DefPolicyOffset.x64=10E7E
-DefPolicyCode.x64=CDefPolicy_Query_eax_rcx
+DefPolicyOffset.x64=10E78
+DefPolicyCode.x64=CDefPolicy_Query_edi_rcx
 ; Hook CSLQuery::Initialize
 SLInitHook.x86=1
 SLInitOffset.x86=474AD
