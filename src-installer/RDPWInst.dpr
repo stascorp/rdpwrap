@@ -1,5 +1,5 @@
 {
-  Copyright 2017 Stas'M Corp.
+  Copyright 2018 Stas'M Corp.
 
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
@@ -26,7 +26,9 @@ uses
   Classes,
   WinSvc,
   Registry,
-  WinInet;
+  WinInet,
+  AccCtrl,
+  AclAPI;
 
 function EnumServicesStatusEx(
   hSCManager: SC_HANDLE;
@@ -40,6 +42,11 @@ function EnumServicesStatusEx(
   lpResumeHandle: DWORD;
   pszGroupName: PWideChar): BOOL; stdcall;
   external advapi32 name 'EnumServicesStatusExW';
+
+function ConvertStringSidToSid(
+  StringSid: PWideChar;
+  var Sid: PSID): BOOL; stdcall;
+  external advapi32 name 'ConvertStringSidToSidW';
 
 type
   FILE_VERSION = record
@@ -639,14 +646,57 @@ begin
   Result := True;
 end;
 
+procedure GrantSidFullAccess(Path, SID: String);
+var
+  p_SID: PSID;
+  pDACL: PACL;
+  EA: EXPLICIT_ACCESS;
+  Code, Result: DWORD;
+begin
+  p_SID := nil;
+  if not ConvertStringSidToSid(PChar(SID), p_SID) then
+  begin
+    Code := GetLastError;
+    Writeln('[-] ConvertStringSidToSid error (code ', Code, ').');
+    Exit;
+  end;
+  EA.grfAccessPermissions := GENERIC_ALL;
+  EA.grfAccessMode := GRANT_ACCESS;
+  EA.grfInheritance := SUB_CONTAINERS_AND_OBJECTS_INHERIT;
+  EA.Trustee.pMultipleTrustee := nil;
+  EA.Trustee.MultipleTrusteeOperation := NO_MULTIPLE_TRUSTEE;
+  EA.Trustee.TrusteeForm := TRUSTEE_IS_SID;
+  EA.Trustee.TrusteeType := TRUSTEE_IS_WELL_KNOWN_GROUP;
+  EA.Trustee.ptstrName := p_SID;
+
+  Result := SetEntriesInAcl(1, @EA, nil, pDACL);
+  if Result = ERROR_SUCCESS then
+  begin
+    if SetNamedSecurityInfo(pchar(Path), SE_FILE_OBJECT, DACL_SECURITY_INFORMATION, nil, nil, pDACL, nil) <> ERROR_SUCCESS then
+    begin
+      Code := GetLastError;
+      Writeln('[-] SetNamedSecurityInfo error (code ', Code, ').');
+    end;
+    LocalFree(Cardinal(pDACL));
+  end
+  else begin
+    Code := GetLastError;
+    Writeln('[-] SetEntriesInAcl error (code ', Code, ').');
+  end;
+end;
+
 procedure ExtractFiles;
 var
   RDPClipRes, RfxvmtRes, S: String;
   OnlineINI: TStringList;
 begin
   if not DirectoryExists(ExtractFilePath(ExpandPath(WrapPath))) then
-    if ForceDirectories(ExtractFilePath(ExpandPath(WrapPath))) then
-      Writeln('[+] Folder created: ', ExtractFilePath(ExpandPath(WrapPath)))
+    if ForceDirectories(ExtractFilePath(ExpandPath(WrapPath))) then begin
+      S := ExtractFilePath(ExpandPath(WrapPath));
+      Writeln('[+] Folder created: ', S);
+      GrantSidFullAccess(S, 'S-1-5-18'); // Local System account
+      GrantSidFullAccess(S, 'S-1-5-6'); // Service group
+    end
     else begin
       Writeln('[-] ForceDirectories error.');
       Writeln('[*] Path: ', ExtractFilePath(ExpandPath(WrapPath)));
@@ -1080,8 +1130,8 @@ var
   I: Integer;
 begin
   Writeln('RDP Wrapper Library v1.6.2');
-  Writeln('Installer v2.5');
-  Writeln('Copyright (C) Stas''M Corp. 2017');
+  Writeln('Installer v2.6');
+  Writeln('Copyright (C) Stas''M Corp. 2018');
   Writeln('');
 
   if (ParamCount < 1)
