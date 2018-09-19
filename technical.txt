@@ -26,14 +26,14 @@ Terminal Services supported versions
 6.1.7600.20661   (Windows 7 with KB951422)                      [todo]
 6.1.7600.21085   (Windows 7 with KB951422 v2)                   [todo]
 6.1.7600.20621   (Windows 7 with KB979470)                      [todo]
-6.1.7600.20890   (Windows 7 with KB2479710)                     [todo]
-6.1.7600.21316   (Windows 7 with KB2750090)                     [todo]
+6.1.7600.20890   (Windows 7 with KB2479710)                     [policy hook + extended patch]
+6.1.7600.21316   (Windows 7 with KB2750090)                     [policy hook + extended patch]
 6.1.7600.21420   (Windows 7 with KB2800789)                     [todo]
 6.1.7601.17514   (Windows 7 SP1)                                [policy hook + extended patch]
 6.1.7601.21855   (Windows 7 SP1 with KB951422 v2)               [todo]
-6.1.7601.21650   (Windows 7 SP1 with KB2479710)                 [todo]
-6.1.7601.21866   (Windows 7 SP1 with KB2647409)                 [todo]
-6.1.7601.22104   (Windows 7 SP1 with KB2750090)                 [todo]
+6.1.7601.21650   (Windows 7 SP1 with KB2479710)                 [policy hook + extended patch]
+6.1.7601.21866   (Windows 7 SP1 with KB2647409)                 [policy hook + extended patch]
+6.1.7601.22104   (Windows 7 SP1 with KB2750090)                 [policy hook + extended patch]
 6.1.7601.22213   (Windows 7 SP1 with KB2800789)                 [todo]
 6.1.7601.22476   (Windows 7 SP1 with KB2870165)                 [todo]
 6.1.7601.22435   (Windows 7 SP1 with KB2878424)                 [todo]
@@ -56,6 +56,7 @@ Terminal Services supported versions
 6.3.9600.18692   (Windows 8.1 with KB4022720)                   [init hook + extended patch]
 6.3.9600.18708   (Windows 8.1 with KB4025335)                   [init hook + extended patch]
 6.3.9600.18928   (Windows 8.1 with KB4088876)                   [init hook + extended patch]
+6.3.9600.19093   (Windows 8.1 with 2018-09 rollup)              [init hook + extended patch]
 6.4.9841.0       (Windows 10 Technical Preview)                 [init hook + extended patch]
 6.4.9860.0       (Windows 10 Technical Preview UP1)             [init hook + extended patch]
 6.4.9879.0       (Windows 10 Technical Preview UP2)             [init hook + extended patch]
@@ -91,6 +92,7 @@ Terminal Services supported versions
 10.0.14393.0     (Windows 10 rs1_release.160715-1616)           [init hook + extended patch]
 10.0.14393.1198  (Windows 10 rs1_release_sec.170427-1353)       [init hook + extended patch]
 10.0.14393.1737  (Windows 10 rs1_release_inmarket.170914-1249)  [init hook + extended patch]
+10.0.14393.2457  (Windows 10 RS1)                               [init hook + extended patch]
 10.0.14901.1000  (Windows 10 rs_prerelease.160805-1700)         [init hook + extended patch]
 10.0.14905.1000  (Windows 10 rs_prerelease.160811-1739)         [init hook + extended patch]
 10.0.14915.1000  (Windows 10 rs_prerelease.160826-1902)         [init hook + extended patch]
@@ -121,6 +123,7 @@ Terminal Services supported versions
 10.0.15063.0     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.15063.296   (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.15063.994   (Windows 10 WinBuild.160101.0800)              [todo]
+10.0.15063.1155  (Windows 10 RS2)                               [init hook + extended patch]
 10.0.16179.1000  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.16184.1001  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 10.0.16199.1000  (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
@@ -159,6 +162,17 @@ Terminal Services supported versions
 10.0.17134.1     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 
 Source code changelog (rdpwrap library):
+
+2018.09.10 :
+- added support for termsrv.dll 6.1.7600.20890
+- added support for termsrv.dll 6.1.7600.21316
+- added support for termsrv.dll 6.1.7601.21650
+- added support for termsrv.dll 6.1.7601.21866
+- added support for termsrv.dll 6.1.7601.22104
+- added support for termsrv.dll 6.3.9600.19093
+- added support for termsrv.dll 10.0.14393.1198 (added missing x64 offsets)
+- added support for termsrv.dll 10.0.14393.2457 (x86 still missing)
+- added support for termsrv.dll 10.0.15063.1155
 
 2018.05.16 :
 - added support for termsrv.dll 10.0.17115.1
