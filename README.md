@@ -282,12 +282,12 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 6.0.6002.23521 (Windows Vista SP2 with KB3003743 LDR)
 - 6.1.X.X (Windows 7 / Server 2008 R2)
 - 6.1.7600.16385 (Windows 7)
-- 6.1.7600.20890
-- 6.1.7600.21316
+- 6.1.7600.20890 (Windows 7 with KB2479710)
+- 6.1.7600.21316 (Windows 7 with KB2750090)
 - 6.1.7601.17514 (Windows 7 SP1)
-- 6.1.7601.21650
-- 6.1.7601.21866
-- 6.1.7601.22104
+- 6.1.7601.21650 (Windows 7 SP1 with KB2479710)
+- 6.1.7601.21866 (Windows 7 SP1 with KB2647409)
+- 6.1.7601.22104 (Windows 7 SP1 with KB2750090)
 - 6.1.7601.18540 (Windows 7 SP1 with KB2984972 GDR)
 - 6.1.7601.22750 (Windows 7 SP1 with KB2984972 LDR)
 - 6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)
