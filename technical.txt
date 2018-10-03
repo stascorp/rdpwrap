@@ -16,7 +16,7 @@ Terminal Services supported versions
 6.0.6002.22269   (Windows Vista SP2 with KB977541)              [todo]
 6.0.6002.22340   (Windows Vista SP2 with KB970911)              [todo]
 6.0.6002.22515   (Windows Vista SP2 with KB2381675)             [todo]
-6.0.6002.22641   (Windows Vista SP2 with KB2523307)             [unsupported]
+6.0.6002.22641   (Windows Vista SP2 with KB2523307)             [todo]
 6.0.6002.22790   (Windows Vista SP2 with KB2672601)             [todo]
 6.0.6002.19214   (Windows Vista SP2 with KB3003743 GDR)         [policy hook + extended patch]
 6.0.6002.23521   (Windows Vista SP2 with KB3003743 LDR)         [policy hook + extended patch]
