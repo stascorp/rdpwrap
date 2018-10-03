@@ -170,7 +170,7 @@ Source code changelog (rdpwrap library):
 - added support for termsrv.dll 6.1.7601.21866
 - added support for termsrv.dll 6.1.7601.22104
 - added support for termsrv.dll 6.3.9600.19093
-- added support for termsrv.dll 10.0.14393.2457 (x86 still missing)
+- added support for termsrv.dll 10.0.14393.2457 x64
 - added support for termsrv.dll 10.0.15063.1155
 
 2018.05.16 :
