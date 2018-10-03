@@ -293,6 +293,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 6.1.7601.18637 (Windows 7 SP1 with KB3003743 GDR)
 - 6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)
 - 6.1.7601.23403 (Windows 7 SP1 with KB3125574)
+- 6.1.7601.24234 (Windows 7 SP1 with unknown KB)
 - 6.2.8102.0 (Windows 8 Developer Preview)
 - 6.2.8250.0 (Windows 8 Consumer Preview)
 - 6.2.8400.0 (Windows 8 Release Preview)
@@ -367,6 +368,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.15061.0 (Windows 10 Build 160101.0800)
 - 10.0.15063.0 (Windows 10 Build 160101.0800)
 - 10.0.15063.296 (Windows 10 Build 160101.0800)
+- 10.0.15063.994 (Windows 10 Build 160101.0800)
 - 10.0.15063.1155 (Windows 10 Build 160101.0800)
 - 10.0.16179.1000 (Windows 10 Build 160101.0800)
 - 10.0.16184.1001 (Windows 10 Build 160101.0800)
@@ -401,6 +403,8 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.17128.1 (Windows 10 Build 160101.0800)
 - 10.0.17133.1 (Windows 10 Build 160101.0800)
 - 10.0.17134.1 (Windows 10 Build 160101.0800)
+- 10.0.17723.1000 (Windows 10 Build 160101.0800)
+- 10.0.17763.1 (Windows 10 Build 160101.0800)
 
 #### Confirmed working on:
 - Windows Vista Starter (x86 - Service Pack 1 and higher)
