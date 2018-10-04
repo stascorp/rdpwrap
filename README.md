@@ -341,7 +341,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 10.0.14393.0 (Windows 10 RS1 Release 160715-1616)
 - 10.0.14393.1198 (Windows 10 RS1 Release Sec 170427-1353 with KB4019472)
 - 10.0.14393.1737 (Windows 10 RS1 Release Inmarket 170914-1249 with KB4041691)
-- 10.0.14393.2457 (Windows 10 RS1 Release Inmarket 180822-1743 with KB4457131)
+- 10.0.14393.2457 (Windows 10 RS1 Release Inmarket 180822-1743 with KB4343884)
 - 10.0.14901.1000 (Windows 10 RS Pre-Release 160805-1700)
 - 10.0.14905.1000 (Windows 10 RS Pre-Release 160811-1739)
 - 10.0.14915.1000 (Windows 10 RS Pre-Release 160826-1902)
