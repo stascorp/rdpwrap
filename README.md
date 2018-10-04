@@ -1,5 +1,6 @@
 # RDP Wrapper Library by Stas'M
 
+[![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/rdpwrap)
 ![Environment](https://img.shields.io/badge/Windows-Vista,%207,%208,%2010-brightgreen.svg)
 [![Release](https://img.shields.io/github/release/stascorp/rdpwrap.svg)](https://github.com/stascorp/rdpwrap/releases)
 ![License](https://img.shields.io/github/license/stascorp/rdpwrap.svg)
@@ -88,6 +89,8 @@ It's recommended to have original termsrv.dll file with the RDP Wrapper installa
 ### Links:
 - Official GitHub repository:
 <br>https://github.com/stascorp/rdpwrap/
+- Official Telegram chat:
+<br>https://t.me/rdpwrap
 - Active discussion in the comments here:
 <br>[Enable remote desktop on Windows 8 core / basic - Andrew Block .net][andrewblock]
 - MDL Projects and Applications thread here:
