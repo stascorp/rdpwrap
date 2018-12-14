@@ -167,6 +167,9 @@ Terminal Services supported versions
 
 Source code changelog (rdpwrap library):
 
+2018.12.13 :
+- added support for termsrv.dll 6.1.7601.24308 x86
+
 2018.10.10 :
 - added support for termsrv.dll 6.1.7601.24234 x86
 
