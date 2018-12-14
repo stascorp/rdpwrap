@@ -297,6 +297,7 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - 6.1.7601.22843 (Windows 7 SP1 with KB3003743 LDR)
 - 6.1.7601.23403 (Windows 7 SP1 with KB3125574)
 - 6.1.7601.24234 (Windows 7 SP1 with KB4462923)
+- 6.1.7601.24308 (Windows 7 SP1 with KB4471328)
 - 6.2.8102.0 (Windows 8 Developer Preview)
 - 6.2.8250.0 (Windows 8 Consumer Preview)
 - 6.2.8400.0 (Windows 8 Release Preview)
