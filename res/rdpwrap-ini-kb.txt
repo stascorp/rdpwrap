@@ -1,6 +1,6 @@
 [Main]
 ; Last updated date
-Updated=2018-10-10
+Updated=2018-12-13
 ; Address to log file (RDP Wrapper will write it, if exists)
 LogFile=\rdpwrap.txt
 ; Hook SLPolicy API on Windows NT 6.0

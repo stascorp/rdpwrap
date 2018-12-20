@@ -44,6 +44,7 @@ Terminal Services supported versions
 6.1.7601.22843   (Windows 7 SP1 with KB3003743 LDR)             [policy hook + extended patch]
 6.1.7601.23403   (Windows 7 SP1 with KB3125574)                 [policy hook + extended patch]
 6.1.7601.24234   (Windows 7 SP1 with KB4462923)                 [policy hook + extended patch]
+6.1.7601.24308   (Windows 7 SP1 with KB4471328)                 [policy hook + extended patch]
 6.2.8102.0       (Windows 8 Developer Preview)                  [policy hook + extended patch]
 6.2.8250.0       (Windows 8 Consumer Preview)                   [policy hook + extended patch]
 6.2.8400.0       (Windows 8 Release Preview)                    [policy hook + extended patch]
@@ -165,6 +166,9 @@ Terminal Services supported versions
 10.0.17763.1     (Windows 10 WinBuild.160101.0800)              [init hook + extended patch]
 
 Source code changelog (rdpwrap library):
+
+2018.12.13 :
+- added support for termsrv.dll 6.1.7601.24308 x86
 
 2018.10.10 :
 - added support for termsrv.dll 6.1.7601.24234 x86
