@@ -1163,13 +1163,6 @@ begin
     Exit;
   end;
 
-  if not CheckWin32Version(6,0) then
-  begin
-    Writeln('[-] Unsupported Windows version:');
-    Writeln('  only >= 6.0 (Vista, Server 2008 and newer) are supported.');
-    Exit;
-  end;
-
   if not SupportedArchitecture then
   begin
     Writeln('[-] Unsupported processor architecture.');
