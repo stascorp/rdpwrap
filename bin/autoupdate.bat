@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (12-08-2019)
+REM Automatic RDP Wrapper installer and updater // asmtron (13-08-2019)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -67,7 +67,7 @@ if /i "%~1"=="-taskremove" (
 )
 if /i not "%~1"=="" (
   echo [x] Unknown argument specified: "%~1"
-  echo [~] Supported argments/options are:
+  echo [*] Supported argments/options are:
   echo     -log         =  redirect display output to the file autoupdate.log
   echo     -taskadd     =  add autorun of autoupdate.bat on startup in the schedule task
   echo     -taskremove  =  remove autorun of autoupdate.bat on startup in the schedule task
@@ -106,7 +106,9 @@ reg query HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters /f "rdpw
     echo [+] Found windows registry entry for "rdpwrap.dll".
 )||(
     echo [-] NOT found windows registry entry for "rdpwrap.dll"!
-    call :install
+    if %rdpwrap_installed%=="0" (
+        call :install
+    )
 )
 REM ------------------------------
 REM 3) check if rdpwrap.ini exists
@@ -115,23 +117,52 @@ if exist %rdpwrap_ini% (
     echo [+] Found file: %rdpwrap_ini%
 ) else (
     echo [-] File NOT found: %rdpwrap_ini%!
-    call :install
+    if %rdpwrap_installed%=="0" (
+        call :install
+    )
 )
 REM ---------------------------------------------------------------
-REM 4) check if installed termsrv.dll version exists in rdpwrap.ini
+REM 4) get file version of %windir%\System32\termsrv.dll
 REM ---------------------------------------------------------------
-:check_update
 for /f "tokens=* usebackq" %%a in (
     `cscript //nologo "%~f0?.wsf" //job:fileVersion %windir%\System32\termsrv.dll`
 ) do (
-    set "termsrv_dll_ver=%%a"
+    set termsrv_dll_ver=%%a
 )
-echo [+] Installed "termsrv.dll" version: %termsrv_dll_ver%
+if "%termsrv_dll_ver%"=="" (
+    echo [x] Error on getting the file version of %windir%\System32\termsrv.dll
+    goto :finish
+) else (
+    echo [+] Installed "termsrv.dll" version: %termsrv_dll_ver%
+)
+REM ----------------------------------------------------------------------------------------
+REM 5) check if installed fileversion is different to the last saved fileversion in registry
+REM ----------------------------------------------------------------------------------------
+echo [*] Read last "termsrv.dll" version from the windows registry...
+for /f "tokens=2*" %%a in (
+    'reg query "HKEY_LOCAL_MACHINE\SOFTWARE\RDP-Wrapper\Autoupdate" /v "termsrv.dll" 2^>nul'
+) do (
+    set last_termsrv_dll_ver=%%b
+)
+if "%last_termsrv_dll_ver%"=="%termsrv_dll_ver%" (
+    echo [+] Current "termsrv.dll v.%termsrv_dll_ver%" same as last "termsrv.dll v.%last_termsrv_dll_ver%"
+) else (
+    echo [-] Current "termsrv.dll v.%termsrv_dll_ver%" different from last "termsrv.dll v.%last_termsrv_dll_ver%"!
+    echo [*] Update current "termsrv.dll" version to the windows registry...
+    reg add "HKEY_LOCAL_MACHINE\SOFTWARE\RDP-Wrapper\Autoupdate" /v "termsrv.dll" /t REG_SZ /d "%termsrv_dll_ver%" /f
+    if %rdpwrap_installed%=="0" (
+        call :install
+    )
+)
+REM ---------------------------------------------------------------
+REM 6) check if installed termsrv.dll version exists in rdpwrap.ini
+REM ---------------------------------------------------------------
+:check_update
 if exist %rdpwrap_ini_check% (
-    echo [~] Start searching [%termsrv_dll_ver%] version entry in file %rdpwrap_ini_check% ...
+    echo [*] Start searching [%termsrv_dll_ver%] version entry in file %rdpwrap_ini_check% ...
     findstr /c:"[%termsrv_dll_ver%]" %rdpwrap_ini_check% >nul&&(
         echo [+] Found "termsrv.dll" version entry [%termsrv_dll_ver%] in file %rdpwrap_ini_check%
-        echo [~] RDP-Wrapper seems to be up-to-date and working...
+        echo [*] RDP-Wrapper seems to be up-to-date and working...
     )||(
         echo [-] NOT found "termsrv.dll" version entry [%termsrv_dll_ver%] in file %rdpwrap_ini_check%!
         if not "!rdpwrap_ini_update_github_%github_location%!" == "" (
@@ -143,7 +174,7 @@ if exist %rdpwrap_ini_check% (
     )
 ) else (
     echo [-] File NOT found: %rdpwrap_ini_check%
-    echo [~] Give up - Please check if Antivirus/Firewall blocks the file %rdpwrap_ini_check%!
+    echo [*] Give up - Please check if Antivirus/Firewall blocks the file %rdpwrap_ini_check%!
     goto :finish
 )
 goto :finish
@@ -153,7 +184,7 @@ REM Install RDP Wrapper (exactly uninstall and reinstall)
 REM -----------------------------------------------------
 :install
 echo.
-echo [~] Uninstall and reinstall RDP Wrapper ...
+echo [*] Uninstall and reinstall RDP Wrapper ...
 echo.
 set rdpwrap_installed="1"
 %RDPWInst_exe% -u
@@ -168,11 +199,11 @@ if %rdpwrap_installed%=="0" (
   call :install
 )
 if exist %rdpwrap_new_ini% (
-  echo [~] Start copy %rdpwrap_new_ini% to %rdpwrap_ini% ...
+  echo [*] Start copy %rdpwrap_new_ini% to %rdpwrap_ini% ...
   copy /y %rdpwrap_new_ini% %rdpwrap_ini%
 )
 echo.
-echo [~] Restart RDP Wrapper ...
+echo [*] Restart RDP Wrapper ...
 echo.
 %RDPWInst_exe% -r
 goto :eof
@@ -183,7 +214,7 @@ REM --------------------------------------------------------------------
 :update
 set /a github_location=github_location+1
 echo.
-echo [~] Download latest version of rdpwrap.ini from GitHub
+echo [*] Download latest version of rdpwrap.ini from GitHub
 echo     -^> %rdpwrap_ini_url%
 for /f "tokens=* usebackq" %%a in (
     `cscript //nologo "%~f0?.wsf" //job:fileDownload %rdpwrap_ini_url% %rdpwrap_new_ini%`
@@ -196,7 +227,7 @@ if "%download_status%"=="-1" (
     call :restart
 ) else (
     echo [-] FAILED to download from GitHub latest version to %rdpwrap_new_ini%
-    echo [~] Please check you internet connection/firewall and try again!
+    echo [*] Please check you internet connection/firewall and try again!
 )
 goto :eof
 
