@@ -7,14 +7,14 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (11-08-2019)
+REM Automatic RDP Wrapper installer and updater // asmtron (12-08-2019)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
 REM   -taskadd    = add autorun of autoupdate.bat on startup in schedule task
 REM   -taskremove = remove autorun of autoupdate.bat on startup in schedule task
 REM
-REM Info: 
+REM Info:
 REM   The autoupdater first use and check the official rdpwrap.ini.
 REM   If a new termsrv.dll is not supported in the offical rdpwrap.ini,
 REM   autoupdater first tries the asmtron rdpwrap.ini (disassembled and
@@ -50,18 +50,18 @@ REM check if admin
 fsutil dirty query %systemdrive% >nul
 if not %errorlevel% == 0 goto :not_admin
 REM check for arguments
-if /i "%~1"=="-log" (  
+if /i "%~1"=="-log" (
   echo %autoupdate_bat% output from %date% at %time% > %autoupdate_log%
   call %autoupdate_bat% >> %autoupdate_log%
   goto :finish
 )
 if /i "%~1"=="-taskadd" (
-  echo [+] add autorun of %autoupdate_bat% on startup in the schedule task  
+  echo [+] add autorun of %autoupdate_bat% on startup in the schedule task
   schtasks /create /f /sc ONSTART /tn "RDP Wrapper Autoupdate" /tr "cmd.exe /C \"%~dp0autoupdate.bat\" -log" /ru SYSTEM /delay 0000:10
   goto :finish
 )
 if /i "%~1"=="-taskremove" (
-  echo [-] remove autorun of %autoupdate_bat% on startup in the schedule task  
+  echo [-] remove autorun of %autoupdate_bat% on startup in the schedule task
   schtasks /delete /f /tn "RDP Wrapper Autoupdate"
   goto :finish
 )
@@ -89,6 +89,7 @@ echo.
 goto :finish
 
 :start_check
+set rdpwrap_installed="0"
 REM ----------------------------------
 REM 1) check if TermService is running
 REM ----------------------------------
@@ -132,8 +133,8 @@ if exist %rdpwrap_ini_check% (
         echo [+] Found "termsrv.dll" version entry [%termsrv_dll_ver%] in file %rdpwrap_ini_check%
         echo [~] RDP-Wrapper seems to be up-to-date and working...
     )||(
-        echo [-] NOT found "termsrv.dll" version entry [%termsrv_dll_ver%] in file %rdpwrap_ini_check%!        
-        if not "!rdpwrap_ini_update_github_%github_location%!" == "" (            
+        echo [-] NOT found "termsrv.dll" version entry [%termsrv_dll_ver%] in file %rdpwrap_ini_check%!
+        if not "!rdpwrap_ini_update_github_%github_location%!" == "" (
             set rdpwrap_ini_url=!rdpwrap_ini_update_github_%github_location%!
         		call :update
         		goto :check_update
@@ -152,8 +153,9 @@ REM Install RDP Wrapper (exactly uninstall and reinstall)
 REM -----------------------------------------------------
 :install
 echo.
-echo [~] Install RDP Wrapper ...
+echo [~] Uninstall and reinstall RDP Wrapper ...
 echo.
+set rdpwrap_installed="1"
 %RDPWInst_exe% -u
 %RDPWInst_exe% -i -o
 goto :eof
@@ -162,8 +164,15 @@ REM -------------------
 REM Restart RDP-Wrapper
 REM -------------------
 :restart
+if %rdpwrap_installed%=="0" (
+  call :install
+)
+if exist %rdpwrap_new_ini% (
+  echo [~] Start copy %rdpwrap_new_ini% to %rdpwrap_ini% ...
+  copy /y %rdpwrap_new_ini% %rdpwrap_ini%
+)
 echo.
-echo [~] ReStart RDP Wrapper ...
+echo [~] Restart RDP Wrapper ...
 echo.
 %RDPWInst_exe% -r
 goto :eof
@@ -184,8 +193,6 @@ for /f "tokens=* usebackq" %%a in (
 if "%download_status%"=="-1" (
     echo [+] Successfully download from GitHhub latest version to %rdpwrap_new_ini%
     set rdpwrap_ini_check=%rdpwrap_new_ini%
-    echo [~] Start copy %rdpwrap_new_ini% to %rdpwrap_ini% ...
-    copy /y %rdpwrap_new_ini% %rdpwrap_ini%
     call :restart
 ) else (
     echo [-] FAILED to download from GitHub latest version to %rdpwrap_new_ini%
@@ -261,4 +268,4 @@ exit /b
         SaveWebBinary = True
     End Function
   </script></job>
-</package>  
+</package>
