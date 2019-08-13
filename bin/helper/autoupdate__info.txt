@@ -31,7 +31,7 @@
     USE ONLY the "%ProgramFiles%\RDP Wrapper" directory (normally C:\Program Files\RDP Wrapper)
 
 
- 2. Copy the files/folder from the archive "autoupdate-v11.08.2019.zip" (or newer) to the "%ProgramFiles%\RDP Wrapper" directory
+ 2. Copy the files/folder from the archive "autoupdate-v15.08.2019.zip" (or newer) to the "%ProgramFiles%\RDP Wrapper" directory
 
 
  3. To enable autorun of autoupdate.bat on system startup, run the folling helper batch file as administrator:
