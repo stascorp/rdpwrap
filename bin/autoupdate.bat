@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (15-08-2019)
+REM Automatic RDP Wrapper installer and updater // asmtron (16-08-2019)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -214,31 +214,23 @@ REM -------------------
 if %rdpwrap_installed%=="0" (
     call :install
 )
-REM NOTE normal copy of the file "rdpwrap_new.ini" to "rdpwrap.ini" will not work (file locked)
-REM      we need to stream the data line by line from "rdpwrap_new.ini" to "rdpwrap.ini"
+REM NOTE - normal copy of the file "rdpwrap_new.ini" to "rdpwrap.ini" will not work (file locked)
+REM        we need to stream the data from "rdpwrap_new.ini" to "rdpwrap.ini"
 if exist %rdpwrap_new_ini% (
     echo [*] Start streaming %rdpwrap_new_ini% to %rdpwrap_ini%...
-    set firstline="0"
-    for /f "usebackq delims=" %%a in (
-        `findstr /n "^" %rdpwrap_new_ini%`
-    ) do (
-        set "line=!%%a!"
-        set "line=!line:*:=!"
-        if !firstline!=="0" (
-            set firstline="1"
+    (
+        for /f "usebackq delims=" %%a in (
+            `findstr /n "^" %rdpwrap_new_ini%`
+        ) do (
+            set "line=!%%a!"
+            set "line=!line:*:=!"
             if "!line!"=="*:=" (
-                echo.>%rdpwrap_ini%
+                echo.
             ) else (
-                echo !line!>%rdpwrap_ini%
-            )
-        ) else (
-            if "!line!"=="*:=" (
-                echo.>>%rdpwrap_ini%
-            ) else (
-                echo !line!>>%rdpwrap_ini%
+                echo !line!
             )
         )
-    )
+    )>%rdpwrap_ini%
     echo [+] Update of %rdpwrap_ini% finished successfully.
 )
 echo.
