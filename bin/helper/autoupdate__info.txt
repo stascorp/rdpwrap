@@ -42,6 +42,6 @@
  4. Set in your Antivirus/WindowsDefnder an exclusion on the folder "%ProgramFiles%\RDP Wrapper" to prevent the deletion of RDP Wrapper files
 
 
- 5. Now you can use the autoupdate batch file to install and update the RDP Wrapper. Please run autoupdate.bat as administrator:
+ 5. Now you can use the autoupdate batch file to install and update the RDP Wrapper. Please run the folling autoupdate batch file as administrator:
 
    "%ProgramFiles%\RDP Wrapper\autoupdate.bat"
