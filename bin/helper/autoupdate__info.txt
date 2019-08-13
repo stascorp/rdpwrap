@@ -2,7 +2,7 @@
 
                         autoupdate.bat
 
- Automatic RDP Wrapper installer and updater // asmtron (11-08-2019)
+ Automatic RDP Wrapper installer and updater // asmtron (15-08-2019)
  -------------------------------------------------------------------
  Options:
    -log        = redirect display output to the file autoupdate.log
