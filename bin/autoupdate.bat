@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (14-08-2019)
+REM Automatic RDP Wrapper installer and updater // asmtron (15-08-2019)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -204,6 +204,7 @@ echo.
 set rdpwrap_installed="1"
 %RDPWInst_exe% -u
 %RDPWInst_exe% -i -o
+call :setNLA
 goto :eof
 
 REM -------------------
@@ -244,6 +245,7 @@ echo.
 echo [*] Restart RDP Wrapper...
 echo.
 %RDPWInst_exe% -r
+call :setNLA
 goto :eof
 
 REM --------------------------------------------------------------------
@@ -269,6 +271,14 @@ if "%download_status%"=="-1" (
 )
 goto :eof
 
+REM --------------------------------
+REM Set Network Level Authentication
+REM --------------------------------
+:setNLA
+echo [*] Set Network Level Authentication in the windows registry...
+reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v SecurityLayer /t reg_dword /d 0x2 /f
+reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v MinEncryptionLevel /t reg_dword /d 0x2 /f
+goto :eof
 
 :finish
 echo.
