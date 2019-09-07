@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (20-08-2019)
+REM Automatic RDP Wrapper installer and updater // asmtron (07-09-2019)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -110,9 +110,7 @@ for /f "tokens=1-2* usebackq" %%a in (
 )
 if %rdp_tcp_session%=="" (
     echo [-] Listener session rdp-tcp NOT found^^!
-    if %rdpwrap_installed%=="0" (
-        call :install
-    )
+    call :install
 ) else (
     echo [+] Found listener session: %rdp_tcp_session% ^(ID: %rdp_tcp_session_id%^).
 )
@@ -224,12 +222,10 @@ if exist %rdpwrap_new_ini% (
         for /f "usebackq delims=" %%a in (
             `findstr /n "^" %rdpwrap_new_ini%`
         ) do (
-            set "line=!%%a!"
-            set "line=!line:*:=!"
-            if "!line!"=="*:=" (
+            if "!%%a!"=="" (
                 echo.
             ) else (
-                echo !line!
+                echo !%%a!
             )
         )
     )>%rdpwrap_ini%
