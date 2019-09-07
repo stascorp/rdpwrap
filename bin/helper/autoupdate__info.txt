@@ -2,7 +2,7 @@
 
                         autoupdate.bat
 
- Automatic RDP Wrapper installer and updater // asmtron (20-08-2019)
+ Automatic RDP Wrapper installer and updater // asmtron (07-09-2019)
  -------------------------------------------------------------------
  Options:
    -log        = redirect display output to the file autoupdate.log
@@ -31,7 +31,7 @@
     USE ONLY the "%ProgramFiles%\RDP Wrapper" directory (normally C:\Program Files\RDP Wrapper)
 
 
- 2. Copy the files/folder from the archive "autoupdate-v20.08.2019.zip" (or newer) to the "%ProgramFiles%\RDP Wrapper" directory
+ 2. Copy the files/folder from the archive "autoupdate-v07.09.2019.zip" (or newer) to the "%ProgramFiles%\RDP Wrapper" directory
 
 
  3. To enable autorun of autoupdate.bat on system startup, run the folling helper batch file as administrator:
@@ -42,6 +42,6 @@
  4. Set in your Antivirus/WindowsDefnder an exclusion on the folder "%ProgramFiles%\RDP Wrapper" to prevent the deletion of RDP Wrapper files
 
 
- 5. Now you can use the autoupdate batch file to install and update the RDP Wrapper. Please run the folling autoupdate batch file as administrator:
+ 5. Now you can use the autoupdate batch file to install and update the RDP Wrapper. Please run autoupdate.bat as administrator:
 
    "%ProgramFiles%\RDP Wrapper\autoupdate.bat"
