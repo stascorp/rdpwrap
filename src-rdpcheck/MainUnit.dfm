@@ -17,11 +17,12 @@ object Frm: TFrm
   OnCreate = FormCreate
   PixelsPerInch = 96
   TextHeight = 13
-  object RDP: TMsRdpClient2
+  object RDP: TMsRdpClient2NotSafeForScripting
     Left = 0
     Top = 0
     Width = 640
     Height = 480
+    Align = alClient
     TabOrder = 0
     OnDisconnected = RDPDisconnected
     ControlData = {0003000008000200000000000B0000000B000000}
