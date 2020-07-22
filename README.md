@@ -153,6 +153,10 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 
 `RDPCheck` is a very simple application and only for testing purposes. You need to use Microsoft Remote Desktop Client (`mstsc.exe`) if you want to customize the settings. You can use `127.0.0.1` or `127.0.0.2` address for loopback connection.
 
+> How to install xrdp with just the binaries from Github?
+
+The following are just binaries. You have to download the installation file "rdpwinst.exe" separately. You can google "rdpwinst.exe download" and paste the binaries from github to the downloaded folder and run the install.bat.
+
 ### Known issues:
 - Beginning with Windows 8 **on tablet PCs** inactive sessions will be logged out by system - [more info](https://github.com/stascorp/rdpwrap/issues/37)
 - Beginning with Windows 10 you can accidentally lock yourself from PC - [more info](https://github.com/stascorp/rdpwrap/issues/50)
