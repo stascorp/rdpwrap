@@ -3,7 +3,7 @@ INSTALL of RDP Wrapper and Autoupdater
 
 1. Download "RDPWrap-v1.6.2.zip" [LINK#1](https://github.com/stascorp/rdpwrap/releases) or [LINK#2](https://sabercathost.com/e2bm/RDPWrap-v1.6.2.zip) and extract all files to the "%ProgramFiles%\RDP Wrapper" directory
 
-    DO NOT use other location to install/extract the RDP Wrapper files.
+    DO NOT use other location to extract/install the RDP Wrapper files.
     USE ONLY the "%ProgramFiles%\RDP Wrapper" directory (normally C:\Program Files\RDP Wrapper)
 
 
