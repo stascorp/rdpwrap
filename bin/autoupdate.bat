@@ -104,13 +104,25 @@ REM ------------------------------------------
 REM 2) check if listener session rdp-tcp exist
 REM ------------------------------------------
 set rdp_tcp_session=""
-for /f "tokens=1-2* usebackq" %%a in (
-    `query session rdp-tcp`
-) do (
-    set rdp_tcp_session=%%a
-    set rdp_tcp_session_id=%%b
+set rdp_tcp_session_id=0
+if exist %windir%\system32\query.exe (
+    for /f "tokens=1-2* usebackq" %%a in (
+        `query session rdp-tcp`
+    ) do (
+        set rdp_tcp_session=%%a
+        set /a rdp_tcp_session_id=%%b 2>NULL
+    )
+) else (
+    for /f "tokens=2* usebackq" %%a in (
+        `reg query "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server" /v "fDenyTSConnections" 2^>nul`
+    ) do (
+        if "%%a"=="REG_DWORD" (
+            set rdp_tcp_session=AllowTSConnection
+            if "%%b"=="0x0" (set rdp_tcp_session_id=1)
+        )
+    )
 )
-if %rdp_tcp_session%=="" (
+if %rdp_tcp_session_id%==0 (
     echo [-] Listener session rdp-tcp NOT found^^!
     call :install
 ) else (
