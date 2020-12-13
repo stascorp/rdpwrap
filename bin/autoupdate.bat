@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (12-06-2020)
+REM Automatic RDP Wrapper installer and updater // asmtron (12-12-2020)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -32,7 +32,7 @@ set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/affinityv/INI
 set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
 REM set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/....Extra.5...."
-REM set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.5...."
+REM set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
 
 set autoupdate_bat="%~dp0autoupdate.bat"
 set autoupdate_log="%~dp0autoupdate.log"
@@ -79,9 +79,13 @@ if not exist %RDPWInst_exe% goto :error_install
 goto :start_check
 
 :not_admin
-echo [-] This script must be run as administrator to work properly^^!
+color 0e
+echo ___________________________________
+echo [x] ERROR - No Administrator Rights
+echo [*] This script must be run as administrator to work properly^^!
 echo     ^<Please use 'right click' on this batch file and select "Run As Administrator"^>
 echo.
+pause
 goto :finish
 :error_install
 echo [-] RDP Wrapper installer executable (RDPWInst.exe) not found^^!
@@ -225,30 +229,23 @@ REM -------------------
 REM Restart RDP Wrapper
 REM -------------------
 :restart
-if %rdpwrap_installed%=="0" (
-    call :install
-)
-REM NOTE - normal copy of the file "rdpwrap_new.ini" to "rdpwrap.ini" will not work (file locked)
-REM        we need to stream the data from "rdpwrap_new.ini" to "rdpwrap.ini"
+echo.
+echo [*] Restart RDP Wrapper with new ini (unistall and reistall)...
+echo.
+%RDPWInst_exe% -u
 if exist %rdpwrap_new_ini% (
-    echo [*] Start streaming %rdpwrap_new_ini% to %rdpwrap_ini%...
-    (
-        for /f "usebackq delims=" %%a in (
-            `findstr /n "^" %rdpwrap_new_ini%`
-        ) do (
-            if "!%%a!"=="" (
-                echo.
-            ) else (
-                echo !%%a!
-            )
-        )
-    )>%rdpwrap_ini%
-    echo [+] Update of %rdpwrap_ini% finished successfully.
+    echo.
+    echo [*] Use latest downloaded rdpwrap.ini from GitHub...
+    echo     -^> %rdpwrap_ini_url% 
+    echo       -^> %rdpwrap_new_ini%
+    echo         -^> %rdpwrap_ini%
+    echo [+] copy %rdpwrap_new_ini% to %rdpwrap_ini%...
+    copy %rdpwrap_new_ini% %rdpwrap_ini%
+    echo.
+) else (
+    echo [x] ERROR - File %rdpwrap_new_ini% is missing ^^!
 )
-echo.
-echo [*] Restart RDP Wrapper...
-echo.
-%RDPWInst_exe% -r
+%RDPWInst_exe% -i
 call :setNLA
 goto :eof
 
