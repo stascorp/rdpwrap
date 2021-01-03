@@ -114,7 +114,7 @@ if exist %windir%\system32\query.exe (
         `query session rdp-tcp`
     ) do (
         set rdp_tcp_session=%%a
-        set /a rdp_tcp_session_id=%%b 2>NULL
+        set /a rdp_tcp_session_id=%%b 2>nul
     )
 ) else (
     for /f "tokens=2* usebackq" %%a in (
