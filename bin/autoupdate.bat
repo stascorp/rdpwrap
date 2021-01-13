@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (12-12-2020)
+REM Automatic RDP Wrapper installer and updater // asmtron (13-01-2021)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -41,6 +41,7 @@ set rdpwrap_ini="%~dp0rdpwrap.ini"
 set rdpwrap_ini_check=%rdpwrap_ini%
 set rdpwrap_new_ini="%~dp0rdpwrap_new.ini"
 set github_location=1
+set retry_network_check=0
 
 echo ___________________________________________
 echo Automatic RDP Wrapper installer and updater
@@ -253,6 +254,20 @@ REM --------------------------------------------------------------------
 REM Download up-to-date (alternative) version of rdpwrap.ini from GitHub
 REM --------------------------------------------------------------------
 :update
+REM check if network connection is available
+ping -n 1 google.com | find "TTL=" >nul
+if errorlevel 1 (
+    goto waitnetwork
+) else (
+    goto download
+)
+:waitnetwork
+echo [.] Wait for network connection is available...
+ping 127.0.0.1 -n 11>nul
+set /a retry_network_check=retry_network_check+1
+REM wait for a maximum of 5 minutes
+if %retry_network_check% LSS 30 goto update
+:download
 set /a github_location=github_location+1
 echo.
 echo [*] Download latest version of rdpwrap.ini from GitHub...
