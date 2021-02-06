@@ -7,7 +7,7 @@ REM -------------------------------------------------------------------
 REM
 REM                        autoupdate.bat
 REM
-REM Automatic RDP Wrapper installer and updater // asmtron (18-01-2021)
+REM Automatic RDP Wrapper installer and updater // asmtron (2021-02-06)
 REM -------------------------------------------------------------------
 REM Options:
 REM   -log        = redirect display output to the file autoupdate.log
@@ -19,7 +19,7 @@ REM   The autoupdater first use and check the official rdpwrap.ini.
 REM   If a new termsrv.dll is not supported in the offical rdpwrap.ini,
 REM   autoupdater first tries the asmtron rdpwrap.ini (disassembled and
 REM   tested by asmtron). The autoupdater will also use rdpwrap.ini files
-REM   of other contributors like the one of "affinityv, DrDrrae, saurav-biswas".
+REM   of other contributors like the one of "sebaxakerhtc, affinityv, DrDrrae, saurav-biswas".
 REM   Extra rdpwrap.ini sources can also be defined...
 REM
 REM { Special thanks to binarymaster and all other contributors }
@@ -28,11 +28,12 @@ REM -----------------------------------------
 REM Location of new/updated rdpwrap.ini files
 REM -----------------------------------------
 set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
-set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/affinityv/INI-RDPWRAP/master/rdpwrap.ini"
-set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
-set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
-REM set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/....Extra.5...."
+set rdpwrap_ini_update_github_2=https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
+set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/affinityv/INI-RDPWRAP/master/rdpwrap.ini"
+set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
+set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
 REM set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
+REM set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.7...."
 
 set autoupdate_bat="%~dp0autoupdate.bat"
 set autoupdate_log="%~dp0autoupdate.log"
@@ -86,7 +87,7 @@ echo [x] ERROR - No Administrator Rights
 echo [*] This script must be run as administrator to work properly^^!
 echo     ^<Please use 'right click' on this batch file and select "Run As Administrator"^>
 echo.
-pause
+timeout 60
 goto :finish
 :error_install
 echo [-] RDP Wrapper installer executable (RDPWInst.exe) not found^^!
@@ -231,7 +232,7 @@ REM Restart RDP Wrapper
 REM -------------------
 :restart
 echo.
-echo [*] Restart RDP Wrapper with new ini (unistall and reistall)...
+echo [*] Restart RDP Wrapper with new ini (uninstall and reinstall)...
 echo.
 %RDPWInst_exe% -u
 if exist %rdpwrap_new_ini% (
