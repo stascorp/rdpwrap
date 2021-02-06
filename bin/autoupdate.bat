@@ -170,9 +170,9 @@ if "%termsrv_dll_ver%"=="" (
 ) else (
     echo [+] Installed "termsrv.dll" version: %termsrv_dll_ver%.
 )
-REM ----------------------------------------------------------------------------------------
-REM 6) check if installed fileversion is different to the last saved fileversion in registry
-REM ----------------------------------------------------------------------------------------
+REM ------------------------------------------------------------------------------------------
+REM 6) check if installed file version is different to the last saved file version in registry
+REM ------------------------------------------------------------------------------------------
 echo [*] Read last "termsrv.dll" version from the windows registry...
 for /f "tokens=2* usebackq" %%a in (
     `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\RDP-Wrapper\Autoupdate" /v "termsrv.dll" 2^>nul`
