@@ -2,39 +2,42 @@
 @echo off
 setLocal EnableExtensions
 setlocal EnableDelayedExpansion
-
-REM -------------------------------------------------------------------
-REM
-REM                        autoupdate.bat
-REM
-REM Automatic RDP Wrapper installer and updater // asmtron (2021-02-06)
-REM -------------------------------------------------------------------
-REM Options:
-REM   -log        = redirect display output to the file autoupdate.log
-REM   -taskadd    = add autorun of autoupdate.bat on startup in schedule task
-REM   -taskremove = remove autorun of autoupdate.bat on startup in schedule task
-REM
-REM Info:
-REM   The autoupdater first use and check the official rdpwrap.ini.
-REM   If a new termsrv.dll is not supported in the offical rdpwrap.ini,
-REM   autoupdater first tries the asmtron rdpwrap.ini (disassembled and
-REM   tested by asmtron). The autoupdater will also use rdpwrap.ini files
-REM   of other contributors like the one of "sebaxakerhtc, affinityv, DrDrrae, saurav-biswas".
-REM   Extra rdpwrap.ini sources can also be defined...
-REM
-REM { Special thanks to binarymaster and all other contributors }
-
-REM -----------------------------------------
-REM Location of new/updated rdpwrap.ini files
-REM -----------------------------------------
+::                                        _                   _                
+::              _                        | |      _          | |          _    
+::   ____ _   _| |_  ___  _   _ ____   _ | | ____| |_  ____  | | _   ____| |_  
+::  / _  | | | |  _)/ _ \| | | |  _ \ / || |/ _  |  _)/ _  ) | || \ / _  |  _) 
+:: ( ( | | |_| | |_| |_| | |_| | | | ( (_| ( ( | | |_( (/ / _| |_) ( ( | | |__ 
+::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
+::                             |_|                                             
+::
+:: Automatic RDP Wrapper installer and updater             asmtron (2021-04-19)
+:: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:: Options:
+::   -log        = redirect display output to the file autoupdate.log
+::   -taskadd    = add autorun of autoupdate.bat on startup in schedule task
+::   -taskremove = remove autorun of autoupdate.bat on startup in schedule task
+::
+:: Info:
+::   The autoupdater first use and check the official rdpwrap.ini.
+::   If a new termsrv.dll is not supported in the offical rdpwrap.ini,
+::   autoupdater first tries the asmtron rdpwrap.ini (disassembled and
+::   tested by asmtron). The autoupdater will also use rdpwrap.ini files
+::   of other contributors like the one of "sebaxakerhtc, affinityv, DrDrrae, saurav-biswas".
+::   Extra rdpwrap.ini sources can also be defined...
+::
+:: { Special thanks to binarymaster and all other contributors }
+::
+:: -----------------------------------------
+:: Location of new/updated rdpwrap.ini files
+:: -----------------------------------------
 set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
 set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/affinityv/INI-RDPWRAP/master/rdpwrap.ini"
 set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
-REM set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
-REM set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.7...."
-
+:: set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
+:: set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.7...."
+::
 set autoupdate_bat="%~dp0autoupdate.bat"
 set autoupdate_log="%~dp0autoupdate.log"
 set RDPWInst_exe="%~dp0RDPWInst.exe"
@@ -43,16 +46,16 @@ set rdpwrap_ini_check=%rdpwrap_ini%
 set rdpwrap_new_ini="%~dp0rdpwrap_new.ini"
 set github_location=1
 set retry_network_check=0
-
+::
 echo ___________________________________________
 echo Automatic RDP Wrapper installer and updater
 echo.
 echo ^<check if the RDP Wrapper is up-to-date and working^>
 echo.
-REM check if admin
+:: check if admin
 fsutil dirty query %systemdrive% >nul
 if not %errorlevel% == 0 goto :not_admin
-REM check for arguments
+:: check for arguments
 if /i "%~1"=="-log" (
     echo %autoupdate_bat% output from %date% at %time% > %autoupdate_log%
     call %autoupdate_bat% >> %autoupdate_log%
@@ -61,6 +64,7 @@ if /i "%~1"=="-log" (
 if /i "%~1"=="-taskadd" (
     echo [+] add autorun of %autoupdate_bat% on startup in the schedule task.
     schtasks /create /f /sc ONSTART /tn "RDP Wrapper Autoupdate" /tr "cmd.exe /C \"%~dp0autoupdate.bat\" -log" /ru SYSTEM /delay 0000:10
+    powershell "$settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries; Set-ScheduledTask -TaskName 'RDP Wrapper Autoupdate' -Settings $settings"
     goto :finish
 )
 if /i "%~1"=="-taskremove" (
@@ -76,10 +80,10 @@ if /i not "%~1"=="" (
     echo     -taskremove  =  remove autorun of autoupdate.bat on startup in the schedule task
     goto :finish
 )
-REM check if file "RDPWInst.exe" exist
+:: check if file "RDPWInst.exe" exist
 if not exist %RDPWInst_exe% goto :error_install
 goto :start_check
-
+::
 :not_admin
 color 0e
 echo ___________________________________
@@ -94,21 +98,21 @@ echo [-] RDP Wrapper installer executable (RDPWInst.exe) not found^^!
 echo Please extract all files from the downloaded RDP Wrapper package or check your Antivirus.
 echo.
 goto :finish
-
+::
 :start_check
 set rdpwrap_installed="0"
-REM ----------------------------------
-REM 1) check if TermService is running
-REM ----------------------------------
+:: ----------------------------------
+:: 1) check if TermService is running
+:: ----------------------------------
 sc queryex "TermService"|find "STATE"|find /v "RUNNING" >nul&&(
     echo [-] TermService NOT running^^!
     call :install
 )||(
     echo [+] TermService running.
 )
-REM ------------------------------------------
-REM 2) check if listener session rdp-tcp exist
-REM ------------------------------------------
+:: ------------------------------------------
+:: 2) check if listener session rdp-tcp exist
+:: ------------------------------------------
 set rdp_tcp_session=""
 set rdp_tcp_session_id=0
 if exist %windir%\system32\query.exe (
@@ -134,9 +138,9 @@ if %rdp_tcp_session_id%==0 (
 ) else (
     echo [+] Found listener session: %rdp_tcp_session% ^(ID: %rdp_tcp_session_id%^).
 )
-REM -----------------------------------------
-REM 3) check if rdpwrap.dll exist in registry
-REM -----------------------------------------
+:: -----------------------------------------
+:: 3) check if rdpwrap.dll exist in registry
+:: -----------------------------------------
 reg query "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f "rdpwrap.dll" >nul&&(
     echo [+] Found windows registry entry for "rdpwrap.dll".
 )||(
@@ -145,9 +149,9 @@ reg query "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f "rd
         call :install
     )
 )
-REM ------------------------------
-REM 4) check if rdpwrap.ini exists
-REM ------------------------------
+:: ------------------------------
+:: 4) check if rdpwrap.ini exists
+:: ------------------------------
 if exist %rdpwrap_ini% (
     echo [+] Found file: %rdpwrap_ini%.
 ) else (
@@ -156,9 +160,9 @@ if exist %rdpwrap_ini% (
         call :install
     )
 )
-REM ---------------------------------------------------------------
-REM 5) get file version of %windir%\System32\termsrv.dll
-REM ---------------------------------------------------------------
+:: ---------------------------------------------------------------
+:: 5) get file version of %windir%\System32\termsrv.dll
+:: ---------------------------------------------------------------
 for /f "tokens=* usebackq" %%a in (
     `cscript //nologo "%~f0?.wsf" //job:fileVersion "%windir%\System32\termsrv.dll"`
 ) do (
@@ -170,9 +174,9 @@ if "%termsrv_dll_ver%"=="" (
 ) else (
     echo [+] Installed "termsrv.dll" version: %termsrv_dll_ver%.
 )
-REM ------------------------------------------------------------------------------------------
-REM 6) check if installed file version is different to the last saved file version in registry
-REM ------------------------------------------------------------------------------------------
+:: ----------------------------------------------------------------------------------------
+:: 6) check if installed fileversion is different to the last saved fileversion in registry
+:: ----------------------------------------------------------------------------------------
 echo [*] Read last "termsrv.dll" version from the windows registry...
 for /f "tokens=2* usebackq" %%a in (
     `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\RDP-Wrapper\Autoupdate" /v "termsrv.dll" 2^>nul`
@@ -189,9 +193,9 @@ if "%last_termsrv_dll_ver%"=="%termsrv_dll_ver%" (
         call :install
     )
 )
-REM ---------------------------------------------------------------
-REM 7) check if installed termsrv.dll version exists in rdpwrap.ini
-REM ---------------------------------------------------------------
+:: ---------------------------------------------------------------
+:: 7) check if installed termsrv.dll version exists in rdpwrap.ini
+:: ---------------------------------------------------------------
 :check_update
 if exist %rdpwrap_ini_check% (
     echo [*] Start searching [%termsrv_dll_ver%] version entry in file %rdpwrap_ini_check%...
@@ -213,10 +217,10 @@ if exist %rdpwrap_ini_check% (
     goto :finish
 )
 goto :finish
-
-REM -----------------------------------------------------
-REM Install RDP Wrapper (exactly uninstall and reinstall)
-REM -----------------------------------------------------
+::
+:: -----------------------------------------------------
+:: Install RDP Wrapper (exactly uninstall and reinstall)
+:: -----------------------------------------------------
 :install
 echo.
 echo [*] Uninstall and reinstall RDP Wrapper...
@@ -226,10 +230,10 @@ set rdpwrap_installed="1"
 %RDPWInst_exe% -i -o
 call :setNLA
 goto :eof
-
-REM -------------------
-REM Restart RDP Wrapper
-REM -------------------
+::
+:: -------------------
+:: Restart RDP Wrapper
+:: -------------------
 :restart
 echo.
 echo [*] Restart RDP Wrapper with new ini (uninstall and reinstall)...
@@ -250,10 +254,10 @@ if exist %rdpwrap_new_ini% (
 %RDPWInst_exe% -i
 call :setNLA
 goto :eof
-
-REM --------------------------------------------------------------------
-REM Download up-to-date (alternative) version of rdpwrap.ini from GitHub
-REM --------------------------------------------------------------------
+::
+:: --------------------------------------------------------------------
+:: Download up-to-date (alternative) version of rdpwrap.ini from GitHub
+:: --------------------------------------------------------------------
 :update
 echo [*] check network connectivity...
 :netcheck
@@ -267,7 +271,7 @@ if errorlevel 1 (
 echo [.] Wait for network connection is available...
 ping 127.0.0.1 -n 11>nul
 set /a retry_network_check=retry_network_check+1
-REM wait for a maximum of 5 minutes
+:: wait for a maximum of 5 minutes
 if %retry_network_check% LSS 30 goto netcheck
 :download
 set /a github_location=github_location+1
@@ -288,21 +292,23 @@ if "%download_status%"=="-1" (
     echo [*] Please check you internet connection/firewall and try again^^!
 )
 goto :eof
-
-REM --------------------------------
-REM Set Network Level Authentication
-REM --------------------------------
+::
+:: --------------------------------
+:: Set Network Level Authentication
+:: --------------------------------
 :setNLA
 echo [*] Set Network Level Authentication in the windows registry...
 reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v SecurityLayer /t reg_dword /d 0x2 /f
 reg.exe add "HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp" /v MinEncryptionLevel /t reg_dword /d 0x2 /f
 goto :eof
-
+::
+:: -------
+:: E X I T
+:: -------
 :finish
 echo.
 exit /b
-
-
+::
 --- Begin wsf script --- fileVersion/fileDownload --->
 <package>
   <job id="fileVersion"><script language="VBScript">
