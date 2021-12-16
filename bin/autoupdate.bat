@@ -10,7 +10,7 @@ setlocal EnableDelayedExpansion
 ::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
 ::                             |_|                                             
 ::
-:: Automatic RDP Wrapper installer and updater             asmtron (2021-04-19)
+:: Automatic RDP Wrapper installer and updater             asmtron (2021-12-16)
 :: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :: Options:
 ::   -log        = redirect display output to the file autoupdate.log
@@ -41,6 +41,7 @@ set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/saurav-biswas
 set autoupdate_bat="%~dp0autoupdate.bat"
 set autoupdate_log="%~dp0autoupdate.log"
 set RDPWInst_exe="%~dp0RDPWInst.exe"
+set rdpwrap_dll="%~dp0rdpwrap.dll"
 set rdpwrap_ini="%~dp0rdpwrap.ini"
 set rdpwrap_ini_check=%rdpwrap_ini%
 set rdpwrap_new_ini="%~dp0rdpwrap_new.ini"
@@ -149,8 +150,19 @@ reg query "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f "rd
         call :install
     )
 )
+:: -------------------------------------
+:: 4) check if rdpwrap.dll file exists
+:: -------------------------------------
+if exist %rdpwrap_dll% (
+    echo [+] Found file: %rdpwrap_dll%
+) else (
+    echo [-] File NOT found: %rdpwrap_dll%^^!
+    if %rdpwrap_installed%=="0" (
+        call :install
+    ) 
+)
 :: ------------------------------
-:: 4) check if rdpwrap.ini exists
+:: 5) check if rdpwrap.ini exists
 :: ------------------------------
 if exist %rdpwrap_ini% (
     echo [+] Found file: %rdpwrap_ini%.
@@ -161,7 +173,7 @@ if exist %rdpwrap_ini% (
     )
 )
 :: ---------------------------------------------------------------
-:: 5) get file version of %windir%\System32\termsrv.dll
+:: 6) get file version of %windir%\System32\termsrv.dll
 :: ---------------------------------------------------------------
 for /f "tokens=* usebackq" %%a in (
     `cscript //nologo "%~f0?.wsf" //job:fileVersion "%windir%\System32\termsrv.dll"`
@@ -175,7 +187,7 @@ if "%termsrv_dll_ver%"=="" (
     echo [+] Installed "termsrv.dll" version: %termsrv_dll_ver%.
 )
 :: ----------------------------------------------------------------------------------------
-:: 6) check if installed fileversion is different to the last saved fileversion in registry
+:: 7) check if installed fileversion is different to the last saved fileversion in registry
 :: ----------------------------------------------------------------------------------------
 echo [*] Read last "termsrv.dll" version from the windows registry...
 for /f "tokens=2* usebackq" %%a in (
@@ -194,7 +206,7 @@ if "%last_termsrv_dll_ver%"=="%termsrv_dll_ver%" (
     )
 )
 :: ---------------------------------------------------------------
-:: 7) check if installed termsrv.dll version exists in rdpwrap.ini
+:: 8) check if installed termsrv.dll version exists in rdpwrap.ini
 :: ---------------------------------------------------------------
 :check_update
 if exist %rdpwrap_ini_check% (
@@ -225,6 +237,12 @@ goto :finish
 echo.
 echo [*] Uninstall and reinstall RDP Wrapper...
 echo.
+if exist %rdpwrap_dll% set rdpwrap_force_uninstall="1"
+if exist %rdpwrap_ini% set rdpwrap_force_uninstall="1"
+if %rdpwrap_force_uninstall%=="1" (
+    echo [*] Set windows registry entry for "rdpwrap.dll" to force uninstall...
+    reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f /v ServiceDll /t REG_EXPAND_SZ /d %rdpwrap_dll%
+)
 set rdpwrap_installed="1"
 %RDPWInst_exe% -u
 %RDPWInst_exe% -i -o
