@@ -239,7 +239,7 @@ echo [*] Uninstall and reinstall RDP Wrapper...
 echo.
 if exist %rdpwrap_dll% set rdpwrap_force_uninstall="1"
 if exist %rdpwrap_ini% set rdpwrap_force_uninstall="1"
-if %rdpwrap_force_uninstall%=="1" (
+if "%rdpwrap_force_uninstall%"=="1" (
     echo [*] Set windows registry entry for "rdpwrap.dll" to force uninstall...
     reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f /v ServiceDll /t REG_EXPAND_SZ /d %rdpwrap_dll%
 )
