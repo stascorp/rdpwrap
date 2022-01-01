@@ -10,7 +10,7 @@ setlocal EnableDelayedExpansion
 ::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
 ::                             |_|                                             
 ::
-:: Automatic RDP Wrapper installer and updater             asmtron (2021-12-16)
+:: Automatic RDP Wrapper installer and updater             asmtron (2022-01-01)
 :: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :: Options:
 ::   -log        = redirect display output to the file autoupdate.log
@@ -150,9 +150,9 @@ reg query "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f "rd
         call :install
     )
 )
-:: -------------------------------------
+:: -----------------------------------
 :: 4) check if rdpwrap.dll file exists
-:: -------------------------------------
+:: -----------------------------------
 if exist %rdpwrap_dll% (
     echo [+] Found file: %rdpwrap_dll%
 ) else (
@@ -172,9 +172,9 @@ if exist %rdpwrap_ini% (
         call :install
     )
 )
-:: ---------------------------------------------------------------
+:: ----------------------------------------------------
 :: 6) get file version of %windir%\System32\termsrv.dll
-:: ---------------------------------------------------------------
+:: ----------------------------------------------------
 for /f "tokens=* usebackq" %%a in (
     `cscript //nologo "%~f0?.wsf" //job:fileVersion "%windir%\System32\termsrv.dll"`
 ) do (
@@ -237,8 +237,8 @@ goto :finish
 echo.
 echo [*] Uninstall and reinstall RDP Wrapper...
 echo.
-if exist %rdpwrap_dll% set rdpwrap_force_uninstall="1"
-if exist %rdpwrap_ini% set rdpwrap_force_uninstall="1"
+if exist %rdpwrap_dll% set rdpwrap_force_uninstall=1
+if exist %rdpwrap_ini% set rdpwrap_force_uninstall=1
 if "%rdpwrap_force_uninstall%"=="1" (
     echo [*] Set windows registry entry for "rdpwrap.dll" to force uninstall...
     reg.exe add "HKLM\SYSTEM\CurrentControlSet\Services\TermService\Parameters" /f /v ServiceDll /t REG_EXPAND_SZ /d %rdpwrap_dll%
