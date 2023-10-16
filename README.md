@@ -1,12 +1,12 @@
 # RDP Wrapper & Autoupdate
 
-### Automatic RDP Wrapper installer and updater // asmtron (13-01-2021)
+### Automatic RDP Wrapper installer and updater // asmtron (2023-10-13)
 
 #### Info:
-   The Autoupdater (`autoupdate.bat`) first use and check the official rdpwrap.ini.
-   If a new `termsrv.dll` is not supported in the offical `rdpwrap.ini`,
-   autoupdater first tries the asmtron `rdpwrap.ini`. The autoupdater will also use `rdpwrap.ini` files
-   of other contributors. Extra `rdpwrap.ini` sources can also be defined...
+   The autoupdater first use and check the official rdpwrap.ini.
+   If a new termsrv.dll is not supported in the offical rdpwrap.ini, autoupdate uses the updated rdpwrap.ini files from the community.
+   Contributors: "sebaxakerhtc, asmtron, affinityv, DrDrrae, saurav-biswas"
+   Extra rdpwrap.ini sources can also be defined...
    
 #### autoupdate.bat Options:
 - `-log`        = redirect display output to the file autoupdate.log
