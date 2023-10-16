@@ -2,16 +2,16 @@
 @echo off
 setLocal EnableExtensions
 setlocal EnableDelayedExpansion
-::                                        _                   _                
-::              _                        | |      _          | |          _    
-::   ____ _   _| |_  ___  _   _ ____   _ | | ____| |_  ____  | | _   ____| |_  
-::  / _  | | | |  _)/ _ \| | | |  _ \ / || |/ _  |  _)/ _  ) | || \ / _  |  _) 
-:: ( ( | | |_| | |_| |_| | |_| | | | ( (_| ( ( | | |_( (/ / _| |_) ( ( | | |__ 
+::                                        _                   _
+::              _                        | |      _          | |          _
+::   ____ _   _| |_  ___  _   _ ____   _ | | ____| |_  ____  | | _   ____| |_
+::  / _  | | | |  _)/ _ \| | | |  _ \ / || |/ _  |  _)/ _  ) | || \ / _  |  _)
+:: ( ( | | |_| | |_| |_| | |_| | | | ( (_| ( ( | | |_( (/ / _| |_) ( ( | | |__
 ::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
-::                             |_|                                             
+::                             |_|
 ::
-:: Automatic RDP Wrapper installer and updater             asmtron (2022-01-01)
-:: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+:: Automatic RDP Wrapper installer and updater v.1.1       asmtron (2023-10-13)
+:: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :: Options:
 ::   -log        = redirect display output to the file autoupdate.log
 ::   -taskadd    = add autorun of autoupdate.bat on startup in schedule task
@@ -20,9 +20,8 @@ setlocal EnableDelayedExpansion
 :: Info:
 ::   The autoupdater first use and check the official rdpwrap.ini.
 ::   If a new termsrv.dll is not supported in the offical rdpwrap.ini,
-::   autoupdater first tries the asmtron rdpwrap.ini (disassembled and
-::   tested by asmtron). The autoupdater will also use rdpwrap.ini files
-::   of other contributors like the one of "sebaxakerhtc, affinityv, DrDrrae, saurav-biswas".
+::   autoupdate uses the updated rdpwrap.ini files from the community.
+::   contributors: "sebaxakerhtc, asmtron, affinityv, DrDrrae, saurav-biswas"
 ::   Extra rdpwrap.ini sources can also be defined...
 ::
 :: { Special thanks to binarymaster and all other contributors }
@@ -30,16 +29,21 @@ setlocal EnableDelayedExpansion
 :: -----------------------------------------
 :: Location of new/updated rdpwrap.ini files
 :: -----------------------------------------
-set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
-set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
+set rdpwrap_ini_update_github_1="https://raw.githubusercontent.com/sebaxakerhtc/rdpwrap.ini/master/rdpwrap.ini"
+set rdpwrap_ini_update_github_2="https://raw.githubusercontent.com/asmtron/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_3="https://raw.githubusercontent.com/affinityv/INI-RDPWRAP/master/rdpwrap.ini"
 set rdpwrap_ini_update_github_4="https://raw.githubusercontent.com/DrDrrae/rdpwrap/master/res/rdpwrap.ini"
 set rdpwrap_ini_update_github_5="https://raw.githubusercontent.com/saurav-biswas/rdpwrap-1/master/res/rdpwrap.ini"
 :: set rdpwrap_ini_update_github_6="https://raw.githubusercontent.com/....Extra.6...."
 :: set rdpwrap_ini_update_github_7="https://raw.githubusercontent.com/....Extra.7...."
 ::
+set autoupdate_version=1.1
+set autoupdate_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.bat"
+set autoupdate_ver_url="https://raw.githubusercontent.com/asmtron/rdpwrap/master/bin/autoupdate.ver"
 set autoupdate_bat="%~dp0autoupdate.bat"
+set autoupdate_new_bat="%~dp0autoupdate_new.bat"
 set autoupdate_log="%~dp0autoupdate.log"
+set autoupdate_ver="%~dp0autoupdate.ver"
 set RDPWInst_exe="%~dp0RDPWInst.exe"
 set rdpwrap_dll="%~dp0rdpwrap.dll"
 set rdpwrap_ini="%~dp0rdpwrap.ini"
@@ -47,9 +51,11 @@ set rdpwrap_ini_check=%rdpwrap_ini%
 set rdpwrap_new_ini="%~dp0rdpwrap_new.ini"
 set github_location=1
 set retry_network_check=0
+set version_check=0
+set updated=0
 ::
-echo ___________________________________________
-echo Automatic RDP Wrapper installer and updater
+echo _________________________________________________
+echo Automatic RDP Wrapper installer and updater v.%autoupdate_version%
 echo.
 echo ^<check if the RDP Wrapper is up-to-date and working^>
 echo.
@@ -73,13 +79,19 @@ if /i "%~1"=="-taskremove" (
     schtasks /delete /f /tn "RDP Wrapper Autoupdate"
     goto :finish
 )
-if /i not "%~1"=="" (
-    echo [x] Unknown argument specified: "%~1"
-    echo [*] Supported argments/options are:
-    echo     -log         =  redirect display output to the file autoupdate.log
-    echo     -taskadd     =  add autorun of autoupdate.bat on startup in the schedule task
-    echo     -taskremove  =  remove autorun of autoupdate.bat on startup in the schedule task
-    goto :finish
+if /i "%~1"=="-updated" (
+    set updated=1
+    copy /y %autoupdate_new_bat% %autoupdate_bat%
+) else (
+    if exist %autoupdate_new_bat% del %autoupdate_new_bat%
+    if /i not "%~1"=="" (
+        echo [x] Unknown argument specified: "%~1"
+        echo [*] Supported argments/options are:
+        echo     -log         =  redirect display output to the file autoupdate.log
+        echo     -taskadd     =  add autorun of autoupdate.bat on startup in the schedule task
+        echo     -taskremove  =  remove autorun of autoupdate.bat on startup in the schedule task
+        goto :finish
+    )
 )
 :: check if file "RDPWInst.exe" exist
 if not exist %RDPWInst_exe% goto :error_install
@@ -159,7 +171,7 @@ if exist %rdpwrap_dll% (
     echo [-] File NOT found: %rdpwrap_dll%^^!
     if %rdpwrap_installed%=="0" (
         call :install
-    ) 
+    )
 )
 :: ------------------------------
 :: 5) check if rdpwrap.ini exists
@@ -260,7 +272,7 @@ echo.
 if exist %rdpwrap_new_ini% (
     echo.
     echo [*] Use latest downloaded rdpwrap.ini from GitHub...
-    echo     -^> %rdpwrap_ini_url% 
+    echo     -^> %rdpwrap_ini_url%
     echo       -^> %rdpwrap_new_ini%
     echo         -^> %rdpwrap_ini%
     echo [+] copy %rdpwrap_new_ini% to %rdpwrap_ini%...
@@ -273,17 +285,17 @@ if exist %rdpwrap_new_ini% (
 call :setNLA
 goto :eof
 ::
-:: --------------------------------------------------------------------
-:: Download up-to-date (alternative) version of rdpwrap.ini from GitHub
-:: --------------------------------------------------------------------
+:: -----------------------------------
+:: check if online access is available
+:: -----------------------------------
 :update
 echo [*] check network connectivity...
 :netcheck
 ping -n 1 google.com>nul
 if errorlevel 1 (
-    goto waitnetwork
+    goto :waitnetwork
 ) else (
-    goto download
+    goto :checkversion
 )
 :waitnetwork
 echo [.] Wait for network connection is available...
@@ -291,6 +303,54 @@ ping 127.0.0.1 -n 11>nul
 set /a retry_network_check=retry_network_check+1
 :: wait for a maximum of 5 minutes
 if %retry_network_check% LSS 30 goto netcheck
+::
+:: ---------------------------------------------------
+:: check if new version of autoupdate.bat is available
+:: ---------------------------------------------------
+:checkversion
+if %version_check%==1 goto :download
+set version_check=1
+echo.
+echo [*] get version info of autoupdate.bat from GitHub...
+echo     -^> %autoupdate_ver_url%
+for /f "tokens=* usebackq" %%a in (
+    `cscript //nologo "%~f0?.wsf" //job:fileDownload %autoupdate_ver_url% %autoupdate_ver%`
+) do (
+    set "download_status=%%a"
+)
+if not "%download_status%"=="-1" (
+    echo [-] FAILED to get version info of autoupdate.bat from GitHub...
+    echo [*] Please check you internet connection/firewall and try again^^!
+    goto :download
+)
+for /f "usebackq tokens=*" %%a in (%autoupdate_ver%) do (set "autoupdate_online_version=%%a")
+echo [+] Successfully get autoupdate 'v.%autoupdate_online_version%' info from GitHhub.
+if %autoupdate_version% GEQ %autoupdate_online_version% (
+    echo [*] autoupdate 'v.%autoupdate_online_version%' is up to date
+    goto :download
+)
+echo [+] New version 'v.%autoupdate_online_version%' of autoupdate.bat available^^!
+echo [*] Download new version of autoupdate.bat from GitHub...
+echo     -^> %autoupdate_url%
+for /f "tokens=* usebackq" %%a in (
+    `cscript //nologo "%~f0?.wsf" //job:fileDownload %autoupdate_url% %autoupdate_new_bat%`
+) do (
+    set "download_status=%%a"
+)
+if "%download_status%"=="-1" (
+    echo [+] Restart with the new autoupdate 'v.%autoupdate_online_version%' ...
+    if %updated%==1 goto :download
+    call %autoupdate_new_bat% "-updated"
+    goto :finish
+) else (
+    echo [-] FAILED to download from GitHub latest version to %autoupdate_bat%^^!
+    echo [*] Please check you internet connection/firewall and try again^^!
+    goto :download
+)
+::
+:: ---------------------------------------------------------------
+:: Download an newer up-to-date version of rdpwrap.ini from GitHub
+:: ---------------------------------------------------------------
 :download
 set /a github_location=github_location+1
 echo.
