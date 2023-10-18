@@ -1,6 +1,6 @@
 # RDP Wrapper & Autoupdate
 
-### Automatic RDP Wrapper installer and updater // asmtron (2023-10-13)
+### Automatic RDP Wrapper installer and updater // asmtron (2023-10-18)
 
 #### Info:
    The autoupdater first use and check the official rdpwrap.ini.
