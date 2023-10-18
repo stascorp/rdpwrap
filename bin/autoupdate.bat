@@ -1,4 +1,4 @@
-<!-- : Begin batch script
+<!-- : Begin of batch script
 @echo off
 setLocal EnableExtensions
 setlocal EnableDelayedExpansion
@@ -10,7 +10,7 @@ setlocal EnableDelayedExpansion
 ::  \_||_|\____|\___\___/ \____| ||_/ \____|\_||_|\___\____(_|____/ \_||_|\___)
 ::                             |_|
 ::
-:: Automatic RDP Wrapper installer and updater v.1.1       asmtron (2023-10-13)
+:: Automatic RDP Wrapper installer and updater v.1.1       asmtron (2023-10-18)
 :: ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 :: Options:
 ::   -log        = redirect display output to the file autoupdate.log
@@ -188,7 +188,7 @@ if exist %rdpwrap_ini% (
 :: 6) get file version of %windir%\System32\termsrv.dll
 :: ----------------------------------------------------
 for /f "tokens=* usebackq" %%a in (
-    `cscript //nologo "%~f0?.wsf" //job:fileVersion "%windir%\System32\termsrv.dll"`
+    `cscript //nologo "%~f0?.wsf" //job:getFileVersion "%windir%\System32\termsrv.dll"`
 ) do (
     set termsrv_dll_ver=%%a
 )
@@ -198,9 +198,9 @@ if "%termsrv_dll_ver%"=="" (
 ) else (
     echo [+] Installed "termsrv.dll" version: %termsrv_dll_ver%.
 )
-:: ----------------------------------------------------------------------------------------
-:: 7) check if installed fileversion is different to the last saved fileversion in registry
-:: ----------------------------------------------------------------------------------------
+:: ------------------------------------------------------------------------------------------
+:: 7) check if installed file version is different to the last saved file version in registry
+:: ------------------------------------------------------------------------------------------
 echo [*] Read last "termsrv.dll" version from the windows registry...
 for /f "tokens=2* usebackq" %%a in (
     `reg query "HKEY_LOCAL_MACHINE\SOFTWARE\RDP-Wrapper\Autoupdate" /v "termsrv.dll" 2^>nul`
@@ -314,7 +314,7 @@ echo.
 echo [*] get version info of autoupdate.bat from GitHub...
 echo     -^> %autoupdate_ver_url%
 for /f "tokens=* usebackq" %%a in (
-    `cscript //nologo "%~f0?.wsf" //job:fileDownload %autoupdate_ver_url% %autoupdate_ver%`
+    `cscript //nologo "%~f0?.wsf" //job:saveWebBinary %autoupdate_ver_url% %autoupdate_ver%`
 ) do (
     set "download_status=%%a"
 )
@@ -333,7 +333,7 @@ echo [+] New version 'v.%autoupdate_online_version%' of autoupdate.bat available
 echo [*] Download new version of autoupdate.bat from GitHub...
 echo     -^> %autoupdate_url%
 for /f "tokens=* usebackq" %%a in (
-    `cscript //nologo "%~f0?.wsf" //job:fileDownload %autoupdate_url% %autoupdate_new_bat%`
+    `cscript //nologo "%~f0?.wsf" //job:saveWebBinary %autoupdate_url% %autoupdate_new_bat%`
 ) do (
     set "download_status=%%a"
 )
@@ -357,7 +357,7 @@ echo.
 echo [*] Download latest version of rdpwrap.ini from GitHub...
 echo     -^> %rdpwrap_ini_url%
 for /f "tokens=* usebackq" %%a in (
-    `cscript //nologo "%~f0?.wsf" //job:fileDownload %rdpwrap_ini_url% %rdpwrap_new_ini%`
+    `cscript //nologo "%~f0?.wsf" //job:saveWebBinary %rdpwrap_ini_url% %rdpwrap_new_ini%`
 ) do (
     set "download_status=%%a"
 )
@@ -387,16 +387,10 @@ goto :eof
 echo.
 exit /b
 ::
---- Begin wsf script --- fileVersion/fileDownload --->
+--- : Begin of wsf script code --- saveWebBinary and getFileVersion --->
 <package>
-  <job id="fileVersion"><script language="VBScript">
-    set args = WScript.Arguments
-    Set fso = CreateObject("Scripting.FileSystemObject")
-    WScript.Echo fso.GetFileVersion(args(0))
-    Wscript.Quit
-  </script></job>
-  <job id="fileDownload"><script language="VBScript">
-    set args = WScript.Arguments
+  <job id="saveWebBinary"><script language="VBScript">
+    Set args = WScript.Arguments
     WScript.Echo SaveWebBinary(args(0), args(1))
     Wscript.Quit
     Function SaveWebBinary(strUrl, strFile) 'As Boolean
@@ -449,4 +443,10 @@ exit /b
         SaveWebBinary = True
     End Function
   </script></job>
+  <job id="getFileVersion"><script language="VBScript">
+    Set args = WScript.Arguments
+    Set fso = CreateObject("Scripting.FileSystemObject")
+    WScript.Echo fso.GetFileVersion(args(0))
+    Wscript.Quit
+  </script></job>  
 </package>
