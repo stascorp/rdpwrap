@@ -1,3 +1,20 @@
+# RDP Wrapper & Autoupdate
+
+### Automatic RDP Wrapper installer and updater // asmtron (2023-10-18)
+
+#### Info:
+   The autoupdater first use and check the official rdpwrap.ini.
+   If a new termsrv.dll is not supported in the offical rdpwrap.ini, autoupdate uses the updated rdpwrap.ini files from the community.
+   Contributors: "sebaxakerhtc, asmtron, affinityv, DrDrrae, saurav-biswas"
+   Extra rdpwrap.ini sources can also be defined...
+   
+#### autoupdate.bat Options:
+- `-log`        = redirect display output to the file autoupdate.log
+- `-taskadd`    = add autorun of autoupdate.bat on startup in schedule task
+- `-taskremove` = remove autorun of autoupdate.bat on startup in schedule task
+
+#### [Download and Install](https://github.com/asmtron/rdpwrap/blob/master/binary-download.md)
+
 # RDP Wrapper Library by Stas'M
 
 [![Telegram](https://img.shields.io/badge/chat-Telegram-blue.svg)](https://t.me/rdpwrap)
@@ -9,7 +26,7 @@
 
 The goal of this project is to enable Remote Desktop Host support and concurrent RDP sessions on reduced functionality systems for home usage.
 
-RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original termsrv.dll file remains untouched. Also this method is very strong against Windows Update.
+RDP Wrapper works as a layer between Service Control Manager and Terminal Services, so the original `termsrv.dll` file remains untouched. Also this method is very strong against Windows Update.
 
 [pVistaST]:  http://stascorp.com/images/rdpwrap/pVistaST.jpg
 [pVistaHB]:  http://stascorp.com/images/rdpwrap/pVistaHB.jpg
@@ -47,20 +64,20 @@ RDP Wrapper works as a layer between Service Control Manager and Terminal Servic
 | Windows 8.1   | [![Windows 8.1 Preview][pWin81P]][fWin81P] [![Windows 8.1][pWin81]][fWin81] |
 | Windows 10    | [![Windows 10 Technical Preview][pWin10TP]][fWin10TP] [![Windows 10 Pro Technical Preview][pWin10PTP]][fWin10PTP] [![Windows 10][pWin10]][fWin10] |
 ---
-[WinPPE]: http://forums.mydigitallife.info/threads/39411-Windows-Product-Policy-Editor
+[WinPPE]: https://forums.mydigitallife.net/threads/windows-product-policy-editor.39411/
 
 This solution was inspired by [Windows Product Policy Editor][WinPPE], big thanks to **kost** :)
 
 — binarymaster
 
 ### Attention:
-It's recommended to have original termsrv.dll file with the RDP Wrapper installation. If you have modified it before with other patchers, it may become unstable and crash in any moment.
+It's recommended to have original `termsrv.dll` file with the RDP Wrapper installation. If you have modified it before with other patchers, it may become unstable and crash in any moment.
 
 ### Information:
 - Source code is available, so you can build it on your own
-- RDP Wrapper does not patch termsrv.dll, it loads termsrv with different parameters
-- RDPWInst and RDPChecker can be redistributed without development folder and batch files
-- RDPWInst can be used for unattended installation / deployment
+- RDP Wrapper does not patch `termsrv.dll`, it loads `termsrv` with different parameters
+- `RDPWInst` and `RDPChecker` can be redistributed without development folder and batch files
+- `RDPWInst` can be used for unattended installation / deployment
 - Windows 2000, XP and Server 2003 will not be supported
 
 ### Key features:
@@ -448,16 +465,16 @@ Visit [issues](https://github.com/stascorp/rdpwrap/issues) section, and check wh
 - Windows 10 Enterprise
 - Windows Server 2016 Technical Preview
 
-Installation instructions:
+#### Installation instructions:
 - Download latest release binaries and unpack files
 - Right-click on **`install.bat`** and select Run as Administrator
 - See command output for details
 
-To update INI file:
+#### To update INI file:
 - Right-click on **`update.bat`** and select Run as Administrator
 - See command output for details
 
-To uninstall:
+#### To uninstall:
 - Go to the directory where you extracted the files
 - Right-click on **`uninstall.bat`** and select Run as Administrator
 - See command output for details
